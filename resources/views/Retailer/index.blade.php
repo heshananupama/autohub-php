@@ -196,6 +196,10 @@
     </nav>
 
     <!-- /#page-wrapper -->
+
+{{--
+    dfghjkl
+--}}
     @yield('content')
 </div>
 
