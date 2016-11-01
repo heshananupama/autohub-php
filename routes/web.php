@@ -50,9 +50,12 @@ Route::group(['middleware' =>  'App\Http\Middleware\Admin'], function () {
     });
 
     Route::get('/admin/category', function () {
-        // can only access this if type == A
-        return view('Admin/category');
-    });
+
+        $categories = DB::table('categories')->paginate(5);
+         // can only access this if type == A
+        return View::make('Admin/category')->with('categories', $categories);
+
+     });
 
     Route::get("admin/brand", function () {
 
@@ -71,12 +74,18 @@ Route::group(['middleware' =>  'App\Http\Middleware\Admin'], function () {
 
     Route::get('/admin/brand/delete/{id}', 'brandsController@destroy');
     Route::post('/admin/brand/edit', 'brandsController@edit');
+    Route::post("admin/brand", 'brandsController@store');
+
+    Route::post("/admin/category", 'categoriesController@store');
+    Route::post("/admin/category/edit", 'categoriesController@edit');
+
+
     Route::post('/admin/model/edit', 'modelsController@edit');
     Route::get('/admin/model/delete/{id}', 'modelsController@destroy');
-    Route::post('/admin/registerRetailer/register', 'retailerController@store');
     Route::post("admin/model", 'modelsController@store');
     Route::get("/admin/model/search", 'modelsController@show');
-    Route::post("admin/brand", 'brandsController@store');
+    Route::post('/admin/registerRetailer/register', 'retailerController@store');
+
 
 });
 

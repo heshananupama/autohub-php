@@ -107,8 +107,6 @@ function EditModel(id,model,brand,transmission,fuel,year,country) {
     document.getElementById("modelid").value=id;
 
 
-
-
 }
 
 
@@ -124,5 +122,13 @@ function DeleteBrand(brand) {
     });}
 
 
+function EditCategory(id,category){
+    document.getElementById("modelM").value=category;
 
+    document.getElementById("modelid").value=id;
 
+}
+
+function DeleteCategory(category){
+
+}

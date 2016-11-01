@@ -44,16 +44,36 @@
 
                                     </span>
                                     <button class="btn btn-default btn-md" data-toggle="modal"
-                                            data-target="#modalBrand">Add New
+                                            data-target="#modalCategory">Add New
                                     </button>
                                 </th>
 
 
                             </tr>
 
+                            <tbody id="tableModel">
+                            <?php
+                            foreach($categories as $category){
 
-
+                            ?>
                             <tr>
+                                <td ><?php echo $category->id;?></td>
+                                <td ><?php echo $category->categoryName;?></td>
+
+
+                                <td>
+                                    <a onclick="EditCategory(<?php echo $category->id;?>,'<?php echo $category->categoryName;?>')" class=" btn btn-success btn-sm" data-toggle="modal"
+                                       data-target="#categoryEdit">Edit </a>
+                                    <a onclick="DeleteCategory(<?php echo $category->id;?>)" class=" btn btn-danger btn-sm">Delete </a>
+                                </td>
+                            </tr>
+
+                            <?php }?>
+
+                            </tbody>
+
+
+                            {{--<tr>
                                 <td > 1</td>
                                 <td> Engine</td>
                                 <td>
@@ -63,12 +83,17 @@
                                     <a style="" class=" btn btn-danger btn-sm" href="  url('/admin/brand/delete') " >Delete </a>
 
                                 </td>
-                            </tr>
+                            </tr>--}}
 
 
 
 
                         </table>
+
+                        <div style="text-align: center">
+                            {{ $categories->links() }}
+
+                        </div>
                     </div>
                     <div class="col-sm-1">
 
@@ -80,7 +105,7 @@
     </div>
 
 {{--add new brand modal--}}
-<div class="modal fade bs-example-modal-lg" id="modalBrand" tabindex="-1" style="margin-top:130px;" role="dialog"
+<div class="modal fade bs-example-modal-lg" id="modalCategory" tabindex="-1" style="margin-top:130px;" role="dialog"
      aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -91,19 +116,19 @@
                 <br>
                 <div id="div-login-msg">
                     <div id="icon-login-msg" class="glyphicon glyphicon-chevron-right"></div>
-                    <span id="text-login-msg">Type new brand name.</span>
+                    <span id="text-login-msg">Type new category name.</span>
                 </div>
             </div>
             <div class="modal-body">
 
-                <form action="{{url('/admin/brand')}}" method="post"> {{ csrf_field() }}
+                <form action="{{url('/admin/category')}}" method="post"> {{ csrf_field() }}
                     <div class="row">
                         <div class="col-md-1"></div>
                         <div class="col-md-10 ">
                             <div class="form-group">
 
-                                <input autofocus type="text" class="form-control" name="brandName"
-                                       value="{{old('brandName')}}"/>
+                                <input autofocus type="text" class="form-control" name="categoryName"
+                                       value="{{old('categoryName')}}"/>
 
                                 <input style="display: none" type="text" class="form-control" name="admin_id"
                                        value=" {{ Auth::user()->id }} "/>
@@ -150,7 +175,7 @@
 
 {{--editModal--}}
 
-<div class="modal fade bs-example-modal-lg" id="modalEdit" tabindex="-1" style="margin-top:130px;" role="dialog"
+<div class="modal fade bs-example-modal-lg" id="categoryEdit" tabindex="-1" style="margin-top:130px;" role="dialog"
      aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -161,21 +186,21 @@
                 <br>
                 <div id="div-login-msg">
                     <div id="icon-login-msg" class="glyphicon glyphicon-chevron-right"></div>
-                    <span id="text-login-msg">Enter new brand name.</span>
+                    <span id="text-login-msg">Enter new category name.</span>
                 </div>
             </div>
             <div class="modal-body">
 
-                <form action="{{url('/admin/brand/edit/')}}" method="post"> {{ csrf_field() }}
+                <form action="{{url('/admin/category/edit/')}}" method="post"> {{ csrf_field() }}
                     <div class="row">
                         <div class="col-md-1"></div>
                         <div class="col-md-10 ">
                             <div class="form-group">
 
-                                <input  type="text" class="form-control" name="brandName"
-                                        value="{{old('brandName')}}"/>
+                                <input  type="text" class="form-control" name="categoryName"
+                                        value="{{old('categoryName')}}"/>
 
-                                <input readonly type="text" class="form-control" name="id" id="id" style="display: none" />
+                                <input readonly type="text" class="form-control" name="categoryId" id="id" style="display: none" />
 
 
                                 <div class="text-center">

@@ -121,48 +121,52 @@
                 </div>
                 <div class="modal-body">
 
-                    <form action="{{url('/retailer/spare')}}" method="post"> {{ csrf_field() }}
+                    <form enctype="multipart/form-data" action="{{url('/retailer/spares')}}" method="post"> {{ csrf_field() }}
                         <div class="row">
                             <div class="col-md-3"></div>
                             <div class="col-md-6 ">
                                 <div class="form-group">
 
                                     <input  style="margin-bottom: 5px;" placeholder="Part Number" type="text"
-                                            class="form-control" name="modelName"
+                                            class="form-control" name="partNumber"
                                             value="{{old('modelName')}}"/>
 
-                                    <select name="brandName"  class="form-control" onchange="getNewModels(this.value)" required>
+
+
+                                    <select id="brandDropdown" name="brandId"  class="form-control" onchange="getNewModels()" required>
                                         <option value="">Select a Brand</option>
                                         @foreach($brands as $brand)
-                                            <option value="{{ $brand->brandName}}">{{ $brand->brandName}}</option>
+                                            <option value="{{ $brand->id}}">{{ $brand->brandName}}</option>
 
                                         @endforeach
                                     </select>
 
 
-                                    <select onchange="getNewYears(this.value)" id="newModel" name="newModel" type="text"
+                                    <select   id="newModel" name="modelId" type="text"
                                             class="form-control" required>
-                                        <option value="" >Select a Model</option>
+                                        <option value="" >  Select a Model</option>
 
                                     </select>
 
 
-                                    <select style="margin-bottom: 5px;" class="form-control" name="transmissionType"
+
+
+                                    {{--<select style="margin-bottom: 5px;" class="form-control" name="category"
                                             id="transmission">
-                                        <option value="">Select Transmission Type</option>
-                                        <option value="Manual">Manual</option>
-                                        <option value="Automatic">Automatic</option>
+                                        <option value="">Select a Category </option>
+                                        <option value="Engine">Engine</option>
+                                        <option value="Light">Lights</option>
 
-                                    </select>
+                                    </select>--}}
 
-                                    <select style="margin-bottom: 5px;" class="form-control" name="fuelType" id="fuel">
+                                   {{-- <select style="margin-bottom: 5px;" class="form-control" name="fuelType" id="fuel">
                                         <option value="">Select Fuel Type</option>
                                         <option value="Hybrid/Petrol">Hybrid/Petrol</option>
                                         <option value="Hybrid/Diesel">Hybrid/Diesel</option>
                                         <option value="Diesel">Diesel</option>
                                         <option value="Petrol">Petrol</option>
 
-                                    </select>
+                                    </select>--}}
 
 
                                     <select style="margin-bottom: 5px;" class="form-control" name="warranty" id="warranty">
@@ -175,23 +179,30 @@
                                     </select>
 
 
-                                    <select id="newYear" name="newYear" type="text"
+                                  {{--  <select id="newYear" name="newYear" type="text"
                                             class="form-control" required>
                                         <option value=""  >Select a Year</option>
 
                                     </select>
+--}}
+                                    <input  style="margin-bottom: 5px;" placeholder="Quantity" type="number"
+                                            class="form-control" name="quantity"
+                                            value="{{old('quantity')}}"/>
+                                    <input  style="margin-bottom: 5px;" placeholder="Price" type="number"
+                                            class="form-control" name="price"
+                                            value="{{old('price')}}"/>
+
+                                    <input  style="margin-bottom: 5px;" placeholder="Description" type="text"
+                                            class="form-control" name="description"
+                                            value="{{old('description')}}"/>
 
 
-
-
-                                    <input id="admin_id" style="display: none" type="text" class="form-control" name="admin_id"
+                                    <input  id="retailer_id" style="display: none" type="text" class="form-control" name="retailerId"
                                            value=" {{ Auth::user()->id }} "/>
 
-                                    <input id="id" style="display: none" type="text" class="form-control" name="id"
-                                           value=" "/>
 
                                     <label class="control-label">Select image to upload:</label>
-                                    <input  type="file" name="file" id="file">
+                                    <input  type="file" name="image" id="image">
 
                                     <div class="text-center">
                                         <button type="submit" class="btn btn-info btn-md" onclick="">Save</button>

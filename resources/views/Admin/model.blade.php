@@ -120,7 +120,7 @@
 
     {{--add new model modal--}}
     <div class="modal fade bs-example-modal-lg" id="modalModel" tabindex="-1" style="margin-top:100px;" role="dialog"
-         aria-labelledby="myModalLabel" aria-hidden="true">
+             aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header" align="center">

@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
+use App\Spares;
 use App\Models;
+
 use Illuminate\Support\Facades\DB;
 
 class sparesController extends Controller
@@ -39,7 +41,31 @@ class sparesController extends Controller
      */
     public function store(Request $request)
     {
-        echo 'hello';
+
+            $Spare=new Spares;
+            $Spare->model_id=$request->get('modelId');
+            $Spare->brand_id=$request->get('brandId');
+            $Spare->partNumber=$request->get('partNumber');
+            $Spare->warranty=$request->get('warranty');
+            $Spare->retailer_id=$request->get('retailerId');
+            $Spare->quantity=$request->get('quantity');
+            $Spare->price=$request->get('price');
+            $Spare->description=$request->get('description');
+            $file = $request->file('image');
+
+            // Get the contents of the file
+            $contents = $file->openFile()->fread($file->getSize());
+
+            $Spare->image=$contents;
+
+            $Spare->save();
+            \Session::flash('flash_message','Added new Spare.'); //<--FLASH MESSAGE
+
+            return redirect()->back();
+
+       /* catch (\Illuminate\Database\QueryException $ex){
+            dd($ex->getMessage());
+        }*/
     }
 
     /**
@@ -93,12 +119,14 @@ class sparesController extends Controller
         $name="";
         $id=$request->get('brandName');
         $models = DB::select('select * from models where brandName = ?', [$id]);
+        $output.=
 
+            '<option value=> Select a Model </option>';
         foreach ($models as $key=>$model){
-            $name=$model->modelName;
+            $id=$model->id;
             $output.=
 
-                '<option value='.$name.'>'.$model->modelName.  '</option>';
+                '<option value='.$id.'>'.$model->modelName.' ('.$model->yearOfManufacture.') '. '-'.$model->transmissionType.'-'.$model->fuelType.  '</option>';
 
          }
 

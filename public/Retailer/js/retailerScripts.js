@@ -9,7 +9,6 @@ function getBrands(name){
         success: function (data) {
              $('#model').html("");
             $('#model').html(data);
-            removeDupilcatesModels();
 
         }
 
@@ -19,7 +18,10 @@ function getBrands(name){
 }
 
 
-function getNewModels(name){
+function getNewModels(){
+
+    var name= $("#brandDropdown option:selected").text();
+
     $.ajax({
         type: 'get',
         url: ('/retailer/spares/getModels'),
@@ -27,7 +29,6 @@ function getNewModels(name){
         success: function (data) {
             $('#newModel').html("");
             $('#newModel').html(data);
-            removeDupilcatesNewModels();
 
         }
 
@@ -35,7 +36,7 @@ function getNewModels(name){
 
 }
 
-function removeDupilcatesNewModels() {
+/*function removeDupilcatesNewModels() {
     var usedNames = {};
     $("select[name='newModel'] > option").each(function () {
         if(usedNames[this.text]) {
@@ -57,20 +58,24 @@ function removeDupilcatesModels() {
         }
     });
 
-}
+}*/
 
+/*
 function getNewYears(name){
-    $.ajax({
-        type: 'get',
-        url: ('/retailer/spares/getYears'),
-        data: {'brandName': name},
-        success: function (data) {
-            console.log(data);
-            $('#newYear').html("");
-            $('#newYear').html(data);
-        }
 
-    });
+        $.ajax({
+            type: 'get',
+            url: ('/retailer/spares/getYears'),
+            data: {'brandName': name},
+            success: function (data) {
+                console.log(data);
+                $('#newYear').html("");
+                $('#newYear').html(data);
+            }
+
+        });
 
 
-}
+
+
+}*/
