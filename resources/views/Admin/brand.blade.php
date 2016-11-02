@@ -47,16 +47,22 @@
                                     <button class="btn btn-default btn-md" data-toggle="modal"
                                             data-target="#modalBrand">Add New
                                     </button>
+
+                                    <input style="margin-top: 10px; width:250px; " type="text" class="form-control"
+                                           id="search" placeholder="Search Category">
+
                                 </th>
 
 
                             </tr>
-<?php
+
+                            <tbody id="tableBrand">
+                            <?php
                             foreach($brands as $brand){
 
                             ?>
-                                <tr>
-                                 <td ><?php echo $brand->id;?></td>
+                            <tr>
+                                <td ><?php echo $brand->id;?></td>
                                 <td><?php echo $brand->brandName;?></td>
                                 <td>
 
@@ -65,9 +71,12 @@
                                     <a onclick="DeleteBrand(<?php echo $brand->id;?>)" style="" class=" btn btn-danger btn-sm"  >Delete </a>
 
                                 </td>
+
                             </tr>
 
- <?php }?>
+                            <?php }?>
+                            </tbody>
+
 
 
                         </table>
@@ -242,6 +251,28 @@ Delete Modal
             </div>
         </div>
     </div>
+    <div style="text-align: center">
+        {{ $brands->links() }}
+
+    </div>
+
+    <script>
+
+        $('#search').on('keyup', function () {
+            var value = $(this).val();
+            $.ajax({
+                type: 'get',
+                url: '{{url('/admin/brand/search/')}}',
+                data: {'search': value},
+                success: function (data) {
+                    $('#tableBrand').html("");
+                    $('#tableBrand').html(data);
 
 
+                }
+
+
+            });
+        });
+    </script>
 @endsection

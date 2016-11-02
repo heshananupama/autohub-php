@@ -59,7 +59,7 @@ Route::group(['middleware' =>  'App\Http\Middleware\Admin'], function () {
 
     Route::get("admin/brand", function () {
 
-        $brands = DB::table('brands')->get();
+        $brands = DB::table('brands')->paginate(3);
         return View::make('Admin/brand')->with('brands', $brands);
 
     });
@@ -75,9 +75,15 @@ Route::group(['middleware' =>  'App\Http\Middleware\Admin'], function () {
     Route::get('/admin/brand/delete/{id}', 'brandsController@destroy');
     Route::post('/admin/brand/edit', 'brandsController@edit');
     Route::post("admin/brand", 'brandsController@store');
+    Route::get("/admin/brand/search", 'brandsController@show');
+
+
 
     Route::post("/admin/category", 'categoriesController@store');
     Route::post("/admin/category/edit", 'categoriesController@edit');
+    Route::get("/admin/category/search", 'categoriesController@show');
+    Route::get('/admin/category/delete/{id}', 'categoriesController@destroy');
+
 
 
     Route::post('/admin/model/edit', 'modelsController@edit');

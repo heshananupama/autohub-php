@@ -72,12 +72,14 @@ class modelsController extends Controller
      */
     public function show(Request $request)
     {
+        $output="";
+
         if ($request->ajax()){
-            $output="";
             $models=DB::table('models')->where ('modelName','LIKE','%'.$request->search.'%')
                 ->orWhere('brandName','LIKE','%'.$request->search.'%')->get();
             if($models){
                 foreach ($models as $key=>$model){
+                    $Mid=$model->id;
                     $output.='<tr>'.
                         '<td>'.$model->id.'</td>'.
 
@@ -91,17 +93,20 @@ class modelsController extends Controller
                         '<td>'.$model->countryMade.'</td>'.
                         '<td>
 
-                                    <a class=" btn btn-success btn-sm" data-toggle="modal" data-target="#modalEdit"  >Edit </a>
+                                    <a class=" btn btn-success btn-sm" onclick="EditModel('.$model->id.',\''.$model->modelName.'\',\''.$model->brandName.'\',
+                                             \''.$model->transmissionType.'\',\''.$model->fuelType.'\' ,\''.$model->yearOfManufacture.'\', \''.$model->countryMade.'\')" >Edit </a>
 
-                                    <a class=" btn btn-danger btn-sm" href="" >Delete </a>
+                                    <a onclick="DeleteModel('.$model->id.')"  class=" btn btn-danger btn-sm"  >Delete </a>
 
                                 </td>'.
                     '</tr>';
                 }
 
-                return response($output);
             }
+
         }
+        return response($output);
+
     }
 
     /**

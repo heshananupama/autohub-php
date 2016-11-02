@@ -79,7 +79,7 @@ jQuery(document).ready(function () {
 
 
 // Edit the existing brand
-function EditBrand(brand,id,admin) {
+function EditBrand(brand,id) {
     document.getElementById("brand").value=brand;
     document.getElementById("id").value=id;
 
@@ -97,6 +97,8 @@ function DeleteModel(model) {
     });}
 
 function EditModel(id,model,brand,transmission,fuel,year,country) {
+
+    $('#modelEdit').modal('show');
 
     document.getElementById("modelM").value=model;
     document.getElementById("brandM").value=brand;
@@ -123,12 +125,19 @@ function DeleteBrand(brand) {
 
 
 function EditCategory(id,category){
-    document.getElementById("modelM").value=category;
+    document.getElementById("categoryNameM").value=category;
 
-    document.getElementById("modelid").value=id;
+    document.getElementById("categoryIdM").value=id;
 
 }
 
 function DeleteCategory(category){
-
+    $('#confirm-delete').modal('show');
+    $('#confirm-delete').on('click', '.btn-ok', function(e) {
+        window.location.href = "/admin/category/delete/"+category;
+        $modalDiv.addClass('loading');
+        setTimeout(function() {
+            $modalDiv.modal('hide').removeClass('loading');
+        }, 1000)
+    });
 }

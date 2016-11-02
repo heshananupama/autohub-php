@@ -65,9 +65,33 @@ class brandsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request)
     {
-        //
+        if ($request->ajax()){
+            $output="";
+            $brands=DB::table('brands')->where ('brandName','LIKE','%'.$request->search.'%')
+                ->orWhere('brandName','LIKE','%'.$request->search.'%')->get();
+            if($brands){
+                foreach ($brands as $key=>$brand){
+                    $output.='<tr>'.
+                        '<td>'.$brand->id.'</td>'.
+
+                        '<td>'.$brand->brandName.'</td>'.
+
+                        '<td>
+
+                                    <a class=" btn btn-success btn-sm" data-toggle="modal" data-target="#modalEdit"  >Edit </a>
+
+                                    <a class=" btn btn-danger btn-sm" href="" >Delete </a>
+
+                                </td>'.
+                        '</tr>';
+                }
+
+                return response($output);
+            }
+        }
+
     }
 
     /**

@@ -15,6 +15,8 @@
     <link rel="stylesheet" href="/css/brandStyles.css">
 
     <!-- Scripts -->
+    <script src="/js/jquery-2.2.3.min.js"></script>
+
     <script>
         window.Laravel = <?php echo json_encode([
                 'csrfToken' => csrf_token(),
@@ -123,7 +125,6 @@
         @yield('content')
     </div>
     <!-- Scripts -->
-    <script src="/js/jquery-2.2.3.min.js"></script>
 
      <script src="/js/bootstrap.min.js"></script>
     <script src="/js/scripts.js"></script>

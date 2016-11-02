@@ -73,8 +73,8 @@
                                 <td>
                                     <a onclick="EditModel(<?php echo $model->id;?>,'<?php echo $model->modelName;?>','<?php echo $model->brandName;?>',
                                             '<?php echo $model->transmissionType;?>','<?php echo $model->fuelType;?>','<?php echo $model->yearOfManufacture;?>',
-                                            '<?php echo $model->countryMade;?>')" class=" btn btn-success btn-sm" data-toggle="modal"
-                                       data-target="#modelEdit">Edit </a>
+                                            '<?php echo $model->countryMade;?>')" class=" btn btn-success btn-sm"
+                                       >Edit </a>
                                     <a onclick="DeleteModel(<?php echo $model->id;?>)" class=" btn btn-danger btn-sm">Delete </a>
                                 </td>
                             </tr>
@@ -147,7 +147,7 @@
 
                                         @endforeach
                                     </select>
-                                    <input  style="margin-bottom: 5px;" placeholder="Model Name" type="text"
+                                    <input  style="margin-bottom: 5px;" placeholder="Model Name" type="text" id="newModel"
                                            class="form-control" name="modelName"
                                            value="{{old('modelName')}}"/>
                                     <select style="margin-bottom: 5px;" class="form-control" name="transmissionType"
