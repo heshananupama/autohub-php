@@ -135,6 +135,9 @@
             e.preventDefault();
             $("#wrapper").toggleClass("active");
         });
+
+        // When we click on the LI
+
     </script>
 </body>
 </html>

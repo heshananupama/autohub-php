@@ -341,6 +341,9 @@ Delete Modal
 
             });
         });
+
+        $('#home').addClass('active'); // for home page
+
     </script>
 
 @endsection
