@@ -27,6 +27,7 @@ class ModelDataRequest extends FormRequest
             'modelName' => 'required|max:255',
             'country' => 'required|regex:/^[\pL\s\-]+$/u|max:255',
             'year' => 'required|max:255',
+            'engineCapacity'=>'regex:/\d{3,4}[c]{2}/'
 
         ];
     }

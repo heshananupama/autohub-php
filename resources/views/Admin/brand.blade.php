@@ -34,52 +34,55 @@
                     </div>
 
                     <div class="col-sm-10">
-                        <table class="table-responsive vehicle_brand">
+                        <div class="table-bordered table-responsive">
+                            <table class="table vehicle_brand">
 
 
 
-                            <tr>
-                                <th>Brand Id</th>
-                                <th>Brand Name</th>
-                                <th>
+                                <tr>
+                                    <th>Brand Id</th>
+                                    <th>Brand Name</th>
+                                    <th>
 
-                                    </span>
-                                    <button class="btn btn-default btn-md" data-toggle="modal"
-                                            data-target="#modalBrand">Add New
-                                    </button>
+                                        </span>
+                                        <button class="btn btn-default btn-md" data-toggle="modal"
+                                                data-target="#modalBrand">Add New
+                                        </button>
 
-                                    <input style="margin-top: 10px; width:250px; " type="text" class="form-control"
-                                           id="search" placeholder="Search Category">
+                                        <input style="margin-top: 10px; width:250px; " type="text" class="form-control"
+                                               id="search" placeholder="Search Category">
 
-                                </th>
-
-
-                            </tr>
-
-                            <tbody id="tableBrand">
-                            <?php
-                            foreach($brands as $brand){
-
-                            ?>
-                            <tr>
-                                <td ><?php echo $brand->id;?></td>
-                                <td><?php echo $brand->brandName;?></td>
-                                <td>
-
-                                    <a class=" btn btn-success btn-sm" data-toggle="modal" data-target="#modalEdit" onclick="EditBrand('<?php echo $brand->brandName;?>','<?php echo $brand->id;?>')" >Edit </a>
-
-                                    <a onclick="DeleteBrand(<?php echo $brand->id;?>)" style="" class=" btn btn-danger btn-sm"  >Delete </a>
-
-                                </td>
-
-                            </tr>
-
-                            <?php }?>
-                            </tbody>
+                                    </th>
 
 
+                                </tr>
 
-                        </table>
+                                <tbody id="tableBrand">
+                                <?php
+                                foreach($brands as $brand){
+
+                                ?>
+                                <tr>
+                                    <td ><?php echo $brand->id;?></td>
+                                    <td><?php echo $brand->brandName;?></td>
+                                    <td>
+
+                                        <a class=" btn btn-success btn-sm" data-toggle="modal" data-target="#modalEdit" onclick="EditBrand('<?php echo $brand->brandName;?>','<?php echo $brand->id;?>')" >Edit </a>
+
+                                        <a onclick="DeleteBrand(<?php echo $brand->id;?>)" style="" class=" btn btn-danger btn-sm"  >Delete </a>
+
+                                    </td>
+
+                                </tr>
+
+                                <?php }?>
+                                </tbody>
+
+
+
+                            </table>
+                        </div>
+
                     </div>
                     <div class="col-sm-1">
 

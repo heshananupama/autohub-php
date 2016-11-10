@@ -118,7 +118,7 @@ class sparesController extends Controller
         $output="";
         $name="";
         $id=$request->get('brandName');
-        $models = DB::select('select * from models where brandName = ?', [$id]);
+        $models = DB::select('select * from models where brandName = ? order by modelName', [$id]) ;
         $output.=
 
             '<option value=> Select a Model </option>';

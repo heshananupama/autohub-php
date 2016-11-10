@@ -59,7 +59,7 @@ Route::group(['middleware' =>  'App\Http\Middleware\Admin'], function () {
 
     Route::get("admin/brand", function () {
 
-        $brands = DB::table('brands')->paginate(3);
+        $brands = DB::table('brands')->paginate(5);
         return View::make('Admin/brand')->with('brands', $brands);
 
     });
@@ -119,8 +119,9 @@ Route::group(['middleware' => 'App\Http\Middleware\Retailer'], function () {
     Route::get('/retailer/spares', function () {
         $models = DB::table('models')->get();
         $brands = DB::table('brands')->get();
+        $spares = DB::table('spares')->get();
 
-        return View::make('Retailer/spares')->with('models', $models)->with('brands', $brands);
+        return View::make('Retailer/spares')->with('models', $models)->with('brands', $brands)->with('spares', $spares);
 
     });
 

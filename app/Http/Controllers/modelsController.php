@@ -46,6 +46,8 @@ class modelsController extends Controller
             $Model->modelName=$request->get('modelName');
             $Model->transmissionType=$request->get('transmissionType');
             $Model->fuelType=$request->get('fuelType');
+            $Model->engineCapacity=$request->get('engineCapacity');
+
             $Model->countryMade=$request->get('country');
             $Model->admin_id=$request->get('admin_id');
             $Model->brandName=$request->get('brandName');
@@ -88,6 +90,8 @@ class modelsController extends Controller
                         '<td>'.$model->transmissionType.'</td>'.
 
                         '<td>'.$model->fuelType.'</td>'.
+                        '<td>'.$model->engineCapacity.'</td>'.
+
                         '<td>'.$model->yearOfManufacture.'</td>'.
 
                         '<td>'.$model->countryMade.'</td>'.
@@ -121,13 +125,15 @@ class modelsController extends Controller
         $modelName =$request->get('modelName');
         $transmissionType = $request->get('transmissionType');
         $fuelType = $request->get('fuelType');
+        $engineCapacity = $request->get('engineCapacity');
+
         $country = $request->get('country');
         $year = $request->get('year');
         $id= $request->get('modelId');
         error_log($id);
 
         DB::update("update models 
-        set brandName = '$brandName' , modelName='$modelName' , transmissionType='$transmissionType'  , fuelType= '$fuelType' , countryMade='$country' , yearOfManufacture = '$year'  where id = $id");
+        set brandName = '$brandName' , modelName='$modelName' , transmissionType='$transmissionType'  , fuelType= '$fuelType' , engineCapacity= '$engineCapacity' , countryMade='$country' , yearOfManufacture = '$year'  where id = $id");
         \Session::flash('flash_message','Updated Successfully.'); //<--FLASH MESSAGE
 
         return redirect()->back();

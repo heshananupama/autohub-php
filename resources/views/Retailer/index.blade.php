@@ -17,6 +17,9 @@
     <!-- Bootstrap Core CSS -->
     <link href="/Retailer/css/bootstrap.min.css" rel="stylesheet">
 
+    <link href="/Retailer/css/retailerStyles.css" rel="stylesheet">
+
+
     <!-- Custom CSS -->
     <link href="/Retailer/css/sb-admin.css" rel="stylesheet">
 

@@ -33,57 +33,63 @@
                     </div>
 
                     <div class="col-sm-10">
-                        <table class="table-responsive vehicle_brand">
+                        <div class="table-responsive table-bordered">
+                            <table class="table vehicle_brand">
 
 
-                            <tr>
-                                <th>Model Id</th>
-                                <th>Vehicle Brand</th>
-                                <th>Model Name</th>
-                                <th>Transmission</th>
-                                <th>Fuel</th>
-                                <th>Make Year</th>
-                                <th>Country</th>
+                                <tr>
+                                    <th>Model Id</th>
+                                    <th>Vehicle Brand</th>
+                                    <th>Model Name</th>
+                                    <th>Transmission</th>
+                                    <th>Fuel</th>
+                                    <th>Engine</th>
+                                    <th>Make Year</th>
+                                    <th>Country</th>
 
-                                <th>
+                                    <th>
 
-                                    </span>
-                                    <button class="btn btn-default btn-md" data-toggle="modal"
-                                            data-target="#modalModel">Add New
-                                    </button>
-                                    <input style="margin-top: 10px;" type="text" class="form-control" id="search" placeholder="Search Model">
-                                </th>
+                                        </span>
+                                        <button class="btn btn-default btn-md" data-toggle="modal"
+                                                data-target="#modalModel">Add New
+                                        </button>
+                                        <input style="margin-top: 10px;" type="text" class="form-control" id="search" placeholder="Search Model">
+                                    </th>
 
 
-                            </tr>
-                            <tbody id="tableModel">
-                            <?php
-                            foreach($models as $model){
+                                </tr>
+                                <tbody id="tableModel">
+                                <?php
+                                foreach($models as $model){
 
-                            ?>
-                            <tr>
-                                <td ><?php echo $model->id;?></td>
-                                <td ><?php echo $model->brandName;?></td>
-                                <td><?php echo $model->modelName;?></td>
-                                <td><?php echo $model->transmissionType;?></td>
-                                <td><?php echo $model->fuelType;?></td>
-                                <td><?php echo $model->yearOfManufacture;?></td>
-                                <td><?php echo $model->countryMade;?></td>
+                                ?>
+                                <tr>
+                                    <td ><?php echo $model->id;?></td>
+                                    <td ><?php echo $model->brandName;?></td>
+                                    <td><?php echo $model->modelName;?></td>
+                                    <td><?php echo $model->transmissionType;?></td>
+                                    <td><?php echo $model->fuelType;?></td>
+                                    <td><?php echo $model->engineCapacity;?></td>
 
-                                <td>
-                                    <a onclick="EditModel(<?php echo $model->id;?>,'<?php echo $model->modelName;?>','<?php echo $model->brandName;?>',
-                                            '<?php echo $model->transmissionType;?>','<?php echo $model->fuelType;?>','<?php echo $model->yearOfManufacture;?>',
-                                            '<?php echo $model->countryMade;?>')" class=" btn btn-success btn-sm"
-                                       >Edit </a>
-                                    <a onclick="DeleteModel(<?php echo $model->id;?>)" class=" btn btn-danger btn-sm">Delete </a>
-                                </td>
-                            </tr>
+                                    <td><?php echo $model->yearOfManufacture;?></td>
+                                    <td><?php echo $model->countryMade;?></td>
 
-                            <?php }?>
+                                    <td>
+                                        <a onclick="EditModel(<?php echo $model->id;?>,'<?php echo $model->modelName;?>','<?php echo $model->brandName;?>',
+                                                '<?php echo $model->transmissionType;?>','<?php echo $model->fuelType;?>','<?php echo $model->yearOfManufacture;?>',
+                                                '<?php echo $model->countryMade;?>')" class=" btn btn-success btn-sm"
+                                        >Edit </a>
+                                        <a onclick="DeleteModel(<?php echo $model->id;?>)" class=" btn btn-danger btn-sm">Delete </a>
+                                    </td>
+                                </tr>
 
-                            </tbody>
+                                <?php }?>
 
-                        </table>
+                                </tbody>
+
+                            </table>
+
+                        </div>
                         <div style="text-align: center">
                             {{ $models->links() }}
 
@@ -167,6 +173,9 @@
 
                                     </select>
 
+                                    <input id="engineCapacity" style="margin-bottom: 5px;" placeholder="Engine Capacity" type="text"
+                                           class="form-control" name="engineCapacity"
+                                           value="{{old('engineCapacity')}}"/>
 
                                     <input id="year" style="margin-bottom: 5px;" placeholder="Make Year" type="text"
                                            class="form-control" name="year"

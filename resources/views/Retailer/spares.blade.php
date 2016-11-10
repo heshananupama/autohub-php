@@ -68,38 +68,69 @@
                 </div>
 
             </div>
-        </div>
-
-        <table class="table table-responsive">
-
-
-            <tr>
-                <th>Spare Id</th>
-                <th>Part Number</th>
-                <th>Quantity</th>
-                <th>Price</th>
-                <th>Warranty</th>
-                <th>Description</th>
-                <th>Spare Image</th>
-
-                <th>
+            <div class="table-responsive table-bordered">
+                <table  class="table ">
 
 
-                    <input   type="text" class="form-control" id="search" placeholder="Search Spare">
-                </th>
+                    <tr>
+                        <th>Spare Id</th>
+                        <th>Part Number</th>
+                        <th>Description</th>
+
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Warranty</th>
+                        <th>Spare Image</th>
+
+                        <th>
 
 
-            </tr>
-            <tbody id="tableModel">
-
-            </tbody>
+                            <input   type="text" class="form-control" id="search" placeholder="Search Spare">
+                        </th>
 
 
-        </table>
-        <div style="text-align: center">
-            <button  class="btn btn-success btn-md" data-toggle="modal"
-                     data-target="#modalSpare">Add New
-            </button>
+                    </tr>
+                    <tbody id="tableModel">
+                    <?php
+                    foreach($spares as $spare){
+
+                    ?>
+                    <tr>
+                        <td ><?php echo $spare->id;?></td>
+                        <td ><?php echo $spare->partNumber;?></td>
+                        <td ><?php echo $spare->description;?></td>
+
+                        <td ><?php echo $spare->quantity;?></td>
+                        <td ><?php echo 'Rs.'. $spare->price;?></td>
+                        <td ><?php echo $spare->warranty;?></td>
+
+
+                        <td><div class="image"><?php echo ' <img  class="img-responsive"  src="data:image/jpeg;base64,'.base64_encode( $spare->image ).'"/>';?></div></td>
+                        <td>
+
+                            <a class=" btn btn-success btn-sm" data-toggle="modal" data-target="#modalEdit" onclick="EditBrand('<?php echo $brand->brandName;?>','<?php echo $brand->id;?>')" >Edit </a>
+
+                            <a onclick="DeleteBrand(<?php echo $brand->id;?>)" style="" class=" btn btn-danger btn-sm"  >Delete </a>
+
+                        </td>
+
+                    </tr>
+
+                    <?php }?>
+                    </tbody>
+
+
+                </table>
+
+            </div>
+
+
+            <div style="text-align: center">
+                <button  class="btn btn-success btn-md" data-toggle="modal"
+                         data-target="#modalSpare">Add New
+                </button>
+            </div>
+
         </div>
 
 

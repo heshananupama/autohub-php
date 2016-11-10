@@ -9,7 +9,7 @@ class Models extends Model
     protected $table='models';
 
     protected $fillable = [
-        'id','modelName','transmissionType','fuelType','countryMade','admin_id','brandName','yearOfManufacture',
+        'id','modelName','transmissionType','fuelType','engineCapacity','countryMade','admin_id','brandName','yearOfManufacture',
     ];
 
     protected $hidden = [

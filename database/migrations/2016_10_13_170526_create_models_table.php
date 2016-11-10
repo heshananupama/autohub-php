@@ -18,6 +18,8 @@ class CreateModelsTable extends Migration
             $table->string('modelName');
             $table->string('transmissionType');
             $table->string('fuelType');
+            $table->string('engineCapacity');
+
             $table->string('countryMade');
             $table->integer('admin_id')->unsigned();
             $table->string('brandName');
