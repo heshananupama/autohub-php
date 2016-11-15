@@ -17,9 +17,13 @@
                     @if(count($errors)>0)
                         <div class="alert alert-danger">
                             <strong>There were some problems</strong>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                                        aria-hidden="true">&times;</span></button>
                             <ul>
                                 @foreach($errors->all() as $error)
+
                                     <li>{{$error}}</li>
+
                                 @endforeach
                             </ul>
 
@@ -76,7 +80,7 @@
 
                                     <td>
                                         <a onclick="EditModel(<?php echo $model->id;?>,'<?php echo $model->modelName;?>','<?php echo $model->brandName;?>',
-                                                '<?php echo $model->transmissionType;?>','<?php echo $model->fuelType;?>','<?php echo $model->yearOfManufacture;?>',
+                                                '<?php echo $model->transmissionType;?>','<?php echo $model->fuelType;?>','<?php echo $model->engineCapacity;?>','<?php echo $model->yearOfManufacture;?>',
                                                 '<?php echo $model->countryMade;?>')" class=" btn btn-success btn-sm"
                                         >Edit </a>
                                         <a onclick="DeleteModel(<?php echo $model->id;?>)" class=" btn btn-danger btn-sm">Delete </a>
@@ -277,6 +281,9 @@
 
                                     </select>
 
+                                    <input id="engineCapacityM" style="margin-bottom: 5px;" placeholder="Engine Capacity" type="text"
+                                           class="form-control" name="engineCapacity"
+                                           value="{{old('engineCapacity')}}"/>
 
                                     <input id="yearM" style="margin-bottom: 5px;" placeholder="Make Year" type="text"
                                            class="form-control" name="year"

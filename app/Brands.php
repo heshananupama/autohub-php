@@ -15,4 +15,9 @@ class Brands extends Model
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function spares()
+    {
+        return $this->hasMany('App\Spares');
+    }
 }

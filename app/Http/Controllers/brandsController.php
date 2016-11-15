@@ -103,7 +103,7 @@ class brandsController extends Controller
     public function edit(BrandDataRequest $request)
     {
         $brandName =$request->get('brandName');
-        $id=$request->get('modelid');
+        $id=$request->get('id');
         DB::update('update brands set brandName = ? where id = ?',[$brandName,$id]);
         \Session::flash('flash_message','Updated Successfully.'); //<--FLASH MESSAGE
 
@@ -130,7 +130,7 @@ class brandsController extends Controller
      */
     public function destroy($id)
     {
-         $brand=brands::find($id);
+         $brand=Brands::find($id);
         $brand->delete();
         return Redirect::to('/admin/brand');
 

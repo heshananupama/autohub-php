@@ -112,19 +112,15 @@ Route::group(['middleware' => 'App\Http\Middleware\Retailer'], function () {
     Route::get('/retailer/home', function () {
         return view('Retailer/home');
     });
+
     Route::post("/retailer/spares", 'sparesController@store');
+    Route::post("/retailer/spares/edit", 'sparesController@edit');
+
+    Route::get('/retailer/spares/delete/{id}', 'sparesController@destroy');
 
     Route::get('/retailer/spares/getModels', 'sparesController@getModels');
 
-    Route::get('/retailer/spares', function () {
-        $models = DB::table('models')->get();
-        $brands = DB::table('brands')->get();
-        $spares = DB::table('spares')->get();
-
-        return View::make('Retailer/spares')->with('models', $models)->with('brands', $brands)->with('spares', $spares);
-
-    });
-
+    Route::get('/retailer/spares', 'sparesController@load') ;
     Route::get('/retailer/spares/getYears', 'sparesController@getYears');
 
 

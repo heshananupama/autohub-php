@@ -96,7 +96,7 @@ function DeleteModel(model) {
         }, 1000)
     });}
 
-function EditModel(id,model,brand,transmission,fuel,year,country) {
+function EditModel(id,model,brand,transmission,fuel,capacity,year,country) {
 
     $('#modelEdit').modal('show');
 
@@ -104,7 +104,9 @@ function EditModel(id,model,brand,transmission,fuel,year,country) {
     document.getElementById("brandM").value=brand;
     document.getElementById("transmissionM").value=transmission;
     document.getElementById("fuelM").value=fuel;
+    document.getElementById("engineCapacityM").value=capacity;
     document.getElementById("yearM").value=year;
+
     document.getElementById("countryM").value=country;
     document.getElementById("modelid").value=id;
 
@@ -125,8 +127,8 @@ function DeleteBrand(brand) {
 
 
 function EditCategory(id,category){
-    document.getElementById("categoryNameM").value=category;
 
+    document.getElementById("categoryNameM").value=category;
     document.getElementById("categoryIdM").value=id;
 
 }
