@@ -136,22 +136,21 @@
 
                                 <td>
                                     <div class="image">
-                                        <img style="width: 50px;height: 50px;"
-                                             src='{{ asset("images/$spare->imagePath") }}'>
+                                        <a href="{{ asset("images/spares/$spare->imagePath") }}"><img style="width: 50px;height: 50px;"
+                                                        src='{{ asset("images/spares/$spare->imagePath") }}'></a>
                                     </div>
                                 </td>
                                 <td>
 
-                                    <a class=" btn btn-success btn-sm" data-toggle="modal" data-target="#modalEdit"
-                                       onclick="EditSpare({{$spare->id}},'{{$spare->partNumber}}','{{$spare->description}}','{{$spare->brand->brandName}}','{{$spare->quantity}}','{{$spare->price}}','{{$spare->warranty}}','{{$spare->imagePath}}' )">Edit </a>
+                                    <a style="margin-bottom: 5px;" onclick="EditSpare({{$spare->id}},'{{$spare->partNumber}}','{{$spare->description}}','{{$spare->brand->brandName}}','{{$spare->quantity}}','{{$spare->price}}','{{$spare->warranty}}')" class=" btn btn-success btn-xs" data-toggle="modal" data-target="#modalEdit">Edit </a>
 
                                     <a onclick="DeleteSpare({{$spare->id}})" style=""
-                                       class=" btn btn-danger btn-sm">Delete </a>
+                                       class=" btn btn-danger btn-xs">Delete </a>
 
                                 </td>
 
                             </tr>
-                            @endif
+                        @endif
 
 
                     @endforeach
@@ -159,7 +158,10 @@
 
 
                 </table>
+                <div style="text-align: center">
+                    {{ $spares->links() }}
 
+                </div>
             </div>
 
 
@@ -185,7 +187,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
 
-                    <div >
+                    <div>
                         <h3 id="spareModalHeader">Add New Spare</h3>
                     </div>
                 </div>
@@ -220,18 +222,15 @@
                                     </select>
 
 
-
-
                                     <select style="margin-bottom: 5px;" class="form-control" name="warranty"
                                             id="warranty">
-                                        <option value="">Select a Warranty period</option>
+                                        <option value="-">Select a Warranty period</option>
                                         <option value="3-months">3-Months</option>
                                         <option value="6-months">6-Months</option>
                                         <option value="1-year">1-Year</option>
                                         <option value="2-year">2-Years</option>
 
                                     </select>
-
 
 
                                     <input style="margin-bottom: 5px;" placeholder="Quantity" type="number"
@@ -242,8 +241,9 @@
                                            value="{{old('price')}}"/>
 
                                     <input style="margin-bottom: 5px;" placeholder="Description" type="text"
-                                           class="form-control" name="description"
-                                           value="{{old('description')}}"/>
+                                              class="form-control" name="description"
+                                              value="{{old('description')}}">
+
 
 
                                     <input id="retailer_id" style="display: none" type="text" class="form-control"
@@ -293,7 +293,8 @@
 
     {{--edit spare modal--}}
 
-    <div class="modal fade bs-example-modal-lg" id="modalEditSpare" tabindex="-1" style="margin-top:100px;" role="dialog"
+    <div class="modal fade bs-example-modal-lg" id="modalEditSpare" tabindex="-1" style="margin-top:100px;"
+         role="dialog"
          aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -302,8 +303,8 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
 
-                    <div >
-                        <h3 >Edit Spare</h3>
+                    <div>
+                        <h3>Edit Spare</h3>
                     </div>
                 </div>
                 <div class="modal-body">
@@ -315,7 +316,8 @@
                             <div class="col-md-6 ">
                                 <div class="form-group">
 
-                                    <input id="partNumberEdit" style="margin-bottom: 5px;" placeholder="Part Number" type="text"
+                                    <input id="partNumberEdit" style="margin-bottom: 5px;" placeholder="Part Number"
+                                           type="text"
                                            class="form-control" name="partNumber"
                                            value="{{old('partNumber')}}"/>
 
@@ -337,11 +339,9 @@
                                     </select>
 
 
-
-
                                     <select style="margin-bottom: 5px;" class="form-control" name="warranty"
                                             id="warrantyEdit">
-                                        <option value="">Select a Warranty period</option>
+                                        <option value="-">Select a Warranty period</option>
                                         <option value="3-months">3-Months</option>
                                         <option value="6-months">6-Months</option>
                                         <option value="1-year">1-Year</option>
@@ -350,17 +350,18 @@
                                     </select>
 
 
-
-                                    <input style="margin-bottom: 5px;" placeholder="Quantity" type="number" id="quantityEdit"
+                                    <input style="margin-bottom: 5px;" placeholder="Quantity" type="number"
+                                           id="quantityEdit"
                                            class="form-control" name="quantity"
                                            value="{{old('quantity')}}"/>
                                     <input style="margin-bottom: 5px;" placeholder="Price" type="number"
                                            class="form-control" name="price" id="priceEdit"
                                            value="{{old('price')}}"/>
 
-                                    <input style="margin-bottom: 5px;" placeholder="Description" type="text" id="descriptionEdit"
-                                           class="form-control" name="description"
-                                           value="{{old('description')}}"/>
+                                    <input style="margin-bottom: 5px;" placeholder="Description" type="text"
+                                              id="descriptionEdit"
+                                              class="form-control" name="description"
+                                              value="{{old('description')}}"/>
 
 
                                     <input id="retailer_idEdit" style="display: none" type="text" class="form-control"
@@ -376,7 +377,8 @@
                                         <button type="submit" class="btn btn-info btn-md" onclick="">Save</button>
                                     </div>
 
-                                    <input id="EditSpareId" readonly type="text" class="form-control" name="id"  style="display: none" />
+                                    <input id="EditSpareId" readonly type="text" class="form-control" name="id"
+                                           style="display: none"/>
 
 
                                 </div>
@@ -412,7 +414,8 @@
 
     {{--delete modal--}}
 
-    <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">

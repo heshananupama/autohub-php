@@ -174,6 +174,8 @@
                                         <option value="Hybrid/Diesel">Hybrid/Diesel</option>
                                         <option value="Diesel">Diesel</option>
                                         <option value="Petrol">Petrol</option>
+                                        <option value="Electric">Electric</option>
+
 
                                     </select>
 
@@ -278,6 +280,8 @@
                                         <option value="Hybrid/Diesel">Hybrid/Diesel</option>
                                         <option value="Diesel">Diesel</option>
                                         <option value="Petrol">Petrol</option>
+                                        <option value="Electric">Electric</option>
+
 
                                     </select>
 

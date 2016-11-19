@@ -57,7 +57,7 @@ function getEditModels(){
 
 }
 
-function EditSpare(id,partNumber,description,brandName,quantity,price,warranty,imagePath) {
+function EditSpare(id,partNumber,description,brandName,quantity,price,warranty) {
     document.getElementById("partNumberEdit").value=partNumber;
     $("#brandEdit option:contains(" + brandName + ")").attr('selected', 'selected');
 
@@ -67,7 +67,6 @@ function EditSpare(id,partNumber,description,brandName,quantity,price,warranty,i
     document.getElementById("quantityEdit").value=quantity;
     document.getElementById("descriptionEdit").value=description;
     document.getElementById("priceEdit").value=price;
-    document.getElementById("imageEdit").src=imagePath;
 
     document.getElementById("EditSpareId").value=id;
 

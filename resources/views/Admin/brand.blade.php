@@ -49,7 +49,7 @@
                                                 data-target="#modalBrand">Add New
                                         </button>
 
-                                        <input style="margin-top: 10px; width:250px; " type="text" class="form-control"
+                                        <input  style="margin-top: 10px; width:250px; " type="text" class="form-control"
                                                id="search" placeholder="Search Category">
 
                                     </th>

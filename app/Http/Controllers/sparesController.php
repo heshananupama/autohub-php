@@ -58,7 +58,7 @@ class sparesController extends Controller
                 $file = $request->file('spareImage') ;
 
                 $fileName = $file->getClientOriginalName() ;
-                $destinationPath = public_path().'/images/' ;
+                $destinationPath = public_path().'/images/spares' ;
                 $file->move($destinationPath,$fileName);
                 $Spare->imagePath = $fileName ;
 
@@ -110,7 +110,7 @@ class sparesController extends Controller
             $file = $request->file('spareImage') ;
 
             $fileName = $file->getClientOriginalName() ;
-            $destinationPath = public_path().'/images/' ;
+            $destinationPath = public_path().'/images/spares' ;
             $file->move($destinationPath,$fileName);
             $imagePath = $fileName ;
 
@@ -157,7 +157,7 @@ class sparesController extends Controller
         $brands=\App\Brands::all();
         $models=\App\Models::all();
         //$spares=\App\Spares::all();
-        $spares = \App\Spares::with('brand','model')->get();
+        $spares = \App\Spares::with('brand','model')->paginate(5);
 
 
         /*        $spares=\App\Spares::with('spares')->get();*/

@@ -1,0 +1,29 @@
+
+.image {
+    width: 50%;
+    height: 50%;
+}
+
+
+
+.image img {
+    -webkit-transition: all 1s ease; /* Safari and Chrome */
+    -moz-transition: all 1s ease; /* Firefox */
+    -o-transition: all 1s ease; /* IE 9 */
+    -ms-transition: all 1s ease; /* Opera */
+    transition: all 1s ease;
+}
+
+.image:hover img {
+    -webkit-transform:scale(2); /* Safari and Chrome */
+    -moz-transform:scale(2); /* Firefox */
+    -ms-transform:scale(2); /* IE 9 */
+    -o-transform:scale(2); /* Opera */
+    transform:scale(2);
+}
+
+#spareTable td
+{
+    text-align:center;
+    vertical-align:middle;
+}

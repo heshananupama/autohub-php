@@ -52,6 +52,8 @@ $(function(){
 /*
         Welcome screen Script 
  */
+
+
 jQuery(document).ready(function () {
 	
     /*
@@ -78,6 +80,10 @@ jQuery(document).ready(function () {
  */
 
 
+// modal autofocus
+$('.modal').on('shown.bs.modal', function() {
+    $(this).find('[autofocus]').focus();
+});
 // Edit the existing brand
 function EditBrand(brand,id) {
     document.getElementById("brand").value=brand;
