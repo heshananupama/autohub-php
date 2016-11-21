@@ -8,6 +8,8 @@ use App\Http\Requests\SpareDataRequest;
 use App\Http\Requests;
 use App\Spares;
 use App\Models;
+use Auth;
+use Log;
 use App\Brands;
 use Illuminate\Support\Facades\Redirect;
 
@@ -64,10 +66,7 @@ class sparesController extends Controller
 
             }
 
-            // Get the contents of the file
-//            $contents = $file->openFile()->fread($file->getSize());
-//
-//            $Spare->image=$contents;
+
 
             $Spare->save();
             \Session::flash('flash_message','Added new Spare.'); //<--FLASH MESSAGE
@@ -149,19 +148,19 @@ class sparesController extends Controller
     public function load()
     {
 
-       /*return View::make('Retailer/spares')
-           ->with (compact('models'))
-           ->with(compact('brands'))
-           ->with(compact('spares'));*/
-/*      $models = \App\Models::with('models')->get();*/
-        $brands=\App\Brands::all();
-        $models=\App\Models::all();
-        //$spares=\App\Spares::all();
-        $spares = \App\Spares::with('brand','model')->paginate(5);
+
+        $brands=Brands::all();
+        $models=Models::all();
+
+        $retailer_id= Auth::user()->id;
+
+        $spares=Spares::with('brand', 'model')
+            ->where('retailer_id', $retailer_id)
+            ->paginate(5);
 
 
-        /*        $spares=\App\Spares::with('spares')->get();*/
-        return view('Retailer/spares',  compact('brands','models','spares'));
+         return View::make('Retailer/spares')->with('spares', $spares)->with('brands', $brands)->with('models', $models);
+
 
 
 

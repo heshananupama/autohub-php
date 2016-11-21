@@ -24,9 +24,14 @@ Route::get('/home', function () {
     return view('home');
 });
 
-Route::get('/home', function () {
-    return view('home');
+Route::get('/enquiry', function () {
+    return view('Enquiry');
 });
+
+Route::get('/browse', 'searchController@index');
+
+
+
 
 Route::get('/cart', function () {
     return view('cart');

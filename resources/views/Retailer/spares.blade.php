@@ -115,8 +115,7 @@
 
                     @foreach($spares as $spare)
 
-                        @if($spare->retailer_id== Auth::user()->id )
-                            <tr>
+                             <tr>
                                 <td>{{$spare->partNumber}}</td>
                                 <td>{{ $spare->description}}</td>
 
@@ -150,7 +149,6 @@
                                 </td>
 
                             </tr>
-                        @endif
 
 
                     @endforeach

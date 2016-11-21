@@ -3,6 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Auth;
+use DB;
 
 class Spares extends Model
 {
@@ -21,6 +23,13 @@ class Spares extends Model
     {
         return $this->belongsTo('App\Brands');
     }
+
+    public function user()
+    {
+        return $this->belongsTo('App\User', 'retailer_id');
+    }
+
+
 
 
     public function model()

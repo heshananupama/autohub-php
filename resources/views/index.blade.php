@@ -25,11 +25,12 @@
             <a href={{ url('/cart') }}><span class="glyphicon glyphicon-shopping-cart "
                                              style="float:right;margin-right:10px;margin-top:1%;height:30px;width:30px;font-size: 2em;">
             </span> <span style="float: right;">2</span></a>
-
-            <span>
-                    <input id="search" class="form-control" placeholder="Search..." type="text" style="float:right;margin-right:20px;margin-top:1%;height:30px; margin-left: 10px; width:250px"/>
-                <span class="glyphicon glyphicon-search" style="float:right; margin-right: -5px; margin-top:1%;height:30px;width:30px;font-size: 2em;"></span>
-            </span>
+            <form method="get" action="{{url('/browse')}}">{{ csrf_field() }}
+                <span>
+                    <input id="browseId" name="searchName" class="form-control" placeholder="Search..." type="text" style="float:right;margin-right:20px;margin-top:1%;height:30px; margin-left: 10px; width:250px"/>
+                <span class="glyphicon glyphicon-search"
+                      style="float:right; margin-right: -5px; margin-top:1%;height:30px;width:30px;font-size: 2em;"></span>
+            </span></form>
 
 
         </div>
@@ -198,7 +199,7 @@
                 <a href="#/Sellers ">Sellers</a>
             </li>
             <li>
-                <a href="#/Enquiry ">Parts Enquiry</a>
+                <a href="{{url('/enquiry')}}">Parts Enquiry</a>
             </li>
             <li>
                 <a href="{{url('/feedback')}} ">Feedback</a>
@@ -271,12 +272,7 @@
 <script src="/js/bootstrap.min.js"></script>
 <script src="/js/scripts.js"></script>
 <script>
-    $(".search").on('keyup', function (e) {
-        if (e.keyCode == 13) {
-            window.location.href = "{{ url('/browse') }}";
 
-        }
-    });
 </script>
 
 </body>

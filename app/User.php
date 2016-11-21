@@ -31,4 +31,8 @@ class User extends Authenticatable
     {
         return $this->type; // this looks for an admin column in your users table
     }
+    public function spares()
+    {
+        return $this->hasMany('App\Spares');
+    }
 }
