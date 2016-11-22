@@ -118,12 +118,12 @@
                             <tr>
                             <td class="col-md-6">
                                 <div class="media">
-                                    <a class="thumbnail pull-left" href="#"> <img class="media-object"
-                                                                                  src='{{ asset("images/spares/$spare->imagePath") }}'
+                                    <a class="thumbnail pull-left" href='{{ url("/productInfo/$spare->id") }}'> <img class="media-object"
+                                                                                      src='{{ asset("images/spares/$spare->imagePath") }}'
                                                                                   style="width: 100px; height: 100px;padding-left: 10px"> </a>
                                     <div  class="media-body"  style="padding-left: 10px;">
 
-                                        <h4 class="media-heading"><a href="#">{{$spare->description}}</a></h4>
+                                        <h4 class="media-heading"><a href='{{ url("/productInfo/$spare->id") }}'>{{$spare->description}}</a></h4>
                                         <h5 class="media-heading"> by <a href="#">{{$spare->user->name }}</a></h5>
                                     </div>
                                 </div>

@@ -4,45 +4,21 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests\SpareDataRequest;
-use App\Http\Requests;
-use App\Spares;
-use App\Retailers;
-
-
-use Auth;
-use Log;
+use App\Http\Requests\EnquiryDataRequest;
 use App\User;
-use Illuminate\Support\Facades\Redirect;
+use App\Enquiries;
 
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\View;
-
-class searchController extends Controller
+ class enquiriesController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
 
-        $spares=Spares::with('user','model')
-            ->where ('description','LIKE','%'.$request->searchName.'%')
-            ->paginate(5);
-        return View::make('browse')->with('spares', $spares);
-
     }
-
-    public function loadProduct($id)
-    {
-
-        $product = DB::table('spares')->where('id', '=', $id)->get();
-        return View::make('productDetails')->with('product', $product);
-
-    }
-
 
     /**
      * Show the form for creating a new resource.
@@ -60,9 +36,20 @@ class searchController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(EnquiryDataRequest $request)
     {
-        //
+        $Enquiry=new Enquiries;
+        $Enquiry->name=$request->get('name');
+        $Enquiry->email=$request->get('email');
+        $Enquiry->message=$request->get('message');
+        $Enquiry->contactNo=$request->get('contactNo');
+        $Enquiry->save();
+
+        \Session::flash('flash_message','Successfully Sent'); //<--FLASH MESSAGE
+
+        return redirect()->back();
+
+
     }
 
     /**
@@ -73,7 +60,7 @@ class searchController extends Controller
      */
     public function show($id)
     {
-
+        //
     }
 
     /**

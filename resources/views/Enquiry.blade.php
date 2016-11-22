@@ -31,7 +31,7 @@
 
         <div class="row">
 
-            <form role="form" action="" method="post">
+            <form role="form" action="{{ url('/enquiry') }}" method="post">{{ csrf_field() }}
                 <div class="col-xs-2">
 
                 </div>
@@ -41,7 +41,7 @@
                     <div class="form-group">
                         <label for="InputName">Your Name</label>
                         <div class="input-group">
-                            <input type="text" class="form-control" value="{{old('InputName')}}" name="InputName" id="InputName"
+                            <input type="text" class="form-control" value="{{old('name')}}" name="name" id="InputName"
                                    placeholder="Enter Name" required>
                             <span class="input-group-addon"><i class="glyphicon glyphicon-ok form-control-feedback"></i></span>
                         </div>
@@ -49,7 +49,7 @@
                     <div class="form-group">
                         <label for="InputEmail">Your Email</label>
                         <div class="input-group">
-                            <input type="email" class="form-control" id="InputEmail" name="InputEmail"
+                            <input  class="form-control" value="{{old('email')}}" id="InputEmail" name="email"
                                    placeholder="Enter Email" required>
                             <span class="input-group-addon"><i class="glyphicon glyphicon-ok form-control-feedback"></i></span>
                         </div>
@@ -57,16 +57,15 @@
                     <div class="form-group">
                         <label for="ContactNo">Contact Number:</label>
                         <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Enter Contact No." name="ContactNo"
+                            <input type="text" class="form-control" value="{{old('contactNo')}}"  placeholder="Enter Contact No." name="contactNo"
                                    id="ContactNo" required>
                             <span class="input-group-addon"><i class="glyphicon glyphicon-ok form-control-feedback"></i></span>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="InputMessage">Message</l    abel>
-                        <div class="input-group"
-                        >
-                            <textarea name="InputMessage" id="InputMessage" class="form-control" rows="5"
+                        <label for="InputMessage">Message</label>
+                        <div class="input-group">
+                            <textarea name="message" id="InputMessage"  class="form-control" rows="5"
                                       required></textarea>
                             <span class="input-group-addon"><i class="glyphicon glyphicon-ok form-control-feedback"></i></span>
                         </div>

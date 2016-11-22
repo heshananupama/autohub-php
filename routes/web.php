@@ -20,9 +20,16 @@ Route::get('/', function () {
 Route::get('/index', function () {
     return view('index');
 });
+
 Route::get('/home', function () {
     return view('home');
 });
+
+Route::get('/productInfo/{id}', 'searchController@loadProduct');
+
+
+Route::post('/enquiry', 'enquiriesController@store');
+
 
 Route::get('/enquiry', function () {
     return view('Enquiry');
