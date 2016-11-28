@@ -26,8 +26,8 @@
                 @endif
 
             </div>
-            <h2><strong>Manage Spares </strong></h2>
-            <div class="row"><br>
+            <h2><strong>Manage Spares </strong></h2><br>
+           {{-- <div class="row"><br>
 
                 <div class="col-sm-3">
                     <div class="form-group">
@@ -90,7 +90,7 @@
                     </div>
                 </div>
 
-            </div>
+            </div>--}}
             <div class="table-responsive ">
                 <table class="table table-bordered  table-inverse" id="spareTable">
 
@@ -135,7 +135,7 @@
 
                                 <td>
                                     <div class="image">
-                                        <a href="{{ asset("images/spares/$spare->imagePath") }}"><img style="width: 50px;height: 50px;"
+                                        <a href="{{ asset("/Images/spares/$spare->imagePath") }}"><img style="width: 50px;height: 50px;"
                                                         src='{{ asset("images/spares/$spare->imagePath") }}'></a>
                                     </div>
                                 </td>

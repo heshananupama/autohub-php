@@ -73,9 +73,7 @@ class sparesController extends Controller
 
             return redirect()->back();
 
-       /* catch (\Illuminate\Database\QueryException $ex){
-            dd($ex->getMessage());
-        }*/
+
     }
 
     /**
@@ -148,11 +146,11 @@ class sparesController extends Controller
     public function load()
     {
 
-
         $brands=Brands::all();
         $models=Models::all();
 
         $retailer_id= Auth::user()->id;
+        Log::info($retailer_id );
 
         $spares=Spares::with('brand', 'model')
             ->where('retailer_id', $retailer_id)
@@ -161,14 +159,11 @@ class sparesController extends Controller
 
          return View::make('Retailer/spares')->with('spares', $spares)->with('brands', $brands)->with('models', $models);
 
-
-
-
     }
     public function getModels(Request $request)
     {
         $output="";
-        $name="";
+
         $id=$request->get('brandName');
         $models = DB::select('select * from models where brandName = ? order by modelName', [$id]) ;
         $output.=

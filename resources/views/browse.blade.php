@@ -2,7 +2,7 @@
 @extends('index')
 
 @section('content')
-    <h1 style="font-family: Calibri;font-size: 40px"   align="center">Search Results for BMW</h1><br>
+    <h1 style="font-family: Calibri;font-size: 40px"   align="center">Search Results for " {{$search}} "</h1><br>
      <div class="panel-default" style="margin:20px 100px;">
         <div class="panel-heading">Refinements </div>
         <div class="panel-body">
@@ -131,21 +131,18 @@
 
                             <td class="col-md-1 text-center"><strong>Rs. {{$spare->price}}/=</strong></td>
                             <td class="col-md-1">
-                                <button type="button" class="btn btn-success">
+                                <button type="button" class="btn btn-success"  onclick="shoppingCart({{$spare->id}})">
                                     <span class="glyphicon glyphicon-shopping-cart"></span> Add to Cart
                                 </button>
                             </td>
-                        </tr>
+                                <input style="display: none; width: 70px;" type="number" class="form-control" id="quantity" value="1">
+
+                            </tr>
                         @endforeach
 
 
                         </tbody>
                     </table>
-
-
-
-
-
             </div>
         </div>
     </div>

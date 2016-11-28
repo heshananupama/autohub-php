@@ -21,11 +21,26 @@ Route::get('/index', function () {
     return view('index');
 });
 
+Route::get('/cart/deleteCartItem/{id}', 'searchController@destroy' );
+
 Route::get('/home', function () {
     return view('home');
 });
+Route::get('/productInfo/{id}',['uses'=>'searchController@loadProduct',
+    'as'=>'product.index'] );
 
-Route::get('/productInfo/{id}', 'searchController@loadProduct');
+/*Route::group(['middleware' => 'web'], function () {
+    Route::get('/productInfo/{id}/addToCart',['uses'=>'searchController@getAddToCart',
+        'as'=>'product.addToCart'] );
+
+});*/
+
+Route::get('/checkout',['uses'=>'searchController@getCheckout','as'=>'checkout']);
+
+Route::get('/productInfo/{id}/addToCart','searchController@addToCart');
+
+
+Route::get('/productInfo/{value}/checkQuantity', 'searchController@checkQuantity');
 
 
 Route::post('/enquiry', 'enquiriesController@store');
@@ -40,9 +55,8 @@ Route::get('/browse', 'searchController@index');
 
 
 
-Route::get('/cart', function () {
-    return view('cart');
-});
+Route::get('/cart','searchController@viewCart' );
+
 
 Route::get('/car-brands/bmw', function () {
     return view('vehicleBrands');
@@ -64,6 +78,7 @@ Route::group(['middleware' =>  'App\Http\Middleware\Admin'], function () {
     Route::get('/admin/category', function () {
 
         $categories = DB::table('categories')->paginate(5);
+
          // can only access this if type == A
         return View::make('Admin/category')->with('categories', $categories);
 
@@ -110,8 +125,10 @@ Route::group(['middleware' =>  'App\Http\Middleware\Admin'], function () {
 Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/feedback', function () {
-        return view('feedback');
-    });
+        if (Auth::guest()) {
+            return redirect()->guest('login');
+        }
+     });
 
 
 });

@@ -325,3 +325,8 @@ img { max-width: 100%; }
 	-o-transform:scale(1.5); /* Opera */
 	transform:scale(1.5);
 }
+
+#productDetails tr > td:first-child { font-size: 17px;
+font-style: normal;
+color:whitesmoke;
+} /* first column */

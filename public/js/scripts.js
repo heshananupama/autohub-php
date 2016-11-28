@@ -35,7 +35,6 @@ browse.addEventListener("keydown", function (e) {
             success: function (data) {
                 $('#modelEdit').html("");
                 $('#modelEdit').html(data);
-
             }
 
         });
@@ -108,6 +107,56 @@ function DeleteCategory(category) {
     $('#confirm-delete').modal('show');
     $('#confirm-delete').on('click', '.btn-ok', function (e) {
         window.location.href = "/admin/category/delete/" + category;
+        $modalDiv.addClass('loading');
+        setTimeout(function () {
+            $modalDiv.modal('hide').removeClass('loading');
+        }, 1000)
+    });
+}
+
+function checkQuantity(id,value) {
+    $.ajax({
+        type: 'get',
+        url: ('/productInfo/id/checkQuantity'),
+        data: {'quantity': value,
+               'productId':id
+        },
+        success: function (data) {
+            if(data!="false"){
+                alert("There are only remaining "+data+" units");
+                document.getElementById("addToCart").disabled=true;
+
+            }
+              else if (data=="false"){
+                  document.getElementById("addToCart").disabled=false;
+            }
+        }
+
+    });
+}
+
+function shoppingCart(id) {
+    var quantity=document.getElementById("quantity").value;
+    console.log(quantity);
+    $.ajax({
+        type: 'get',
+        url: ('/productInfo/id/addToCart'),
+        data: {
+            'id': id,
+            'quantity':quantity
+         },
+        success: function (data) {
+            alert(data);
+
+        }
+
+    });
+}
+
+function deleteCartItem(id){
+    $('#confirm-delete').modal('show');
+    $('#confirm-delete').on('click', '.btn-ok', function (e) {
+        window.location.href = "/cart/deleteCartItem/" + id;
         $modalDiv.addClass('loading');
         setTimeout(function () {
             $modalDiv.modal('hide').removeClass('loading');

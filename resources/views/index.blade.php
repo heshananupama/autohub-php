@@ -24,7 +24,9 @@
         <div class="social">
             <a href={{ url('/cart') }}><span class="glyphicon glyphicon-shopping-cart "
                                              style="float:right;margin-right:10px;margin-top:1%;height:30px;width:30px;font-size: 2em;">
-            </span> <span style="float: right;">2</span></a>
+
+            </span> <span style="float: right;"> </span></a>
+
             <form method="get" action="{{url('/browse')}}">{{ csrf_field() }}
                 <span>
                     <input id="browseId" name="searchName" class="form-control" placeholder="Search..." type="text" style="float:right;margin-right:20px;margin-top:1%;height:30px; margin-left: 10px; width:250px"/>

@@ -3,7 +3,29 @@
 @section('content')
 
     <div class="container">
+        <div class="row">
+            @if(Session::has('flash_message'))
+                <div class="alert alert-success alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    <strong> {!! session('flash_message') !!} </strong>
+                </div>
+            @endif
+            @if(count($errors)>0)
+                <div class="alert alert-danger">
+                    <strong>There were some problems</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    <ul>
+                        @foreach($errors->all() as $error)
+                            <li>{{$error}}</li>
+                        @endforeach
+                    </ul>
 
+                </div>
+            @endif
+
+        </div>
         <div class="row">
             @foreach($product as $prod)
             <div class="col-md-3">
@@ -34,29 +56,38 @@
                     <div class="col-sm-6">
 
                             <h4 style="float: left">{{$prod->description}}
-                            </h4><br>
-                            <h4>RS 3000.00</h4><br>
-                            <label  class="control-label">Quantity:</label>
-                        
-                            <input style="width: 50px" type="text" class="form-control" placeholder="1">
+                             <br> <br>
+                            RS 3000.00</h4><br><br>
 
-                            <button type="button" class="btn btn-success btn-lg">
-                                Add To Cart <span class="glyphicon glyphicon-shopping-cart"></span>
-                            </button>
-                            <span class="glyphicon glyphicon-ok-sign"><label
-                                        style="margin-left: 5px; font-family: 'Arial Black'; ">IN STOCK</label></span>
-                         {{--<div class="ratings">
-                            <a href=""><p>3 reviews</p></a>
-                            <p>
-                                <span class="glyphicon glyphicon-star"></span>
-                                <span class="glyphicon glyphicon-star"></span>
-                                <span class="glyphicon glyphicon-star"></span>
-                                <span class="glyphicon glyphicon-star"></span>
-                                <span class="glyphicon glyphicon-star-empty"></span>
-                                4.0 stars
-                            </p>
-                        </div>
---}}
+                             <div class="form-group"><br>
+                                <label style="float: left;" for="quantity">Quantity:</label>
+                                <input style="width: 70px;" type="number" class="form-control" id="quantity" onblur="checkQuantity({{$prod->id}},value)">
+
+                                 <br>
+                                <a style="float: left;" id="addToCart" class="btn btn-success btn-lg"  onclick="shoppingCart({{$prod->id}})">
+                                    <span  class="glyphicon glyphicon-shopping-cart"></span>Add to Cart
+                                </a>
+
+                                @if($prod->quantity>0)
+
+                                <span class="glyphicon glyphicon-ok-sign"><label
+                                            style="margin-right: 120px;margin-top: 20px;">IN STOCK</label></span>
+
+
+
+                                @elseif($prod->quantity<=0)
+                                         <span  class="glyphicon glyphicon-warning-sign"><label
+                                                    style="margin-right: 120px;margin-top: 20px; font-family: 'Arial Black'; ">OUT OF STOCK</label></span>
+
+
+                                @endif
+                             </div>
+
+
+
+                         <br>
+                             <label id="productQuantity" style="margin-left: 5px; color: red; font-family: 'Arial Black'; "></label>
+
                     </div>
                 </div>
                 <br>
@@ -64,14 +95,14 @@
                     <div class="well">
                         <u><h3>Additional Info.</h3></u>
                         <br>
-                        <table class="table-bordered">
+                        <table border="2px" width="100%" class="table-bordered" id="productDetails">
                             <tr>
                                 <td height="50px" width="250px">SpareID</td>
                                 <td width="250px" height="50px">25482</td>
                             </tr>
                             <tr>
                                 <td>Part Number</td>
-                                <td>KFO0342501</td>
+                                <td>{{$prod->partNumber}}</td>
                             </tr>
                             <tr>
                                 <td>Manufacturer</td>
@@ -79,27 +110,27 @@
                             </tr>
                             <tr>
                                 <td height="50px" width="250px">Warranty</td>
-                                <td height="50px" width="250px">Not Applicable</td>
+                                <td height="50px" width="250px">{{$prod->warranty}}</td>
                             </tr>
                             <tr>
                                 <td height="50px" width="250px">Vehicle Brand</td>
-                                <td height="50px" width="250px">TATA</td>
+                                <td height="50px" width="250px">{{$prod->brand->brandName}}</td>
                             </tr>
                             <tr>
-                                <td>Vehicle Models</td>
-                                <td>Indica</td>
+                                <td>Vehicle Model</td>
+                                <td>{{$prod->model->modelName}}</td>
                             </tr>
                             <tr>
                                 <td>Model Year</td>
-                                <td>2008</td>
+                                <td>{{$prod->model->yearOfManufacture}}</td>
                             </tr>
                             <tr>
                                 <td>Fuel Type</td>
-                                <td>Petrol/Diesel</td>
+                                <td>{{$prod->model->fuelType}}</td>
                             </tr>
                             <tr>
                                 <td>Transmission</td>
-                                <td>Manual</td>
+                                <td>{{$prod->model->transmissionType}}</td>
                             </tr>
 
                         </table>
@@ -107,12 +138,6 @@
 
                     </div>
                 </div>
-
-
-
-
-
-
 
 
             </div>
