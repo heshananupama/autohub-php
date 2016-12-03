@@ -186,7 +186,7 @@ class searchController extends Controller
                 DB::table('cartitem')
                     ->where('id', $spare->id)
                     ->update(['quantity' => $newQuantity]);
-                return "Item quantity updated";
+                return "Item Quantity Updated";
 
                 /*   DB::update("update cartitem
          set  quantity=quantity+'$quantity'   where id = $spare->id");*/
@@ -199,7 +199,7 @@ class searchController extends Controller
                 $cartItem->save();
 
 
-                return "Item added to the cart";
+                return "Item Added to the Cart";
             }
 
 
