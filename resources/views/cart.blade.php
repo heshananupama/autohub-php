@@ -7,6 +7,8 @@
 <div class="container">
 
     <div class="row">
+        {{--<a onclick="test()" type="button" class="btn btn-success">--}}
+            {{--test <span class="glyphicon glyphicon-play"></span></a>--}}
         <div class="col-sm-12 col-md-10 col-md-offset-1">
 
                         @if(!empty ($items))
@@ -80,7 +82,7 @@
                             </a>
                         </td>
                         <td>
-                            <a href="{{route('checkout')}}" type="button" class="btn btn-success btn-lg">
+                            <a onclick="checkout(<?php echo $a ;?> )" type="button" class="btn btn-success btn-lg">
                                 Checkout <span class="glyphicon glyphicon-play"></span>
                             </a>
                         </td>
@@ -94,7 +96,9 @@
 
 
                 </tbody>
+
             </table>
+
         </div>
     </div>
 </div>

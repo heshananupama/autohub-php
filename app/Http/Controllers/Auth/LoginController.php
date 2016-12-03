@@ -31,7 +31,7 @@ class LoginController extends Controller
     protected function authenticated($request, $user)
     {
         if($user->type === 'c') {
-            return redirect('/home');
+            return redirect()->intended('home');
         }
         else if($user->type === 'a') {
             return redirect('/admin/home');

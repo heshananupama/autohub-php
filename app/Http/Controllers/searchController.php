@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Cart;
 use App\CartItem;
+use App\OrderItem;
+use App\Orders;
 use App\ShoppingCart;
 use Illuminate\Http\Request;
 
@@ -32,11 +34,16 @@ class searchController extends Controller
      */
     public function index(Request $request)
     {
-        $search = $request->searchName;
-        $spares = Spares::with('user', 'model')
-            ->where('description', 'LIKE', '%' . $request->searchName . '%')
-            ->paginate(5);
-        return View::make('browse')->with('spares', $spares)->with('search',$search);
+        $spares = null;
+        $search = "";
+        if ($request->searchName) {
+            $search = $request->searchName;
+            $spares = Spares::with('user', 'model')
+                ->where('description', 'LIKE', '%' . $request->searchName . '%')
+                ->get();
+        }
+
+        return View::make('browse')->with('spares', $spares)->with('search', $search);
 
     }
 
@@ -71,6 +78,57 @@ class searchController extends Controller
             }
 
         }
+
+    }
+
+
+    public function changeCartStatus(Request $request)
+    {
+
+        $user_id = Auth::user()->id;
+
+
+        $cart = DB::table('shoppingCart')->where('user_id', $user_id)->where('isCheckedOut', '=', 'n')->first();
+
+        $shippingAddress = $request->address;
+        $total = $request->cartTotal;
+
+        $orders = new Orders();
+        $orders->orderDate = date('Y-m-d');
+        $orders->shippingAddress = $shippingAddress;
+        $orders->orderTotal = $total;
+        $orders->user_id = $user_id;
+        $orders->save();
+
+
+        if (count($cart) == 1) {
+            $items = CartItem::with('spare', 'shoppingCart')
+                ->where('cart_id', $cart->id)->get();
+
+            foreach ($items as $item) {
+
+                $orderItem = new OrderItem();
+                $orderItem->quantity = $item->quantity;
+                $spareId = $item->spare_id;
+                $spare = Spares::find($spareId);
+                $subTotal = $item->quantity * $spare->price;
+                $orderItem->subTotal = $subTotal;
+                $order = Orders::orderBy('created_at', 'desc')->first();
+                $orderItem->order_id = $order->id;
+
+                $orderItem->save();
+
+
+            }
+
+
+        }
+
+        DB::table('shoppingCart')
+            ->where('id', $cart->id)
+            ->update(['isCheckedOut' => 'y']);
+
+
 
     }
 
@@ -150,6 +208,8 @@ class searchController extends Controller
 
         }
 
+
+
     }
 
     /**
@@ -169,8 +229,10 @@ class searchController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function getCheckout($id)
+    public function getCheckout($price)
     {
+
+        return View::make('checkout')->with('total', $price);
 
     }
 
@@ -196,9 +258,6 @@ class searchController extends Controller
         if (count($cart) == 1) {
             $items = CartItem::with('spare', 'shoppingCart')
                 ->where('cart_id', $cart->id)->get();
-
-
-
 
 
             return View::make('cart')->with('items', $items);

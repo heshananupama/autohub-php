@@ -1,4 +1,7 @@
-jQuery(document).ready(function () {
+$(document).ready(function () {
+
+
+    $('.alert-autocloseable-success').hide();
 
     /*
      Fullscreen background
@@ -146,10 +149,23 @@ function shoppingCart(id) {
             'quantity':quantity
          },
         success: function (data) {
-            alert(data);
+            document.getElementById('successMessage').innerHTML=data;
+            $('#autoclosable-btn-success').prop("disabled", true);
+            $('.alert-autocloseable-success').show();
 
+            $('.alert-autocloseable-success').delay(5000).fadeOut( "slow", function() {
+                // Animation complete.
+                $('#autoclosable-btn-success').prop("disabled", false);
+            });
         }
 
+    });
+}
+
+
+function test() {
+    $.get('https://openexchangerates.org/api/latest.json', {app_id: '2ac6b4542ae04de08defa36f68801476 '}, function(data) {
+        console.log("1 US Dollar equals " + data.rates.LKR + " British Pounds");
     });
 }
 
@@ -161,5 +177,29 @@ function deleteCartItem(id){
         setTimeout(function () {
             $modalDiv.modal('hide').removeClass('loading');
         }, 1000)
+    });
+}
+
+function checkout(totalPrice){
+    window.location.href = "/checkout/" + totalPrice;
+
+}
+
+function submitform(cartTotal )
+{
+    var address=$("#address").val();
+
+    $.ajax({
+        type: 'get',
+        url: ('/cart/changeStatus'),
+        data: {
+            'address':address,
+            'cartTotal':cartTotal,
+          },
+        success: function (data) {
+            document.theForm.submit();
+
+        }
+
     });
 }

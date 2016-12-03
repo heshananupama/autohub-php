@@ -35,7 +35,7 @@ Route::get('/productInfo/{id}',['uses'=>'searchController@loadProduct',
 
 });*/
 
-Route::get('/checkout',['uses'=>'searchController@getCheckout','as'=>'checkout']);
+Route::get('/checkout/{price}','searchController@getCheckout');
 
 Route::get('/productInfo/{id}/addToCart','searchController@addToCart');
 
@@ -55,7 +55,6 @@ Route::get('/browse', 'searchController@index');
 
 
 
-Route::get('/cart','searchController@viewCart' );
 
 
 Route::get('/car-brands/bmw', function () {
@@ -125,10 +124,14 @@ Route::group(['middleware' =>  'App\Http\Middleware\Admin'], function () {
 Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/feedback', function () {
-        if (Auth::guest()) {
-            return redirect()->guest('login');
-        }
-     });
+        return view('Feedback');
+
+    });
+
+    Route::get('/cart','searchController@viewCart' );
+    Route::get('/cart/changeStatus','searchController@changeCartStatus' );
+
+
 
 
 });

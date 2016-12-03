@@ -31,7 +31,7 @@ class Spares extends Model
 
 
 
-    public function shoppingCart()
+    public function cartItem()
     {
         return $this->hasMany('App\CartItem');
 

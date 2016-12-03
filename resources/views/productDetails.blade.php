@@ -3,6 +3,12 @@
 @section('content')
 
     <div class="container">
+        <div class="col-xs-6 col-xs-offset-3">
+            <!-- Success messages -->
+            <div class="alert alert-success alert-autocloseable-success" id="successMessage">
+            </div>
+
+        </div>
         <div class="row">
             @if(Session::has('flash_message'))
                 <div class="alert alert-success alert-dismissible" role="alert">
@@ -26,6 +32,7 @@
             @endif
 
         </div>
+
         <div class="row">
             @foreach($product as $prod)
             <div class="col-md-3">
@@ -57,7 +64,7 @@
 
                             <h4 style="float: left">{{$prod->description}}
                              <br> <br>
-                            RS 3000.00</h4><br><br>
+                                Rs. {{$prod->price}}.00</h4><br><br>
 
                              <div class="form-group"><br>
                                 <label style="float: left;" for="quantity">Quantity:</label>
