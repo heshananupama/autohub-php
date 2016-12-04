@@ -122,16 +122,17 @@ function checkQuantity(id,value) {
         type: 'get',
         url: ('/productInfo/id/checkQuantity'),
         data: {'quantity': value,
-               'productId':id
+            'productId':id
         },
         success: function (data) {
             if(data!="false"){
                 alert("There are only remaining "+data+" units");
-                document.getElementById("addToCart").disabled=true;
+
+                $("#addToCart").prop("disabled",true);
 
             }
-              else if (data=="false"){
-                  document.getElementById("addToCart").disabled=false;
+            else if (data=="false"){
+                document.getElementById("addToCart").disabled=false;
             }
         }
 
@@ -140,6 +141,10 @@ function checkQuantity(id,value) {
 
 function shoppingCart(id) {
     var quantity=document.getElementById("quantity").value;
+    if(quantity==""){
+        quantity=1;
+    }
+
     console.log(quantity);
     $.ajax({
         type: 'get',
@@ -147,8 +152,9 @@ function shoppingCart(id) {
         data: {
             'id': id,
             'quantity':quantity
-         },
+        },
         success: function (data) {
+
             document.getElementById('successMessage').innerHTML=data;
             $('#autoclosable-btn-success').prop("disabled", true);
             $('.alert-autocloseable-success').show();
@@ -195,11 +201,31 @@ function submitform(cartTotal )
         data: {
             'address':address,
             'cartTotal':cartTotal,
-          },
+        },
         success: function (data) {
             document.theForm.submit();
 
         }
 
     });
+}
+
+function loadOrderItems(orderId) {
+    window.location.href = "/feedback/" + orderId;
+
+
+
+    /*$.ajax({
+        type: 'get',
+        url: ('/feedback/getItems'),
+        data: {'orderId': orderId},
+        success: function (data) {
+            // $('#tableFeedback').html("");
+            $('#tableFeedback').html(data);
+
+
+        }
+
+
+    });*/
 }

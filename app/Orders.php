@@ -16,4 +16,8 @@ class Orders extends Model
         'password', 'remember_token',
     ];
 
+    public function orderItem()
+    {
+        return $this->hasMany('App\OrderItem','order_id');
+    }
 }

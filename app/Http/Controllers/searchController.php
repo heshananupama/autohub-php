@@ -39,9 +39,9 @@ class searchController extends Controller
         if ($request->searchName) {
             $search = $request->searchName;
             $spares = Spares::with('user', 'model')
-                ->where('description', 'LIKE', '%' . $request->searchName . '%')
-                ->get();
-        }
+                ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber','LIKE','%'.$request->searchName.'%')->get();
+
+         }
 
         return View::make('browse')->with('spares', $spares)->with('search', $search);
 
@@ -109,6 +109,7 @@ class searchController extends Controller
 
                 $orderItem = new OrderItem();
                 $orderItem->quantity = $item->quantity;
+                $orderItem->spare_id= $item->spare_id;
                 $spareId = $item->spare_id;
                 $spare = Spares::find($spareId);
                 $subTotal = $item->quantity * $spare->price;
@@ -117,7 +118,12 @@ class searchController extends Controller
                 $orderItem->order_id = $order->id;
 
                 $orderItem->save();
+                 $spare=Spares::find($item->spare_id);
+                $newQuantity=$spare->quantity - $item->quantity;
 
+                DB::table('spares')
+                    ->where('id', $item->spare_id)
+                    ->update(['quantity' => $newQuantity]);
 
             }
 
@@ -128,6 +134,13 @@ class searchController extends Controller
             ->where('id', $cart->id)
             ->update(['isCheckedOut' => 'y']);
 
+      /*  DB::table('spares')
+            ->where('id', $cart->id)
+            ->update(['isCheckedOut' => 'y']);*/
+
+
+/*        DB::update("update spares
+         set  quantity=quantity-'$quantity'  where id = $spareId");*/
 
 
     }
@@ -178,6 +191,7 @@ class searchController extends Controller
                 $shoppingCart->save();
             }
 
+
             $cart = DB::table('shoppingCart')->where('user_id', $user_id)->where('isCheckedOut', '=', 'n')->first();
             $spare = DB::table('cartItem')->where('spare_id', $spareId)->where('cart_id', $cart->id)->first();
             if (count($spare)) {
@@ -203,8 +217,7 @@ class searchController extends Controller
             }
 
 
-            /*  DB::update("update spares
-         set  quantity=quantity-'$quantity'  where id = $spareId");*/
+
 
         }
 

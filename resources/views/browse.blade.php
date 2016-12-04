@@ -6,7 +6,7 @@
         <div class="panel-heading">Refinements</div>
         <div class="panel-body">
             <div class="row">
-                <div class="col-sm-2">
+                <div class="col-xs-2">
                     <div class="form-group">
                         <label for="condition" class="control-label">
                             Condition</label>
@@ -19,7 +19,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-sm-2">
+                <div class="col-xs-2">
 
                     <div class="form-group">
                         <label for="condition" class="control-label">
@@ -31,7 +31,7 @@
 
                 </div>
 
-                <div class="col-sm-2">
+                <div class="col-xs-2">
 
                     <div class="form-group">
                         <label for="condition" class="control-label">
@@ -44,7 +44,7 @@
                     </div>
 
                 </div>
-                <div class="col-sm-2">
+                <div class="col-xs-2">
                     <div class="form-group">
                         <label for="SortBy" class="control-label">
                             Sort By</label>
@@ -58,7 +58,7 @@
                     </div>
                 </div>
 
-                <div class="col-sm-2">
+                <div class="col-xs-2">
 
                     <div class="form-group">
                         <label for="condition" class="control-label">
@@ -76,7 +76,7 @@
 
                 </div>
 
-                <div class="col-sm-2">
+                <div class="col-xs-2">
                     <div class="form-group">
                         <label for="condition" class="control-label">
                             Part Category</label>
@@ -116,7 +116,7 @@
 
      <div class="container">
         <div class="row">
-            <div class="col-sm-12 col-md-10 col-md-offset-1">
+            <div class="col-xs-12">
                 <table class="table table-hover">
 
                     <tbody>
@@ -125,7 +125,7 @@
                         @foreach($spares as $spare)
 
                             <tr>
-                                <td class="col-md-6">
+                                <td class="col-xs-6">
                                     <div class="media">
                                         <a class="thumbnail pull-left" href='{{ url("/productInfo/$spare->id") }}'> <img
                                                     class="media-object"
@@ -141,8 +141,8 @@
                                     </div>
                                 </td>
 
-                                <td class="col-md-1 text-center"><strong>Rs. {{$spare->price}}/=</strong></td>
-                                <td class="col-md-1">
+                                <td class="col-xs-1 text-center"><strong>Rs. {{$spare->price}}/=</strong></td>
+                                <td class="col-xs-1">
                                     <button type="button" class="btn btn-success"
                                             onclick="shoppingCart({{$spare->id}})">
                                         <span class="glyphicon glyphicon-shopping-cart"></span> Add to Cart

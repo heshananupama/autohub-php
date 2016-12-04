@@ -55,11 +55,27 @@ Route::get('/browse', 'searchController@index');
 
 
 
-
-
 Route::get('/car-brands/bmw', function () {
     return view('vehicleBrands');
 });
+
+Route::group(['middleware' => 'auth'], function () {
+
+    Route::get('/feedback', 'ordersController@index');
+    Route::get('/feedback/{id}', 'ordersController@show');
+    Route::get('/feedback/getDate', 'ordersController@getDate');
+
+    Route::get('/cart','searchController@viewCart' );
+    Route::get('/cart/changeStatus','searchController@changeCartStatus' );
+
+
+
+
+});
+
+
+
+
 
 
 //Admin Routes
@@ -121,20 +137,7 @@ Route::group(['middleware' =>  'App\Http\Middleware\Admin'], function () {
 
 });
 
-Route::group(['middleware' => 'auth'], function () {
 
-    Route::get('/feedback', function () {
-        return view('Feedback');
-
-    });
-
-    Route::get('/cart','searchController@viewCart' );
-    Route::get('/cart/changeStatus','searchController@changeCartStatus' );
-
-
-
-
-});
 
 Auth::routes();
 

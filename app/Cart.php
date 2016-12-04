@@ -1,5 +1,5 @@
 <?php
-namespace App;
+/*namespace App;
 class Cart
 {
     public $totalQuantity;
@@ -19,4 +19,4 @@ class Cart
         $this->totalQuantity=$this->totalQuantity+1;
 
     }
-}
+}*/

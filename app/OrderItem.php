@@ -17,4 +17,14 @@ class OrderItem extends Model
         'password', 'remember_token',
     ];
 
+    public function order()
+    {
+        return $this->belongsTo('App\Orders');
+    }
+
+    public function spare()
+    {
+        return $this->belongsTo('App\Spares','spare_id');
+
+    }
 }

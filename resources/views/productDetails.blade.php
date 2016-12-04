@@ -71,9 +71,9 @@
                                 <input style="width: 70px;" type="number" class="form-control" id="quantity" onblur="checkQuantity({{$prod->id}},value)">
 
                                  <br>
-                                <a style="float: left;" id="addToCart" class="btn btn-success btn-lg"  onclick="shoppingCart({{$prod->id}})">
+                                <button style="float: left;" id="addToCart" class="btn btn-success btn-lg"  onclick="shoppingCart({{$prod->id}})">
                                     <span  class="glyphicon glyphicon-shopping-cart"></span>Add to Cart
-                                </a>
+                                </button>
 
                                 @if($prod->quantity>0)
 
@@ -105,7 +105,7 @@
                         <table border="2px" width="100%" class="table-bordered" id="productDetails">
                             <tr>
                                 <td height="50px" width="250px">SpareID</td>
-                                <td width="250px" height="50px">25482</td>
+                                <td width="250px" height="50px">{{$prod->id}}</td>
                             </tr>
                             <tr>
                                 <td>Part Number</td>

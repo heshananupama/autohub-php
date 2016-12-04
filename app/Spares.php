@@ -37,6 +37,12 @@ class Spares extends Model
 
     }
 
+    public function orderItem()
+    {
+        return $this->hasMany('App\OrderItem');
+
+    }
+
 
     public function model()
     {
