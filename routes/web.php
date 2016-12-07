@@ -29,11 +29,6 @@ Route::get('/home', function () {
 Route::get('/productInfo/{id}',['uses'=>'searchController@loadProduct',
     'as'=>'product.index'] );
 
-/*Route::group(['middleware' => 'web'], function () {
-    Route::get('/productInfo/{id}/addToCart',['uses'=>'searchController@getAddToCart',
-        'as'=>'product.addToCart'] );
-
-});*/
 
 Route::get('/checkout/{price}','searchController@getCheckout');
 
@@ -63,6 +58,10 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/feedback', 'ordersController@index');
     Route::get('/feedback/{id}', 'ordersController@show');
+    Route::get('/feedback/{id}/saveReview', 'ordersController@saveReview');
+    Route::get('/feedback/{id}/saveComplain', 'ordersController@saveComplain');
+
+
     Route::get('/feedback/getDate', 'ordersController@getDate');
 
     Route::get('/cart','searchController@viewCart' );
@@ -148,7 +147,16 @@ Route::group(['middleware' => 'App\Http\Middleware\Retailer'], function () {
         return view('Retailer/home');
     });
 
+    Route::get("/retailer/orders", 'retailerController@loadOrders');
+    Route::get("/retailer/orders/changeStatus", 'retailerController@changeOrderItemStatus');
+
+
+
+    Route::get("/retailer/complains", 'retailerController@complains');
+
     Route::post("/retailer/spares", 'sparesController@store');
+
+
     Route::post("/retailer/spares/edit", 'sparesController@edit');
 
     Route::get('/retailer/spares/delete/{id}', 'sparesController@destroy');

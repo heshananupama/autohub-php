@@ -4,14 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Orders;
 use App\Spares;
+use App\Feedback;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Requests;
+ use Illuminate\Http\Request;
+ use App\Http\Requests;
 use App\OrderItem;
 use Illuminate\Support\Facades\View;
 use App;
 use DB;
+use Auth;
 
 class ordersController extends Controller
 {
@@ -38,9 +39,42 @@ class ordersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function saveReview(Request $request)
     {
-        //
+        $user_id = Auth::user()->id;
+
+        $orderItemId=$request->orderItemId;
+        $starValue=$request->starValue;
+        $review=$request->review;
+        $feedback=new Feedback();
+        $feedback->orderItem_id=$orderItemId;
+        $feedback->rating=$starValue;
+        $feedback->user_id=$user_id;
+        $feedback->description=$review;
+        $feedback->feedbackType="Review";
+
+        $feedback->save();
+        return "feedback added Successfully";
+
+     }
+    public function saveComplain(Request $request)
+    {
+        $user_id = Auth::user()->id;
+        $phoneNumber=$request->phoneNumber;
+
+        $orderItemId=$request->orderItemId;
+         $complain=$request->complain;
+        $feedback=new Feedback();
+        $feedback->orderItem_id=$orderItemId;
+         $feedback->user_id=$user_id;
+        $feedback->phoneNumber=$phoneNumber;
+
+        $feedback->description=$complain;
+        $feedback->feedbackType="Complain";
+
+        $feedback->save();
+        return "feedback added Successfully";
+
     }
 
     /**
@@ -64,6 +98,9 @@ class ordersController extends Controller
     {
         $user_id= Auth::user()->id;
 
+        $orderDate= DB::table('orders')->where('id', $OrderId)->value('orderDate');
+
+
         $orders=App\Orders::where('user_id', $user_id)
             ->get();
 
@@ -74,7 +111,7 @@ class ordersController extends Controller
 
 
 
-            return View::make('feedback')->with('orderItems', $orderItems)->with('orders', $orders);
+            return View::make('feedback')->with('orderItems', $orderItems)->with('orders', $orders)->with('orderDate',$orderDate);
 
 
         /*if ($request->ajax()){

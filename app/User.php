@@ -35,4 +35,9 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Spares');
     }
+
+    public function feedback()
+    {
+        return $this->hasMany('App\Feedback');
+    }
 }

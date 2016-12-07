@@ -172,10 +172,10 @@
                     <a href="{{url('/retailer/spares')}}"><i class="fa fa-fw fa-table"></i> Spares</a>
                 </li>
                 <li>
-                    <a href=" "><i class="fa fa-fw fa-edit"></i> Feedbacks and Enquiries</a>
+                    <a href="{{url('/retailer/complains')}}"><i class="fa fa-fw fa-edit"></i> Complains</a>
                 </li>
                 <li>
-                    <a href=" "><i class="fa fa-fw fa-desktop"></i> Bootstrap Elements</a>
+                    <a href="{{url('/retailer/orders')}} "><i class="fa fa-fw fa-cab"></i> orders</a>
                 </li>
                 <li>
                     <a href=" "><i class="fa fa-fw fa-wrench"></i> Bootstrap Grid</a>

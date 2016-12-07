@@ -13,7 +13,6 @@
     <!-- Styles -->
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/brandStyles.css">
-
     <!-- Scripts -->
     <script src="/js/jquery-2.2.3.min.js"></script>
 

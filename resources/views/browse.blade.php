@@ -3,8 +3,11 @@
 @section('content')
     <h1 style="font-family: Calibri;font-size: 40px" align="center">Search Results for " {{$search}} "</h1><br>
     <div class="panel-default" style="margin:20px 100px;">
+{{--
         <div class="panel-heading">Refinements</div>
+--}}
         <div class="panel-body">
+{{--
             <div class="row">
                 <div class="col-xs-2">
                     <div class="form-group">
@@ -103,6 +106,7 @@
                     </div>
                 </div>
             </div>
+--}}
 
         </div>
     </div>

@@ -1,178 +1,181 @@
 @extends('Retailer/index')
 
 @section('content')
-    <div id="page-wrapper">
-        <div class="container-fluid">
-            <div class="row">
-                @if(Session::has('flash_message'))
-                    <div class="alert alert-success alert-dismissible" role="alert">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
-                                    aria-hidden="true">&times;</span></button>
-                        <strong> {!! session('flash_message') !!} </strong>
-                    </div>
-                @endif
-                @if(count($errors)>0)
-                    <div class="alert alert-danger">
-                        <strong>There were some problems</strong>
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
-                                    aria-hidden="true">&times;</span></button>
-                        <ul>
-                            @foreach($errors->all() as $error)
-                                <li>{{$error}}</li>
-                            @endforeach
-                        </ul>
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    @if(Session::has('flash_message'))
+                        <div class="alert alert-success alert-dismissible" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                                        aria-hidden="true">&times;</span></button>
+                            <strong> {!! session('flash_message') !!} </strong>
+                        </div>
+                    @endif
+                    @if(count($errors)>0)
+                        <div class="alert alert-danger">
+                            <strong>There were some problems</strong>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                                        aria-hidden="true">&times;</span></button>
+                            <ul>
+                                @foreach($errors->all() as $error)
+                                    <li>{{$error}}</li>
+                                @endforeach
+                            </ul>
 
-                    </div>
-                @endif
-
-            </div>
-            <h2><strong>Manage Spares </strong></h2><br>
-           {{-- <div class="row"><br>
-
-                <div class="col-sm-3">
-                    <div class="form-group">
-                        <label for="SortBy" class="control-label">
-                            Sort By</label>
-
-                        <select id="sortby" name="sortby" type="text"
-                                class="form-control" required>
-                            <option value="">Name</option>
-                            <option value="">Part Category</option>
-                            <option value="">Quantity</option>
-                        </select>
-
-                    </div>
-
+                        </div>
+                    @endif
 
                 </div>
+                <h2><strong>Manage Spares </strong></h2><br>
+               {{-- <div class="row"><br>
 
-                <div class="col-sm-3">
-                    <div class="form-group">
-                        <label for="SortBy" class="control-label">
-                            Vehicle Brand</label>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label for="SortBy" class="control-label">
+                                Sort By</label>
 
-                        <select id="brand" name="price" type="text"
-                                class="form-control" onchange="getBrands(this.value)" required>
-                            <option value="">Select a Brand</option>
-                            @foreach($brands as $brand)
-                                <option value="{{ $brand->brandName}}">{{ $brand->brandName}}</option>
+                            <select id="sortby" name="sortby" type="text"
+                                    class="form-control" required>
+                                <option value="">Name</option>
+                                <option value="">Part Category</option>
+                                <option value="">Quantity</option>
+                            </select>
 
-                            @endforeach
-                        </select>
+                        </div>
+
+
+                    </div>
+
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label for="SortBy" class="control-label">
+                                Vehicle Brand</label>
+
+                            <select id="brand" name="price" type="text"
+                                    class="form-control" onchange="getBrands(this.value)" required>
+                                <option value="">Select a Brand</option>
+                                @foreach($brands as $brand)
+                                    <option value="{{ $brand->brandName}}">{{ $brand->brandName}}</option>
+
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label for="SortBy" class="control-label">
+                                Vehicle Model</label>
+
+                            <select id="model" name="model" type="text"
+                                    class="form-control" required>
+                                <option value="">Select a Model</option>
+
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label for="condition" class="control-label">
+                                Condition</label>
+
+                            <select id="condition" name="condition" type="text"
+                                    class="form-control" required>
+                                <option value="">Any Condition</option>
+                                <option value="">Brand New</option>
+                                <option value="">Re-Condition</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </div>--}}
+                <div class="table-responsive ">
+                    <table class="table table-bordered  table-inverse" id="spareTable">
+
+
+                        <tr>
+                            <th>Part Number</th>
+                            <th>Name</th>
+                            <th>Brand</th>
+                            <th>Model</th>
+                            <th>Spare Category</th>
+
+                            <th>year</th>
+                            <th>FuelType</th>
+                            <th>Transmission Type</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Warranty</th>
+                            <th>Spare Image</th>
+                            <th>
+                                <input type="text" class="form-control" id="search" placeholder="Search Spare">
+                            </th>
+                        </tr>
+                        <tbody id="tableModel">
+
+                        @foreach($spares as $spare)
+
+                                 <tr>
+                                    <td>{{$spare->partNumber}}</td>
+                                    <td>{{ $spare->description}}</td>
+
+                                    <td>
+                                        {{$spare->brand->brandName}}
+                                    </td>
+                                    <td>{{$spare->model->modelName}}</td>
+                                     <td>{{$spare->category->categoryName}}</td>
+                                    <td>{{$spare->model->yearOfManufacture}}</td>
+
+                                    <td>{{$spare->model->fuelType}}</td>
+                                    <td>{{$spare->model->transmissionType}}</td>
+
+                                    <td>{{$spare->quantity}}</td>
+                                    <td>{{'Rs.'. $spare->price}}</td>
+                                    <td>{{$spare->warranty}}</td>
+
+
+                                    <td>
+                                        <div class="image">
+                                            <a href="{{ asset("/Images/spares/$spare->imagePath") }}"><img style="width: 50px;height: 50px;"
+                                                            src='{{ asset("images/spares/$spare->imagePath") }}'></a>
+                                        </div>
+                                    </td>
+                                    <td>
+
+                                        <a style="margin-bottom: 5px;" onclick="EditSpare({{$spare->id}},'{{$spare->partNumber}}','{{$spare->description}}','{{$spare->brand->brandName}}','{{$spare->quantity}}','{{$spare->price}}','{{$spare->warranty}}','{{$spare->category->categoryName}}')" class=" btn btn-success btn-xs" data-toggle="modal" data-target="#modalEdit">Edit </a>
+
+                                        <a onclick="DeleteSpare({{$spare->id}})" style=""
+                                           class=" btn btn-danger btn-xs">Delete </a>
+
+                                    </td>
+
+                                </tr>
+
+
+                        @endforeach
+                        </tbody>
+
+
+                    </table>
+                    <div style="text-align: center">
+                        {{ $spares->links() }}
+
                     </div>
                 </div>
 
-                <div class="col-sm-3">
-                    <div class="form-group">
-                        <label for="SortBy" class="control-label">
-                            Vehicle Model</label>
 
-                        <select id="model" name="model" type="text"
-                                class="form-control" required>
-                            <option value="">Select a Model</option>
-
-                        </select>
-                    </div>
-
-                </div>
-
-                <div class="col-sm-3">
-                    <div class="form-group">
-                        <label for="condition" class="control-label">
-                            Condition</label>
-
-                        <select id="condition" name="condition" type="text"
-                                class="form-control" required>
-                            <option value="">Any Condition</option>
-                            <option value="">Brand New</option>
-                            <option value="">Re-Condition</option>
-                        </select>
-                    </div>
-                </div>
-
-            </div>--}}
-            <div class="table-responsive ">
-                <table class="table table-bordered  table-inverse" id="spareTable">
-
-
-                    <tr>
-                        <th>Part Number</th>
-                        <th>Name</th>
-                        <th>Brand</th>
-                        <th>Model</th>
-                        <th>year</th>
-                        <th>FuelType</th>
-                        <th>Transmission Type</th>
-                        <th>Quantity</th>
-                        <th>Price</th>
-                        <th>Warranty</th>
-                        <th>Spare Image</th>
-                        <th>
-                            <input type="text" class="form-control" id="search" placeholder="Search Spare">
-                        </th>
-                    </tr>
-                    <tbody id="tableModel">
-
-                    @foreach($spares as $spare)
-
-                             <tr>
-                                <td>{{$spare->partNumber}}</td>
-                                <td>{{ $spare->description}}</td>
-
-                                <td>
-                                    {{$spare->brand->brandName}}
-                                </td>
-                                <td>{{$spare->model->modelName}}</td>
-                                <td>{{$spare->model->yearOfManufacture}}</td>
-
-                                <td>{{$spare->model->fuelType}}</td>
-                                <td>{{$spare->model->transmissionType}}</td>
-
-                                <td>{{$spare->quantity}}</td>
-                                <td>{{'Rs.'. $spare->price}}</td>
-                                <td>{{$spare->warranty}}</td>
-
-
-                                <td>
-                                    <div class="image">
-                                        <a href="{{ asset("/Images/spares/$spare->imagePath") }}"><img style="width: 50px;height: 50px;"
-                                                        src='{{ asset("images/spares/$spare->imagePath") }}'></a>
-                                    </div>
-                                </td>
-                                <td>
-
-                                    <a style="margin-bottom: 5px;" onclick="EditSpare({{$spare->id}},'{{$spare->partNumber}}','{{$spare->description}}','{{$spare->brand->brandName}}','{{$spare->quantity}}','{{$spare->price}}','{{$spare->warranty}}')" class=" btn btn-success btn-xs" data-toggle="modal" data-target="#modalEdit">Edit </a>
-
-                                    <a onclick="DeleteSpare({{$spare->id}})" style=""
-                                       class=" btn btn-danger btn-xs">Delete </a>
-
-                                </td>
-
-                            </tr>
-
-
-                    @endforeach
-                    </tbody>
-
-
-                </table>
                 <div style="text-align: center">
-                    {{ $spares->links() }}
-
+                    <button style="margin-top: 10px;" class="btn btn-success btn-md" data-toggle="modal"
+                            data-target="#modalSpare">Add New
+                    </button>
                 </div>
+
             </div>
 
-
-            <div style="text-align: center">
-                <button style="margin-top: 10px;" class="btn btn-success btn-md" data-toggle="modal"
-                        data-target="#modalSpare">Add New
-                </button>
-            </div>
 
         </div>
-
-
-    </div>
 
     {{--add new spare modal--}}
 
@@ -216,6 +219,16 @@
                                     <select id="newModel" name="modelId" type="text"
                                             class="form-control" required>
                                         <option value=""> Model-Transmission-Year-Fuel-Engine</option>
+
+                                    </select>
+
+                                    <select id="newCategory" name="categoryId" type="text"
+                                            class="form-control" required>
+                                        <option value="">Select a Category</option>
+                                        @foreach($categories as $category)
+                                            <option value="{{ $category->id}}">{{ $category->categoryName}}</option>
+
+                                        @endforeach
 
                                     </select>
 
@@ -325,6 +338,15 @@
                                         <option value="">Select a Brand</option>
                                         @foreach($brands as $brand)
                                             <option value="{{ $brand->id}}">{{ $brand->brandName}}</option>
+
+                                        @endforeach
+                                    </select>
+
+                                    <select id="categoryEdit" name="categoryId" class="form-control"
+                                             required>
+                                        <option value="">Select a Category</option>
+                                        @foreach($categories as $category)
+                                            <option value="{{ $category->id}}">{{$category->categoryName}}</option>
 
                                         @endforeach
                                     </select>

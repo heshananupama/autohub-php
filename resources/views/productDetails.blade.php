@@ -139,6 +139,11 @@
                                 <td>Transmission</td>
                                 <td>{{$prod->model->transmissionType}}</td>
                             </tr>
+                            <tr>
+                                <td>Category</td>
+                                <td>{{$prod->category->categoryName}}</td>
+
+                            </tr>
 
                         </table>
 
@@ -148,9 +153,74 @@
 
 
             </div>
-@endforeach
+        @endforeach
+        </div>
+        <div>
+            <br>
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-9">
+                        <h3><u>Product Reviews</u></h3><br><br>
+                        @foreach($reviewItems as $reviewItem)
+                            <div class="container">
+
+                                <div class="row">
+                                    <div class="col-sm-4">
+
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <div class="thumbnail">
+                                            <img class="img-responsive user-photo" src="/images/user.png">
+                                        </div><!-- /thumbnail -->
+                                    </div><!-- /col-sm-1 -->
+
+                                    <div class="col-sm-6">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <strong>{{$reviewItem->name}}</strong> <span class="text-muted">Purchased on {{ $reviewItem->created_at}}</span>
+                                            </div>
+                                            <div class="panel-body">
+                                                {{$reviewItem->description}}
+
+                                            </div>
+                                                 <div >
+                                                    <div style="margin: 0px;" class="stars starrr"  data-rating="{{$reviewItem->rating}}"></div>
+                                                </div>
+                                            </div>
+                                            <!-- /panel-body -->
+                                        </div><!-- /panel panel-default -->
+
+
+
+
+                                    </div><!-- /col-sm-5 -->
+
+
+
+
+                                    <div class="col-sm-1">
+
+                                    </div>
+
+
+                                </div><!-- /row -->
+
+                            </div><!-- /container -->
+
+
+                        @endforeach
+
+                    </div>
+
+                    <div class="col-sm-3">
+
+                    </div>
+                </div>
+
+            </div>
+
         </div>
 
     </div>
-
+    <br>
     @endsection

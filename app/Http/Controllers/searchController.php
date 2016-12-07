@@ -9,18 +9,14 @@ use App\Orders;
 use App\ShoppingCart;
 use Illuminate\Http\Request;
 
-use App\Http\Requests\SpareDataRequest;
-use App\Http\Requests;
+
 use App\Spares;
-use App\Retailers;
 
 
 use Auth;
-use Illuminate\Support\Facades\Session;
-use Log;
-use App\User;
-use Illuminate\Support\Facades\Redirect;
-
+ use Log;
+ use Illuminate\Support\Facades\Redirect;
+use App;
 use Illuminate\Support\Facades\DB;
 
 use Illuminate\Support\Facades\View;
@@ -50,11 +46,19 @@ class searchController extends Controller
     public function loadProduct($id)
     {
 
-        $product = Spares::with('brand', 'model')
+        $product = Spares::with('brand', 'model','category')
             ->where('id', $id)->get();
 
+        $orderItems = DB::table('feedback')
+            ->join('orderItem', 'feedback.orderItem_id', '=', 'orderItem.id')->join('users', 'feedback.user_id', '=', 'users.id')->get();
 
-        return View::make('productDetails')->with('product', $product);
+
+        foreach ($orderItems as $key=>$orderItem) {
+            if (($orderItem->spare_id) != $id) {
+                unset($orderItems[$key]);
+            }
+        }
+         return View::make('productDetails')->with('product', $product)->with('reviewItems', $orderItems);
 
     }
 

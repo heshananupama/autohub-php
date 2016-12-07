@@ -11,7 +11,7 @@ class Spares extends Model
     protected $table='spares';
 
     protected $fillable = [
-        'id','partNumber','quantity','price','warranty','retailer_id','brand_id','model_id','image','description'
+        'id','partNumber','quantity','price','warranty','retailer_id','brand_id','model_id','category_id','image','description'
     ];
 
     protected $hidden = [
@@ -47,5 +47,10 @@ class Spares extends Model
     public function model()
     {
         return $this->belongsTo('App\Models');
+    }
+
+    public function category()
+    {
+        return $this->belongsTo('App\Categories');
     }
 }

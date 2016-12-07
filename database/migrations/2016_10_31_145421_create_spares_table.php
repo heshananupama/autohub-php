@@ -23,6 +23,7 @@ class CreateSparesTable extends Migration
             $table->integer('retailer_id')->unsigned();
             $table->integer('brand_id')->unsigned();
             $table->integer('model_id')->unsigned();
+            $table->integer('category_id')->unsigned();
 
 
             $table->string('description');
@@ -32,6 +33,8 @@ class CreateSparesTable extends Migration
             $table->foreign('retailer_id')->references('id')->on('users');
             $table->foreign('brand_id')->references('id')->on('brands');
             $table->foreign('model_id')->references('id')->on('models');
+            $table->foreign('category_id')->references('id')->on('categories');
+
 
 
         });

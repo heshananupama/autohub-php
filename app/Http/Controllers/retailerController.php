@@ -4,11 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
-
+use App;
 use App\Http\Requests;
 use App\User;
+use App\Spares;
+use App\OrderItem;
+use App\Feedback;
+use Illuminate\Support\Facades\View;
 use App\Retailer;
+use Auth;
 use App\Http\Requests\RegisterRetailerDataRequest;
+use Mockery\CountValidator\Exception;
 
 class retailerController extends Controller
 {
@@ -70,9 +76,30 @@ class retailerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function complains()
     {
-        //
+        $user_id= Auth::user()->id;
+
+
+
+        $orderItems = DB::table('feedback')->where('feedbackType','=', "Complain")
+            ->join('orderItem', 'feedback.orderItem_id', '=', 'orderItem.id') ->join('users', 'feedback.user_id', '=', 'users.id')->get();
+
+        foreach ($orderItems as $key=>$orderItem){
+             $spare=Spares::find($orderItem->spare_id);
+            if($spare->retailer_id!=$user_id){
+                unset($orderItems[$key]);
+
+            }
+            else{
+                $orderItems[$key]->spdescription=$spare->description;
+                $orderItems[$key]->imagePath=$spare->imagePath;
+
+            }
+         }
+
+         return View::make('Retailer/complains')->with('complains', $orderItems);
+
     }
 
     /**
@@ -81,9 +108,14 @@ class retailerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function loadOrders()
     {
-        //
+
+
+        $orderItems = OrderItem::with('spare', 'order')->get();
+
+
+        return View::make('Retailer/Orders')->with('orderItems', $orderItems);
     }
 
     /**
@@ -93,9 +125,20 @@ class retailerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function changeOrderItemStatus(Request $request)
     {
-        //
+        $orderItemId=$request->orderItemId;
+        $orderItemStatus=$request->orderItemStatus;
+        try{
+            DB::table('orderItem')
+                ->where('id', $orderItemId)
+                ->update(['orderStatus' => $orderItemStatus]);
+            return "Order Status Changed Successfully";
+        }
+        catch (Exception $e){
+
+    }
+
     }
 
     /**

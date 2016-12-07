@@ -17,6 +17,7 @@ class CreateRetailerTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->string('contactNo');
+            $table->date('feedbackDate');
 
             $table->string('address');
             $table->string('shopName');

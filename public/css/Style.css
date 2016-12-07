@@ -330,3 +330,24 @@ img { max-width: 100%; }
 font-style: normal;
 color:whitesmoke;
 } /* first column */
+
+.animated {
+	-webkit-transition: height 0.2s;
+	-moz-transition: height 0.2s;
+	transition: height 0.2s;
+}
+
+.stars
+{
+	margin: 20px 0;
+	font-size: 24px;
+	color: #d17581;
+}
+
+
+
+
+
+
+
+

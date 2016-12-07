@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests\SpareDataRequest;
 use App\Http\Requests;
 use App\Spares;
+use App\Categories;
+
 use App\Models;
 use Auth;
 use Log;
@@ -50,7 +52,9 @@ class sparesController extends Controller
             $Spare=new Spares;
             $Spare->model_id=$request->get('modelId');
             $Spare->brand_id=$request->get('brandId');
-            $Spare->partNumber=$request->get('partNumber');
+            $Spare->category_id=$request->get('categoryId');
+
+        $Spare->partNumber=$request->get('partNumber');
             $Spare->warranty=$request->get('warranty');
             $Spare->retailer_id=$request->get('retailerId');
             $Spare->quantity=$request->get('quantity');
@@ -98,6 +102,7 @@ class sparesController extends Controller
         $id=$request->get('id');
         $model_id=$request->get('modelId');
         $brand_id=$request->get('brandId');
+        $category_id=$request->get('categoryId');
         $partNumber=$request->get('partNumber');
         $warranty=$request->get('warranty');
         $quantity=$request->get('quantity');
@@ -113,7 +118,7 @@ class sparesController extends Controller
 
         }
         DB::update("update spares 
-        set partNumber = '$partNumber' , quantity='$quantity', imagePath='$imagePath'  , price='$price'  , quantity= '$quantity' , warranty= '$warranty' , description='$description'  , brand_id='$brand_id',model_id='$model_id'   where id = $id");
+        set partNumber = '$partNumber' , quantity='$quantity', imagePath='$imagePath'  , price='$price'  , quantity= '$quantity' , warranty= '$warranty' , description='$description'  , brand_id='$brand_id',model_id='$model_id',category_id='$category_id'   where id = $id");
         \Session::flash('flash_message','Updated Successfully.'); //<--FLASH MESSAGE
 
         return redirect()->back();
@@ -148,16 +153,18 @@ class sparesController extends Controller
 
         $brands=Brands::all();
         $models=Models::all();
+        $categories=Categories::all();
+
 
         $retailer_id= Auth::user()->id;
         Log::info($retailer_id );
 
-        $spares=Spares::with('brand', 'model')
+        $spares=Spares::with('brand', 'model','category')
             ->where('retailer_id', $retailer_id)
             ->paginate(5);
 
 
-         return View::make('Retailer/spares')->with('spares', $spares)->with('brands', $brands)->with('models', $models);
+         return View::make('Retailer/spares')->with('spares', $spares)->with('brands', $brands)->with('models', $models)->with('categories', $categories);
 
     }
     public function getModels(Request $request)
