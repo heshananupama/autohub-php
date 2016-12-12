@@ -131,9 +131,21 @@ class sparesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function search(Request $request)
     {
-        //
+        $brands=Brands::all();
+        $models=Models::all();
+        $categories=Categories::all();
+        $retailer_id= Auth::user()->id;
+
+
+
+            $spares=Spares::with('brand', 'model','category')->where('retailer_id', $retailer_id)->where('description','LIKE','%'.$request->search.'%')
+                ->orWhere('partNumber','LIKE','%'.$request->search.'%')->paginate(5);
+
+
+        return View::make('Retailer/spares')->with('spares', $spares)->with('brands', $brands)->with('models', $models)->with('categories', $categories);
+
     }
 
     /**

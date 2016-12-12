@@ -50,7 +50,7 @@
                                         </button>
 
                                         <input  style="margin-top: 10px; width:250px; " type="text" class="form-control"
-                                               id="search" placeholder="Search Category">
+                                               id="search" placeholder="Search Brand">
 
                                     </th>
 

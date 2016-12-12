@@ -2,6 +2,12 @@
 
 @section('content')
     <div class="row">
+        <div class="col-xs-6 col-xs-offset-3">
+            <!-- Success messages -->
+            <div class="alert alert-warning alert-autocloseable-warning" id="successMessage">
+            </div>
+
+        </div>
         <div class="col-sm-6 col-md-4 col-md-offset-4 col-sm-offset-3">
             <h1>Checkout</h1>
 
@@ -20,11 +26,11 @@
                 <input type="hidden" name="business" value="heshananupama@msn.com">
 
                 <input type="hidden" value="2" name="rm">
-                <input type="hidden" name="return" value="http://autohub.com">
+                <input type="hidden" name="return" value="http://autohub.com/home">
                 <input type="hidden" name="cancel_return" value="autohub.com/home">
 
                 <input type="hidden" name="item_name_1" value="Autohub Cart Total">
-                <input type="hidden"  name="amount_1" value="{{$total}}">
+                <input type="hidden" id="amountTotal" name="amount_1" value="{{$total}}">
 
 
 
@@ -38,7 +44,7 @@
                     </div>
                     <div class="col-xs-12">
                         <div class="form-group">
-                            <label for="address">City</label>
+                            <label for="address">Address</label>
                             <input type="text" name="city" id="address" class="form-control" required>
                         </div>
                     </div>

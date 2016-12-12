@@ -175,11 +175,12 @@
                     <a href="{{url('/retailer/complains')}}"><i class="fa fa-fw fa-edit"></i> Complains</a>
                 </li>
                 <li>
-                    <a href="{{url('/retailer/orders')}} "><i class="fa fa-fw fa-cab"></i> orders</a>
+                    <a href="{{url('/retailer/orders')}} "><i class="fa fa-fw fa-cab"></i> Orders</a>
                 </li>
                 <li>
-                    <a href=" "><i class="fa fa-fw fa-wrench"></i> Bootstrap Grid</a>
+                    <a href="{{url('/retailer/enquiries')}}"><i class="fa fa-fw fa-file"></i> Enquiries</a>
                 </li>
+
                 <li>
                     <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Dropdown <i class="fa fa-fw fa-caret-down"></i></a>
                     <ul id="demo" class="collapse">

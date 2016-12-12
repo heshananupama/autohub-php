@@ -21,6 +21,11 @@ Route::get('/index', function () {
     return view('index');
 });
 
+Route::get('/browse/filter', 'searchController@filterResults' );
+Route::get('/browse/getModels', 'sparesController@getModels' );
+
+
+
 Route::get('/cart/deleteCartItem/{id}', 'searchController@destroy' );
 
 Route::get('/home', function () {
@@ -32,7 +37,6 @@ Route::get('/productInfo/{id}',['uses'=>'searchController@loadProduct',
 
 Route::get('/checkout/{price}','searchController@getCheckout');
 
-Route::get('/productInfo/{id}/addToCart','searchController@addToCart');
 
 
 Route::get('/productInfo/{value}/checkQuantity', 'searchController@checkQuantity');
@@ -60,6 +64,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/feedback/{id}', 'ordersController@show');
     Route::get('/feedback/{id}/saveReview', 'ordersController@saveReview');
     Route::get('/feedback/{id}/saveComplain', 'ordersController@saveComplain');
+
+    Route::get('/productInfo/{id}/addToCart','searchController@addToCart');
 
 
     Route::get('/feedback/getDate', 'ordersController@getDate');
@@ -143,19 +149,18 @@ Auth::routes();
 Route::group(['middleware' => 'App\Http\Middleware\Retailer'], function () {
 
     /*Retailer Routes*/
-    Route::get('/retailer/home', function () {
-        return view('Retailer/home');
-    });
+    Route::get('/retailer/home', 'retailerController@index');
+
 
     Route::get("/retailer/orders", 'retailerController@loadOrders');
+
+    Route::get("/retailer/enquiries", 'retailerController@loadEnquiries');
+
     Route::get("/retailer/orders/changeStatus", 'retailerController@changeOrderItemStatus');
-
-
 
     Route::get("/retailer/complains", 'retailerController@complains');
 
     Route::post("/retailer/spares", 'sparesController@store');
-
 
     Route::post("/retailer/spares/edit", 'sparesController@edit');
 
@@ -163,9 +168,12 @@ Route::group(['middleware' => 'App\Http\Middleware\Retailer'], function () {
 
     Route::get('/retailer/spares/getModels', 'sparesController@getModels');
 
-    Route::get('/retailer/spares', 'sparesController@load') ;
-    Route::get('/retailer/spares/getYears', 'sparesController@getYears');
+    Route::post('/retailer/spares/search', 'sparesController@search');
 
+
+    Route::get('/retailer/spares', 'sparesController@load') ;
+
+    Route::get('/retailer/spares/getYears', 'sparesController@getYears');
 
 
 });

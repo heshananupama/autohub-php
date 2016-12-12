@@ -35,7 +35,7 @@
             <h2><strong>Manage Orders </strong></h2><br>
 
             <div class="table-responsive ">
-                <table class="table table-bordered  table-inverse" id="spareTable">
+                <table class=" table" id="spareTable">
 
 
                     <tr>

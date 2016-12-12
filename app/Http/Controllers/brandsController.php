@@ -71,7 +71,8 @@ class brandsController extends Controller
             $output="";
             $brands=DB::table('brands')->where ('brandName','LIKE','%'.$request->search.'%')
                 ->orWhere('brandName','LIKE','%'.$request->search.'%')->get();
-            if($brands){
+            return response($brands);
+            /*if($brands){
                 foreach ($brands as $key=>$brand){
                     $output.='<tr>'.
                         '<td>'.$brand->id.'</td>'.
@@ -89,7 +90,7 @@ class brandsController extends Controller
                 }
 
                 return response($output);
-            }
+            }*/
         }
 
     }

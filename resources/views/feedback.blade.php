@@ -3,25 +3,27 @@
 @extends('index')
 
 @section('content')
-    <div class="row">
-        <div class="col-xs-6 col-xs-offset-3">
-            <!-- Success messages -->
-            <div class="alert alert-success alert-autocloseable-success" id="successMessage">
-            </div>
 
-        </div>
-    </div>
 
     <div class="row" style="margin: 20px 100px;">
-        <div class="col-xs-2">
+        <div class="col-xs-1">
 
         </div>
-        <div class="col-xs-8">
+        <div class="col-xs-10">
             <h2>Order Details</h2><br>
             <div class="panel-default">
                 <div class="row">
+                    <div class="col-xs-6 col-xs-offset-3">
+                        <!-- Success messages -->
+                        <div class="alert alert-success alert-autocloseable-success" id="successMessage">
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="row">
                     <div class="panel-body">
-                        <div class="col-xs-4">
+                        <div class="col-xs-5">
                             <div class="form-group">
                                 <label for="condition" class="control-label">
                                     Customer Name</label><br>
@@ -33,7 +35,7 @@
                             </div>
                         </div>
 
-                        <div class="col-xs-4">
+                        <div class="col-xs-2">
                             <div class="form-group">
                                 <label for="condition" class="control-label">
                                     Order ID</label>
@@ -41,7 +43,7 @@
                                     Heshan Perera</label>--}}
 
 
-                                    <select id="orderDropdown" name="orderId" class="form-control"
+                                    <select style="width: auto"  id="orderDropdown" name="orderId" class="form-control"
                                             onchange="loadOrderItems(this.value)" required>
                                         <option value="">Select an Order</option>
                                         @foreach($orders as $order)
@@ -52,7 +54,7 @@
                             </div>
                         </div>
 
-                        <div class="col-xs-4">
+                        <div class="col-xs-5">
                             <div class="form-group">
                                 <label for="condition" class="control-label">
                                     Order Date</label><br>
@@ -83,6 +85,8 @@ margin-right: auto;" width="100%" class="table-responsive feedbackTable">
                             <th>Item Name</th>
                             <th>Item Image</th>
                             <th>Item Status</th>
+                            <th>Sub Total</th>
+
                             <th>Add Review</th>
                             <th>Make Complain</th>
 
@@ -108,6 +112,9 @@ margin-right: auto;" width="100%" class="table-responsive feedbackTable">
                                     <td>
                                         {{$orderItem->orderStatus}}
                                     </td>
+                                    <td style="width: 120px;">
+                                        Rs. {{$orderItem->subTotal}}.00
+                                    </td>
                                     <td>
                                         <a class=" btn btn-success btn-sm" onclick="showReviewModal({{$orderItem->id}})"  >Add Review </a>
 
@@ -116,6 +123,7 @@ margin-right: auto;" width="100%" class="table-responsive feedbackTable">
                                         <a class=" btn btn-warning btn-sm"  onclick="showComplainModal({{$orderItem->id}})" >Add Complain </a>
 
                                     </td>
+
                                 </tr>
 
                             @endforeach
@@ -133,7 +141,7 @@ margin-right: auto;" width="100%" class="table-responsive feedbackTable">
 
 
         </div>
-        <div class="col-xs-2">
+        <div class="col-xs-1">
 
         </div>
     </div>

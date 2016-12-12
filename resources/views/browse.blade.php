@@ -2,114 +2,90 @@
 
 @section('content')
     <h1 style="font-family: Calibri;font-size: 40px" align="center">Search Results for " {{$search}} "</h1><br>
-    <div class="panel-default" style="margin:20px 100px;">
+
 {{--
         <div class="panel-heading">Refinements</div>
 --}}
-        <div class="panel-body">
-{{--
+
+            <form action="{{url('/browse/filter')}}" method="get">
             <div class="row">
+                <div class="col-xs-1"></div>
                 <div class="col-xs-2">
                     <div class="form-group">
                         <label for="condition" class="control-label">
-                            Condition</label>
+                            Brand</label>
 
-                        <select id="condition" name="condition" type="text"
-                                class="form-control" required>
-                            <option value="">Brand New</option>
-                            <option value="">Re Condition</option>
-                            <option value="">Any Condition</option>
+                        <select onchange="getNewModels()" id="brandDropdown" name="brand" type="text"
+                                class="form-control"  >
+                            <option value="">Select a Brand</option>
+                            @foreach($brands as $brand)
+                                <option value="{{$brand->id}}">{{$brand->brandName}}</option>
+                            @endforeach
+
                         </select>
                     </div>
                 </div>
-                <div class="col-xs-2">
+
+                <div class="col-xs-3">
 
                     <div class="form-group">
-                        <label for="condition" class="control-label">
-                            Price From</label>
+                        <label for="model" class="control-label">
+                            Car Model</label>
 
-                        <input id="price1" name="priceFrom" type="number"
-                               placeholder="Rs." class="form-control" required/>
+                        <select id="model" name="model" type="text"
+                                class="form-control"  >
+                            <option value=""> Model-Transmission-Year-Fuel-Engine</option>
+
+                        </select>
                     </div>
 
                 </div>
 
-                <div class="col-xs-2">
-
-                    <div class="form-group">
-                        <label for="condition" class="control-label">
-                            Price To</label>
-
-
-                        <input id="price2" name="priceTo" type="number"
-                               placeholder="Rs." class="form-control" required/>
-
-                    </div>
-
-                </div>
                 <div class="col-xs-2">
                     <div class="form-group">
                         <label for="SortBy" class="control-label">
                             Sort By</label>
 
                         <select id="sortby" name="sortby" type="text"
-                                class="form-control" required>
-                            <option value="">Name</option>
-                            <option value="">Price</option>
-                            <option value="">Part Category</option>
+                                class="form-control"  >
+                            <option value="">Select Field to Sort</option>
+                            <option value="Name">Name</option>
+                            <option value="priceAscending">Price Low to High</option>
+                            <option value="priceDescending">Price High to Low</option>
+
                         </select>
                     </div>
                 </div>
 
-                <div class="col-xs-2">
 
-                    <div class="form-group">
-                        <label for="condition" class="control-label">
-                            Car Model</label>
-
-                        <select id="model" name="condition" type="text"
-                                class="form-control" required>
-                            <option value="">All</option>
-
-                            <option value="">BMW i3 BEV</option>
-                            <option value="">BMW 330e M</option>
-                            <option value="">BMW 520D</option>
-                        </select>
-                    </div>
-
-                </div>
 
                 <div class="col-xs-2">
                     <div class="form-group">
                         <label for="condition" class="control-label">
                             Part Category</label>
 
-                        <select id="category" name="condition" type="text"
-                                class="form-control" required>
-                            <option value="">Alternator</option>
-                            <option value="">Bearings</option>
-                            <option value="">Belts</option>
-                            <option value="">Body Parts</option>
-                            <option value="">Braking System</option>
-                            <option value="">Cables</option>
-                            <option value="">Clutch</option>
-                            <option value="">Drivetrain</option>
-                            <option value="">Electricals</option>
-                            <option value="">Electronics</option>
-                            <option value="">Engine parts</option>
-                            <option value="">Filters</option>
-                            <option value="">Gaskets</option>
-                            <option value="">Belts</option>
+                        <select id="category" name="category" type="text"
+                                class="form-control"  >
+                            <option value="">Select a Category</option>
+                            @foreach($categories as $category)
+                                <option value="{{$category->id}}">{{$category->categoryName}}</option>
+                            @endforeach
 
 
                         </select>
                     </div>
                 </div>
-            </div>
---}}
+                <div class="col-xs-2">
+                    <input name="searchName" type="hidden" style="display: none" value="{{$search}}">
+                    <div class="form-group">
+                        <input style="margin-top: 30px; float: left"  class="btn btn-default btn-sm" type="submit">
 
-        </div>
-    </div>
+                    </div>
+                </div>
+
+            </div>
+            </form>
+    <br>
     <div class="col-xs-6 col-xs-offset-3">
         <!-- Success messages -->
         <div class="alert alert-success alert-autocloseable-success" id="successMessage">
@@ -147,13 +123,19 @@
 
                                 <td class="col-xs-1 text-center"><strong>Rs. {{$spare->price}}/=</strong></td>
                                 <td class="col-xs-1">
-                                    <button type="button" class="btn btn-success"
-                                            onclick="shoppingCart({{$spare->id}})">
+                                    @if($spare->quantity<=0)
+                                    <button disabled type="button" class="btn btn-success">
                                         <span class="glyphicon glyphicon-shopping-cart"></span> Add to Cart
                                     </button>
+                                        @elseif($spare->quantity!=0)
+                                        <button type="button" class="btn btn-success"
+                                                onclick="shoppingCart({{$spare->id}})">
+                                            <span class="glyphicon glyphicon-shopping-cart"></span> Add to Cart
+                                        </button>
+                                        @endif
                                 </td>
                                 <input style="display: none; width: 70px;" type="number" class="form-control"
-                                       id="quantity" value="1">
+                                       id="quantity" value="">
 
                             </tr>
                         @endforeach

@@ -118,6 +118,8 @@ function changeOrderStatus() {
 
         },
         success: function (data) {
+            window.location.replace(window.location.pathname + window.location.search + window.location.hash);
+
             $('#modalOrderItem').modal('hide');
             document.getElementById('successMessage').innerHTML=data;
             $('#autoclosable-btn-success').prop("disabled", true);

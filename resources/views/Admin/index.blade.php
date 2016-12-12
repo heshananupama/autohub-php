@@ -108,7 +108,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#anch4">
+                    <a href="{{ url('/admin/category') }}">
                         <span class="fa fa-anchor solo">Complains</span>
                     </a>
                 </li>

@@ -54,6 +54,8 @@ $(document).ready(function () {
 
 
     $('.alert-autocloseable-success').hide();
+    $('.alert-autocloseable-warning').hide();
+
 
     /*
      Fullscreen background
@@ -194,30 +196,68 @@ function checkQuantity(id,value) {
 function shoppingCart(id) {
     var quantity=document.getElementById("quantity").value;
     if(quantity==""){
-        quantity=1;
+        $.ajax({
+            type: 'get',
+            url: ('/productInfo/id/checkQuantity'),
+            data: {'quantity': 1,
+                'productId':id
+            },
+            success: function (data) {
+                if(data!="false"){
+                    alert("There are only remaining "+data+" units");
+
+
+                }
+                else if (data=="false"){
+                    $.ajax({
+                        type: 'get',
+                        url: ('/productInfo/id/addToCart'),
+                        data: {
+                            'id': id,
+                            'quantity':1
+                        },
+                        success: function (data) {
+
+                            document.getElementById('successMessage').innerHTML=data;
+                            $('#autoclosable-btn-success').prop("disabled", true);
+                            $('.alert-autocloseable-success').show();
+
+                            $('.alert-autocloseable-success').delay(5000).fadeOut( "slow", function() {
+                                // Animation complete.
+                                $('#autoclosable-btn-success').prop("disabled", false);
+                            });
+                        }
+
+                    });
+                }
+            }
+
+        });
+    }
+    else{
+        $.ajax({
+            type: 'get',
+            url: ('/productInfo/id/addToCart'),
+            data: {
+                'id': id,
+                'quantity':quantity
+            },
+            success: function (data) {
+
+                document.getElementById('successMessage').innerHTML=data;
+                $('#autoclosable-btn-success').prop("disabled", true);
+                $('.alert-autocloseable-success').show();
+
+                $('.alert-autocloseable-success').delay(5000).fadeOut( "slow", function() {
+                    // Animation complete.
+                    $('#autoclosable-btn-success').prop("disabled", false);
+                });
+            }
+
+        });
+
     }
 
-    console.log(quantity);
-    $.ajax({
-        type: 'get',
-        url: ('/productInfo/id/addToCart'),
-        data: {
-            'id': id,
-            'quantity':quantity
-        },
-        success: function (data) {
-
-            document.getElementById('successMessage').innerHTML=data;
-            $('#autoclosable-btn-success').prop("disabled", true);
-            $('.alert-autocloseable-success').show();
-
-            $('.alert-autocloseable-success').delay(5000).fadeOut( "slow", function() {
-                // Animation complete.
-                $('#autoclosable-btn-success').prop("disabled", false);
-            });
-        }
-
-    });
 }
 
 
@@ -243,6 +283,8 @@ function checkout(totalPrice){
 
 }
 
+
+
 function submitform(cartTotal )
 {
     var address=$("#address").val();
@@ -255,7 +297,11 @@ function submitform(cartTotal )
             'cartTotal':cartTotal,
         },
         success: function (data) {
-            document.theForm.submit();
+
+                document.theForm.submit();
+
+
+
 
         }
 
@@ -263,6 +309,10 @@ function submitform(cartTotal )
 }
 
 function loadOrderItems(orderId) {
+
+
+
+
 
     $.ajax({
         type: 'get',
@@ -286,8 +336,7 @@ function showReviewModal(orderItemId) {
 
 
 function saveReview() {
-    console.log(val);
-var orderItemId= document.getElementById('orderItemId').value;
+ var orderItemId= document.getElementById('orderItemId').value;
     var review=document.getElementById('new-review').value;
 
     $.ajax({
@@ -349,7 +398,20 @@ function saveComplain() {
     });
 }
 
+function getNewModels(){
 
+    var name= $("#brandDropdown option:selected").text();
 
+    $.ajax({
+        type: 'get',
+        url: ('/browse/getModels'),
+        data: {'brandName': name},
+        success: function (data) {
+            $('#model').html("");
+            $('#model').html(data);
 
+        }
 
+    });
+
+}

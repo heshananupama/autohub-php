@@ -35,16 +35,7 @@
 
         <div class="row">
             @foreach($product as $prod)
-            <div class="col-md-3">
-                <p class="lead">Other Sellers</p>
-                <div class="list-group">
-                    <a href="#" class="list-group-item active">Jayawardena Motors</a>
-                    <a href="#" class="list-group-item">Rainbow Motors</a>
-                    <a href="#" class="list-group-item">WestEnd Motors</a>
-                </div>
-            </div>
 
-            <div class="col-md-9">
 
                 <div class="row">
 
@@ -62,33 +53,40 @@
 
                     <div class="col-sm-6">
 
-                            <h4 style="float: left">{{$prod->description}}
-                             <br> <br>
-                                Rs. {{$prod->price}}.00</h4><br><br>
+                            <h3 ><strong>{{$prod->description}}</strong></h3>
+                              <h3><strong>Rs. {{$prod->price}}.00</strong><br></h3>
+
 
                              <div class="form-group"><br>
-                                <label style="float: left;" for="quantity">Quantity:</label>
-                                <input style="width: 70px;" type="number" class="form-control" id="quantity" onblur="checkQuantity({{$prod->id}},value)">
+                                <label  for="quantity">Quantity:</label>
+                                <input style="width: 70px; margin-left: 250px;" type="number" class="form-control" id="quantity" onblur="checkQuantity({{$prod->id}},value)">
 
                                  <br>
-                                <button style="float: left;" id="addToCart" class="btn btn-success btn-lg"  onclick="shoppingCart({{$prod->id}})">
-                                    <span  class="glyphicon glyphicon-shopping-cart"></span>Add to Cart
-                                </button>
-
-                                @if($prod->quantity>0)
-
-                                <span class="glyphicon glyphicon-ok-sign"><label
-                                            style="margin-right: 120px;margin-top: 20px;">IN STOCK</label></span>
+                                 <a href="{{ url()->previous() }}" type="button" class="btn btn-default btn-lg">
+                                     <span class="glyphicon glyphicon-shopping-cart"></span> Continue Shopping
+                                 </a>
 
 
+                                 @if($prod->quantity<=0)
+                                     <button disabled  id="addToCart" class="btn btn-success btn-lg">
+                                         <span  class="glyphicon glyphicon-shopping-cart"></span>Add to Cart
+                                     </button>
+                                     <span  class="glyphicon glyphicon-warning-sign"><label
+                                                 style="margin-right: 120px;margin-top: 20px; font-family: 'Arial Black'; ">OUT OF STOCK</label></span>
 
-                                @elseif($prod->quantity<=0)
-                                         <span  class="glyphicon glyphicon-warning-sign"><label
-                                                    style="margin-right: 120px;margin-top: 20px; font-family: 'Arial Black'; ">OUT OF STOCK</label></span>
+
+                                 @elseif($prod->quantity!=0)
+                                     <button   id="addToCart" class="btn btn-success btn-lg"  onclick="shoppingCart({{$prod->id}})">
+                                         <span  class="glyphicon glyphicon-shopping-cart"></span>Add to Cart
+                                     </button>
+                                     <span class="glyphicon glyphicon-ok-sign"><label
+                                         >IN STOCK</label></span>
+                                 @endif
 
 
-                                @endif
-                             </div>
+
+
+                              </div>
 
 
 
@@ -152,20 +150,19 @@
                 </div>
 
 
-            </div>
-        @endforeach
+         @endforeach
         </div>
         <div>
             <br>
             <div class="container">
                 <div class="row">
-                    <div class="col-sm-9">
+                    <div class="col-sm-12">
                         <h3><u>Product Reviews</u></h3><br><br>
                         @foreach($reviewItems as $reviewItem)
                             <div class="container">
 
                                 <div class="row">
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-2">
 
                                     </div>
                                     <div class="col-sm-1">
@@ -198,7 +195,7 @@
 
 
 
-                                    <div class="col-sm-1">
+                                    <div class="col-sm-3">
 
                                     </div>
 
@@ -211,10 +208,14 @@
                         @endforeach
 
                     </div>
-
-                    <div class="col-sm-3">
-
+                <br>
+                <div class="row">
+                    <div class="col-sm-8 col-sm-offset-2">
+                            <h3>Overall Product Rating - {{$overallRating}}/5 </h3>
                     </div>
+                </div>
+                <br><br><br><br>
+
                 </div>
 
             </div>

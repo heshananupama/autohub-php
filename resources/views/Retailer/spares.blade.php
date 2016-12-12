@@ -26,7 +26,15 @@
                     @endif
 
                 </div>
-                <h2><strong>Manage Spares </strong></h2><br>
+                <h2><strong>Manage Spares </strong></h2>
+
+                <div style="text-align: right">
+                    <button type="submit" style="margin-top: 10px;" class="btn btn-primary btn-sm" data-toggle="modal"
+                            data-target="#modalSpare">Add New
+                    </button>
+                </div>
+
+                <br>
                {{-- <div class="row"><br>
 
                     <div class="col-sm-3">
@@ -92,7 +100,7 @@
 
                 </div>--}}
                 <div class="table-responsive ">
-                    <table class="table table-bordered  table-inverse" id="spareTable">
+                    <table class="table table-hover" id="spareTable">
 
 
                         <tr>
@@ -110,7 +118,10 @@
                             <th>Warranty</th>
                             <th>Spare Image</th>
                             <th>
-                                <input type="text" class="form-control" id="search" placeholder="Search Spare">
+                                <form enctype="multipart/form-data" action="{{url('/retailer/spares/search')}}"
+                                      method="post"> {{ csrf_field() }}
+                                <input type="text" class="form-control" name="search" placeholder="Search Spare">
+                                    </form>
                             </th>
                         </tr>
                         <tbody id="tableModel">
@@ -166,11 +177,7 @@
                 </div>
 
 
-                <div style="text-align: center">
-                    <button style="margin-top: 10px;" class="btn btn-success btn-md" data-toggle="modal"
-                            data-target="#modalSpare">Add New
-                    </button>
-                </div>
+
 
             </div>
 
@@ -453,8 +460,23 @@
             </div>
         </div>
     </div>
+        <script>
 
-    <script>
+            $('#search').on('keyup', function () {
+                var value = $(this).val();
+                $.ajax({
+                    type: 'get',
+                    url: '{{url('/retailer/spares/search/')}}',
+                    data: {'search': value},
+                    success: function (data) {
+                        $('#spareTable').html("");
+                        $('#spareTable').html(data);
 
-    </script>
+
+                    }
+
+
+                });
+            });
+        </script>
 @endsection

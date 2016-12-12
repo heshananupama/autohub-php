@@ -104,7 +104,7 @@ class ordersController extends Controller
         $orders=App\Orders::where('user_id', $user_id)
             ->get();
 
-        $orderItems = OrderItem::with('spare')->
+        $orderItems = OrderItem::with('spare','order')->
             where('order_id', $OrderId)->get();
 
 

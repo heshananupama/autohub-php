@@ -25,7 +25,59 @@ class retailerController extends Controller
      */
     public function index()
     {
-        //
+        $user_id= Auth::user()->id;
+        $reviewItems = DB::table('feedback')->where('feedbackType','=', "review")
+            ->join('orderItem', 'feedback.orderItem_id', '=', 'orderItem.id') ->join('users', 'feedback.user_id', '=', 'users.id')->get();
+
+        foreach ($reviewItems as $key=>$reviewItem){
+            $spare=Spares::find($reviewItem->spare_id);
+ 
+            if($spare->retailer_id!=$user_id){
+                unset($reviewItems[$key]);
+
+            }
+            else{
+                $reviewItems[$key]->spdescription=$spare->description;
+                $reviewItems[$key]->imagePath=$spare->imagePath;
+
+            }
+        }
+
+        $reviewCount=$reviewItems ->count();
+        $enquiryCount=App\Enquiries::all()->count();
+
+
+        $orderItems = Orderitem::with('spare', 'order')->get();
+
+        foreach($orderItems as $key=>$orderItem){
+            if($orderItem->spare->retailer_id!= Auth::user()->id){
+                unset($orderItems[$key]);
+            }
+        }
+        $ordersCount=$orderItems->count();
+
+        $complainItems = DB::table('feedback')->where('feedbackType','=', "Complain")
+            ->join('orderItem', 'feedback.orderItem_id', '=', 'orderItem.id') ->join('users', 'feedback.user_id', '=', 'users.id')->get();
+
+        foreach ($complainItems as $key=>$complainItem){
+            $spare=Spares::find($complainItem->spare_id);
+            if($spare->retailer_id!=$user_id){
+                unset($complainItems[$key]);
+
+            }
+            else{
+                $complainItems[$key]->spdescription=$spare->description;
+                $complainItems[$key]->imagePath=$spare->imagePath;
+
+            }
+        }
+
+        $complainCount=$complainItems ->count();
+
+
+
+         return View::make('Retailer/home')->with('reviewCount',$reviewCount)->with('enquiryCount',$enquiryCount)->with('ordersCount',$ordersCount)->with('complainCount',$complainCount) ;
+
     }
 
     /**
@@ -137,7 +189,7 @@ class retailerController extends Controller
         }
         catch (Exception $e){
 
-    }
+        }
 
     }
 
@@ -149,6 +201,14 @@ class retailerController extends Controller
      */
     public function destroy($id)
     {
-        //
+
     }
+
+
+    public function loadEnquiries()
+    {
+        $enquiries=DB::table('enquiries')->get();
+        return View::make('Retailer/enquiries')->with('enquiries',$enquiries);
+    }
+
 }
