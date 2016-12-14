@@ -133,3 +133,42 @@ function changeOrderStatus() {
 
     });
 }
+
+function makeReply(user_id) {
+    $('#modalMessage').modal('show');
+     $('#customerId').val(user_id);
+
+
+}
+
+function replyCustomer() {
+    var message = $('textarea#message').val();
+    var customerId=  $('#customerId').val();
+    var retailerId= $('#retailerId').val();
+
+    $.ajax({
+        type: 'get',
+            url: ('/retailer/enquiries/newReply'),
+        data: {
+            'message':message,
+            'customerId':customerId,
+            'retailerId':retailerId,
+
+        },
+        success: function (data) {
+
+            $('#modalMessage').modal('hide');
+            document.getElementById('successMessage').innerHTML=data;
+            $('#autoclosable-btn-success').prop("disabled", true);
+            $('.alert-autocloseable-success').show();
+
+            $('.alert-autocloseable-success').delay(5000).fadeOut( "slow", function() {
+                // Animation complete.
+                $('#autoclosable-btn-success').prop("disabled", false);
+            });
+        }
+
+    });
+
+
+}

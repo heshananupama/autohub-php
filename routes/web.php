@@ -42,14 +42,11 @@ Route::get('/checkout/{price}','searchController@getCheckout');
 Route::get('/productInfo/{value}/checkQuantity', 'searchController@checkQuantity');
 
 
-Route::post('/enquiry', 'enquiriesController@store');
-
-
-Route::get('/enquiry', function () {
-    return view('Enquiry');
-});
 
 Route::get('/browse', 'searchController@index');
+
+Route::get('/browse/toyota', 'searchController@toyota');
+
 
 
 
@@ -61,12 +58,20 @@ Route::get('/car-brands/bmw', function () {
 Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/feedback', 'ordersController@index');
+    Route::get('/inbox', 'enquiriesController@showMessages');
+
     Route::get('/feedback/{id}', 'ordersController@show');
     Route::get('/feedback/{id}/saveReview', 'ordersController@saveReview');
     Route::get('/feedback/{id}/saveComplain', 'ordersController@saveComplain');
 
     Route::get('/productInfo/{id}/addToCart','searchController@addToCart');
 
+    Route::post('/enquiry', 'enquiriesController@store');
+
+
+    Route::get('/enquiry', function () {
+        return view('Enquiry');
+    });
 
     Route::get('/feedback/getDate', 'ordersController@getDate');
 
@@ -155,6 +160,8 @@ Route::group(['middleware' => 'App\Http\Middleware\Retailer'], function () {
     Route::get("/retailer/orders", 'retailerController@loadOrders');
 
     Route::get("/retailer/enquiries", 'retailerController@loadEnquiries');
+
+    Route::get("/retailer/enquiries/newReply", 'retailerController@makeReply');
 
     Route::get("/retailer/orders/changeStatus", 'retailerController@changeOrderItemStatus');
 

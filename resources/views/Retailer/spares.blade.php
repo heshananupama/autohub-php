@@ -103,7 +103,7 @@
                     <table class="table table-hover" id="spareTable">
 
 
-                        <tr>
+                        <tr >
                             <th>Part Number</th>
                             <th>Name</th>
                             <th>Brand</th>

@@ -15,4 +15,9 @@ class Enquiries extends Model
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo('App\User', 'customer_id');
+    }
 }

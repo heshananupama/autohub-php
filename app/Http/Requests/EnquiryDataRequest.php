@@ -24,10 +24,8 @@ class EnquiryDataRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|max:255',
-            'message' => 'required|max:1000',
+             'message' => 'required|max:1000',
             'contactNo' => 'min:10',
-            'email' => 'required|email|max:255',
-        ];
+         ];
     }
 }

@@ -469,9 +469,21 @@ class searchController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function toyota()
     {
-        //
+        $brands=Brands::all();
+        $models=Models::all();
+        $categories=Categories::all();
+        $spares = null;
+        $search = "";
+
+            $spares = Spares::with('user', 'model','brand')
+                ->where('brand_id',1)->paginate(5);
+
+
+
+        return View::make('toyota')->with('spares', $spares)->with('brands', $brands)->with('models', $models)->with('categories', $categories)->with('search', $search);
+
     }
 
     public function viewCart()

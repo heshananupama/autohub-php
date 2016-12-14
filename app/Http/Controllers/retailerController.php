@@ -7,6 +7,7 @@ use DB;
 use App;
 use App\Http\Requests;
 use App\User;
+use App\Message;
 use App\Spares;
 use App\OrderItem;
 use App\Feedback;
@@ -199,15 +200,35 @@ class retailerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function makeReply(Request $request)
     {
+
+            $message=new Message();
+
+            $Message=$request->message;
+            $customerId=$request->customerId;
+            $retailerId=$request->retailerId;
+            $message->messageType="Enquiry";
+            $message->user_id=$customerId;
+            $message->message=$Message;
+            $message->retailer_id=$retailerId;
+            $message->save();
+
+        return "Message Successfully Sent";
+
+
+
+
+
+
+
 
     }
 
 
     public function loadEnquiries()
     {
-        $enquiries=DB::table('enquiries')->get();
+        $enquiries=App\Enquiries::with('user')->get();
         return View::make('Retailer/enquiries')->with('enquiries',$enquiries);
     }
 

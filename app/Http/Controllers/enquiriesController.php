@@ -2,10 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Message;
 use Illuminate\Http\Request;
 
 use App\Http\Requests\EnquiryDataRequest;
 use App\User;
+use Auth;
+use DB;
+use Illuminate\Support\Facades\View;
+
 use App\Enquiries;
 
  class enquiriesController extends Controller
@@ -38,9 +43,12 @@ use App\Enquiries;
      */
     public function store(EnquiryDataRequest $request)
     {
+
+        $user_id = Auth::user()->id;
+
         $Enquiry=new Enquiries;
-        $Enquiry->name=$request->get('name');
-        $Enquiry->email=$request->get('email');
+
+        $Enquiry->customer_id=$user_id;
         $Enquiry->message=$request->get('message');
         $Enquiry->contactNo=$request->get('contactNo');
         $Enquiry->save();
@@ -58,9 +66,15 @@ use App\Enquiries;
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function showMessages()
     {
-        //
+        $user_id = Auth::user()->id;
+
+        $messages = Message::with('customer', 'retailer')
+            ->where('user_id', $user_id)->get();
+
+
+        return View::make('messages')->with('messages', $messages);
     }
 
     /**

@@ -30,7 +30,7 @@
         </div>
 
         <div class="row">
-
+            <br><br>
             <form role="form" action="{{ url('/enquiry') }}" method="post">{{ csrf_field() }}
                 <div class="col-xs-2">
 
@@ -38,22 +38,7 @@
                 <div class="col-xs-8">
                     <div class="well well-sm"><strong><i class="glyphicon glyphicon-ok form-control-feedback"></i>
                             Required Field</strong></div>
-                    <div class="form-group">
-                        <label for="InputName">Your Name</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control" value="{{old('name')}}" name="name" id="InputName"
-                                   placeholder="Enter Name" required>
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-ok form-control-feedback"></i></span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="InputEmail">Your Email</label>
-                        <div class="input-group">
-                            <input  class="form-control" value="{{old('email')}}" id="InputEmail" name="email"
-                                   placeholder="Enter Email" required>
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-ok form-control-feedback"></i></span>
-                        </div>
-                    </div>
+
                     <div class="form-group">
                         <label for="ContactNo">Contact Number:</label>
                         <div class="input-group">
@@ -82,4 +67,5 @@
         </div>
 
     </div>
+    <br><br><br>
 @endsection

@@ -98,7 +98,7 @@
 
                             <li><a href="#">Suzuki</a></li>
                             <li><a href="#">Tata</a></li>
-                            <li><a href="#">Toyota</a></li>
+                            <li><a href="{{ url('/browse/toyota') }}">Toyota</a></li>
                             <li><a href="#">Volkswagen</a></li>
                             <li><a href="#">Volvo</a></li>
 
@@ -229,6 +229,8 @@
                             <a href="">
                                 <span class="glyphicon glyphicon-user"></span>&nbsp;Profile
                             </a>
+
+                            <a href="{{ url('/inbox') }}"><i class="glyphicon glyphicon-envelope"></i> Inbox</a>
 
                             <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
                                 {{ csrf_field() }}
