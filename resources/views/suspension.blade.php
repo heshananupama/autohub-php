@@ -13,9 +13,10 @@
 
                     <select onchange="getNewModels()" id="brandDropdown" name="brand" type="text"
                             class="form-control"  >
-                        <option value="1">Please Select a Brand</option>
-
-                        <option value="1">Toyota</option>
+                        <option value="">Select a Brand</option>
+                        @foreach($brands as $brand)
+                            <option value="{{$brand->id}}">{{$brand->brandName}}</option>
+                        @endforeach
 
 
                     </select>
@@ -62,17 +63,18 @@
 
                     <select id="category" name="category" type="text"
                             class="form-control"  >
-                        <option value="">Select a Category</option>
-                        @foreach($categories as $category)
-                            <option value="{{$category->id}}">{{$category->categoryName}}</option>
-                        @endforeach
+
+
+                            <option value="8">Suspension</option>
+
 
 
                     </select>
                 </div>
             </div>
+            <input type="hidden" style="display: none" value="sus" name="suspension">
             <div class="col-xs-2">
-                 <div class="form-group">
+                <div class="form-group">
                     <input style="margin-top: 30px; float: left"  class="btn btn-default btn-sm" type="submit" value="Filter">
 
                 </div>
@@ -83,7 +85,7 @@
 
     <div class="container">
         <div class="row">
-            <h2>All Spares for &nbsp; <img style='display:inline;' src='/Images/Logos/toyota.png'/></h2>
+            <h2>All Spares for Suspensions &nbsp; <img style='display:inline;' src='/Images/Logos/suspension.png'/></h2>
         </div>
         <div class="row">
             <div class="col-xs-12">

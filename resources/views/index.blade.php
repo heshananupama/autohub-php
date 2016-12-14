@@ -186,7 +186,7 @@
                             <li><a href="#">Oil & Lubes</a></li>
                             <li><a href="#">Sensors</a></li>
                             <li><a href="#">Spark Plugs</a></li>
-                            <li><a href="#">Suspension System</a></li>
+                            <li><a href="{{ url('/browse/suspensions') }}">Suspensions</a></li>
                             <li><a href="#">Transmission</a></li>
 
 

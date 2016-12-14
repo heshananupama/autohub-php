@@ -210,9 +210,11 @@
                     </div>
                 <br>
                 <div class="row">
+                    @if(!empty($overallRating))
                     <div class="col-sm-8 col-sm-offset-2">
                             <h3>Overall Product Rating - {{$overallRating}}/5 </h3>
                     </div>
+                        @endif
                 </div>
                 <br><br><br><br>
 

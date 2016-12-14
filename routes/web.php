@@ -47,6 +47,9 @@ Route::get('/browse', 'searchController@index');
 
 Route::get('/browse/toyota', 'searchController@toyota');
 
+Route::get('/browse/suspensions', 'searchController@suspension');
+
+
 
 
 
