@@ -162,6 +162,12 @@ Route::group(['middleware' => 'App\Http\Middleware\Retailer'], function () {
 
     Route::get("/retailer/orders", 'retailerController@loadOrders');
 
+    Route::get("/retailer/chartSales", 'retailerController@loadSalesChart');
+
+    Route::get("/retailer/chartOrders", 'retailerController@loadOrdersChart');
+
+    Route::get("/retailer/chartDonuts", 'retailerController@loadDonutChart');
+
     Route::get("/retailer/enquiries", 'retailerController@loadEnquiries');
 
     Route::get("/retailer/enquiries/newReply", 'retailerController@makeReply');

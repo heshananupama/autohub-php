@@ -34,6 +34,8 @@
 
 
                     <tr>
+                        <th>Order Id</th>
+                        <th>Order Item Id</th>
                         <th>Spare</th>
                         <th>Customer Name</th>
                         <th>Customer Email</th>
@@ -48,6 +50,8 @@
                     @foreach($complains as $complain)
 
                         <tr>
+                            <td>{{$complain->orderItem_id}}</td>
+                            <td>{{$complain->order_id}}</td>
                             <td>{{$complain->spdescription}}</td>
                             <td>{{$complain->name}}</td>
                             <td>{{$complain->email}}</td>

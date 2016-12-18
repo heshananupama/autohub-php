@@ -404,7 +404,7 @@ function getNewModels(){
 
     $.ajax({
         type: 'get',
-        url: ('/browse/getModels'),
+        url: (' /browse/getModels'),
         data: {'brandName': name},
         success: function (data) {
             $('#model').html("");

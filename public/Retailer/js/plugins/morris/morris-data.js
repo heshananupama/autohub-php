@@ -2,85 +2,121 @@
 
 $(function() {
 
-    // Area Chart
-    Morris.Area({
-        element: 'morris-area-chart',
-        data: [{
-            period: '2010 Q1',
-            iphone: 2666,
-            ipad: null,
-            itouch: 5885
-        }, {
-            period: '2010 Q2',
-            iphone: 2778,
-            ipad: 2294,
-            itouch: 2441
-        }, {
-            period: '2010 Q3',
-            iphone: 4912,
-            ipad: 1969,
-            itouch: 2501
-        }, {
-            period: '2010 Q4',
-            iphone: 3767,
-            ipad: 3597,
-            itouch: 5689
-        }, {
-            period: '2011 Q1',
-            iphone: 6810,
-            ipad: 1914,
-            itouch: 2293
-        }, {
-            period: '2011 Q2',
-            iphone: 5670,
-            ipad: 4293,
-            itouch: 1881
-        }, {
-            period: '2011 Q3',
-            iphone: 4820,
-            ipad: 3795,
-            itouch: 1588
-        }, {
-            period: '2011 Q4',
-            iphone: 15073,
-            ipad: 5967,
-            itouch: 5175
-        }, {
-            period: '2012 Q1',
-            iphone: 10687,
-            ipad: 4460,
-            itouch: 2028
-        }, {
-            period: '2012 Q2',
-            iphone: 8432,
-            ipad: 5713,
-            itouch: 1791
-        }],
-        xkey: 'period',
-        ykeys: ['iphone', 'ipad', 'itouch'],
-        labels: ['iPhone', 'iPad', 'iPod Touch'],
-        pointSize: 2,
-        hideHover: 'auto',
-        resize: true
+    $.ajax({
+        type: 'get',
+        url: ('/retailer/chartSales'),
+
+
+        success: function (data) {
+            var chartData=[];
+            for(var k=0;k<data.Date.length;k++){
+                chartData.push({ d:data.Date[k],sales:data.value[k]});
+            }
+            console.log(chartData);
+            Morris.Area({
+                element: 'morris-area-chart',
+                data: chartData,
+                // The name of the data record attribute that contains x-visitss.
+                xkey: 'd',
+                // A list of names of data record attributes that contain y-visitss.
+                ykeys: ['sales'],
+                // Labels for the ykeys -- will be displayed when you hover over the
+                // chart.
+                labels: ['sales'],
+                // Disables line smoothing
+                smooth: false,
+                resize: true
+            });
+
+
+
+        }
+
     });
+
+    // Area Chart
+
+    $.ajax({
+        type: 'get',
+        url: ('/retailer/chartOrders'),
+
+
+        success: function (data) {
+            var chartData=[];
+            for(var k=0;k<data.Date.length;k++){
+                chartData.push({ d:data.Date[k],orders:data.value[k]});
+            }
+            console.log(chartData);
+            Morris.Line({
+                element: 'morris-line-chart',
+                data: chartData,
+                // The name of the data record attribute that contains x-visitss.
+                xkey: 'd',
+                // A list of names of data record attributes that contain y-visitss.
+                ykeys: ['orders'],
+                // Labels for the ykeys -- will be displayed when you hover over the
+                // chart.
+                labels: ['orders'],
+                // Disables line smoothing
+                smooth: false,
+                resize: true
+            });
+
+
+
+        }
+
+    });
+
+
+
+    $.ajax({
+        type: 'get',
+        url: ('/retailer/chartDonuts'),
+
+
+        success: function (data) {
+            var label=[];
+            label=["Shipped","Purchased","Delivered"];
+
+            var chartData=[];
+            for(var k=0;k<data.length;k++){
+                chartData.push({ label:label[k],value:data[k]})
+            }
+            Morris.Donut({
+                element: 'morris-donut-chart',
+                data: chartData,
+                resize: true
+            });
+
+
+
+
+        }
+
+    });
+
+
+
+/*
+
+    values=[12,30,20];
+    var chartData=[];
+
+    for(var k=0;k<values.length;k++){
+        chartData.push({ label:label[k],value:values[k]})
+     }
 
     // Donut Chart
     Morris.Donut({
         element: 'morris-donut-chart',
-        data: [{
-            label: "Download Sales",
-            value: 12
-        }, {
-            label: "In-Store Sales",
-            value: 30
-        }, {
-            label: "Mail-Order Sales",
-            value: 20
-        }],
+        data: chartData,
         resize: true
     });
+*/
 
     // Line Chart
+/*
     Morris.Line({
         // ID of the element in which to draw the chart.
         element: 'morris-line-chart',
@@ -104,16 +140,7 @@ $(function() {
         }, {
             d: '2012-10-06',
             visits: 859
-        }, {
-            d: '2012-10-07',
-            visits: 790
-        }, {
-            d: '2012-10-08',
-            visits: 1680
-        }, {
-            d: '2012-10-09',
-            visits: 1592
-        }, {
+        } , {
             d: '2012-10-10',
             visits: 1420
         }, {
@@ -191,7 +218,8 @@ $(function() {
         smooth: false,
         resize: true
     });
-
+*/
+    /*
     // Bar Chart
     Morris.Bar({
         element: 'morris-bar-chart',
@@ -222,6 +250,7 @@ $(function() {
         hideHover: 'auto',
         resize: true
     });
+*/
 
 
 });

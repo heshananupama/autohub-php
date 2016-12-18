@@ -39,14 +39,17 @@
 
 
                     <tr>
-                        <th>Order Date</th>
-                        <th>Item</th>
-                        <th>Spare Image</th>
-                        <th>Quantity</th>
-                        <th>Order Item Value</th>
-                        <th>Shipping Address</th>
-                        <th>Order Item Status</th>
-                        <th></th>
+                        <th style="text-align: center">Order Id</th>
+                        <th style="text-align: center">Order Item Id</th>
+
+                        <th style="text-align: center">Order Date</th>
+                        <th style="text-align: center">Item</th>
+                        <th style="text-align: center">Spare Image</th>
+                        <th style="text-align: center">Quantity</th>
+                        <th style="text-align: center"> Order Item Value</th>
+                        <th style="text-align: center">Shipping Address</th>
+                        <th style="text-align: center">Order Item Status</th>
+                        <th style="text-align: center"></th>
 
                     </tr>
                     <tbody id="tableModel">
@@ -56,6 +59,9 @@
                         @if($orderItem->spare->retailer_id== Auth::user()->id)
 
                         <tr>
+
+                            <td>{{$orderItem->order->id}}</td>
+                            <td>{{$orderItem->id}}</td>
                             <td style="width: 100px;">{{$orderItem->order->orderDate}}</td>
                             <td>{{$orderItem->spare->description}}</td>
                             <td>

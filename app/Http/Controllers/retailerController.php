@@ -26,6 +26,7 @@ class retailerController extends Controller
      */
     public function index()
     {
+
         $user_id= Auth::user()->id;
         $reviewItems = DB::table('feedback')->where('feedbackType','=', "review")
             ->join('orderItem', 'feedback.orderItem_id', '=', 'orderItem.id') ->join('users', 'feedback.user_id', '=', 'users.id')->get();
@@ -43,6 +44,8 @@ class retailerController extends Controller
 
             }
         }
+
+        $orders=App\Orders::all();
 
         $reviewCount=$reviewItems ->count();
         $enquiryCount=App\Enquiries::all()->count();
@@ -77,7 +80,7 @@ class retailerController extends Controller
 
 
 
-         return View::make('Retailer/home')->with('reviewCount',$reviewCount)->with('enquiryCount',$enquiryCount)->with('ordersCount',$ordersCount)->with('complainCount',$complainCount) ;
+         return View::make('Retailer/home')->with('reviewCount',$reviewCount)->with('enquiryCount',$enquiryCount)->with('ordersCount',$ordersCount)->with('complainCount',$complainCount)->with('orders',$orders) ;
 
     }
 
@@ -217,13 +220,230 @@ class retailerController extends Controller
         return "Message Successfully Sent";
 
 
+    }
+
+    public function loadOrdersChart(){
+
+        $orderItems = OrderItem::with('spare', 'order')->get();
+        $date=array();
+
+        $value=0;
+        $orders=array();
+        $salesItems=array();
+
+        foreach($orderItems as $key=> $orderItem) {
+
+
+            if ($orderItem->spare->retailer_id == Auth::user()->id) {
+                array_push($salesItems,$orderItem);
+            }
+
+        }
+
+        foreach($salesItems as $key=> $salesItem) {
+            $currentDate = $salesItem->order->orderDate;
+            if( in_array($currentDate  ,$date ) )
+            {
+
+                $value=$value+1;
+
+
+                if($key==(count($salesItems)-1)){
+
+                    array_push($orders,$value);
+
+
+                }
 
 
 
 
+            }
+            else{
 
+                if($key==0){
+                    array_push($date,$currentDate);
+                    $value=1;
+
+                    if($salesItems[0]->order->orderDate!=$currentDate){
+                        array_push($orders,$value);
+                    }
+
+                }
+                elseif ($key==(count($salesItems)-1)){
+                    array_push($date,$currentDate);
+
+                    array_push($orders,$value);
+                    $value=1;
+                    array_push($orders,$value);
+
+                }
+                else{
+                    array_push($date,$currentDate);
+
+                    array_push($orders,$value);
+                    $value=1;
+                }
+
+            }
+        }
+
+
+        /*else{
+
+            if($key==0){
+                array_push($date,$currentDate);
+                $value=$salesItem->subTotal;
+
+                if($salesItems[0]->order->orderDate!=$currentDate){
+                    array_push($orders,$value);
+                }
+
+            }
+            elseif ($key==(count($salesItems)-1)){
+                array_push($date,$currentDate);
+
+                array_push($orders,$value);
+                $value=$salesItem->subTotal;
+                array_push($orders,$value);
+
+            }
+            else{
+                array_push($date,$currentDate);
+
+                array_push($orders,$value);
+                $value=$salesItem->subTotal;;
+            }
+
+        }*/
+
+
+
+
+        $salesChart=array('Date'=>$date,
+            'value'=>$orders);
+        return($salesChart);
 
     }
+
+
+    public function loadSalesChart(){
+        $orderItems = OrderItem::with('spare', 'order')->get();
+        $date=array();
+
+         $value=0;
+        $orders=array();
+        $salesItems=array();
+
+        foreach($orderItems as $key=> $orderItem) {
+
+
+            if ($orderItem->spare->retailer_id == Auth::user()->id) {
+                array_push($salesItems,$orderItem);
+
+
+            }
+        }
+          foreach($salesItems as $key=> $salesItem) {
+            $currentDate = $salesItem->order->orderDate;
+                 if( in_array($currentDate  ,$date ) )
+                {
+
+                    $value+=$salesItem->subTotal;
+
+
+                    if($key==(count($salesItems)-1)){
+
+                        array_push($orders,$value);
+
+
+                    }
+
+
+
+
+                }
+                else{
+
+                    if($key==0){
+                        array_push($date,$currentDate);
+                        $value=$salesItem->subTotal;
+
+                        if($salesItems[0]->order->orderDate!=$currentDate){
+                            array_push($orders,$value);
+                        }
+
+                     }
+                    elseif ($key==(count($salesItems)-1)){
+                         array_push($date,$currentDate);
+
+                        array_push($orders,$value);
+                        $value=$salesItem->subTotal;
+                        array_push($orders,$value);
+
+                    }
+                    else{
+                        array_push($date,$currentDate);
+
+                        array_push($orders,$value);
+                        $value=$salesItem->subTotal;;
+                    }
+
+                }
+              }
+
+
+
+         $salesChart=array('Date'=>$date,
+             'value'=>$orders);
+        return($salesChart);
+
+    }
+
+
+    function loadDonutChart(){
+        $purchased=0;
+        $shipped=0;
+        $delivered=0;
+        $orderItems = OrderItem::all();
+
+        $salesItems=array();
+        $values=array();
+
+
+        foreach($orderItems as $key=> $orderItem) {
+
+
+            if ($orderItem->spare->retailer_id == Auth::user()->id) {
+                array_push($salesItems,$orderItem);
+
+            }
+
+
+        }
+
+
+        foreach($salesItems as $key=> $salesItem) {
+
+
+            if ($salesItem->orderStatus == "Shipped") {
+                $shipped++;
+            }
+            elseif ($salesItem->orderStatus == "Purchased") {
+                $purchased++;
+            }
+
+            elseif ($salesItem->orderStatus == "Delivered") {
+                $delivered++;
+            }
+
+        }
+
+
+        $values=[$shipped,$purchased,$delivered];
+        return($values);
+    }
+
 
 
     public function loadEnquiries()
@@ -231,5 +451,7 @@ class retailerController extends Controller
         $enquiries=App\Enquiries::with('user')->get();
         return View::make('Retailer/enquiries')->with('enquiries',$enquiries);
     }
+
+
 
 }
