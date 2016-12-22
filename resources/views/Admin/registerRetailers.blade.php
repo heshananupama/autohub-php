@@ -25,7 +25,7 @@
 
                     <div class="panel-body">
 
-                        <form class="form-horizontal" role="form" method="POST"
+                        <form  enctype="multipart/form-data" class="form-horizontal" role="form" method="POST"
                               action="{{ url('/admin/registerRetailer/register') }}">
                             {{ csrf_field() }}
 
@@ -139,6 +139,23 @@
                                     @endif
                                 </div>
                             </div>
+
+                            <div class="form-group{{ $errors->has('retailerImage') ? ' has-error' : '' }}">
+                                <label for="password-confirm" class="col-md-4 control-label">Select an Image</label>
+
+                                <div class="col-md-6">
+                                    <input value='retailerImage' class="form-control" type="file" name="retailerImage" id="image">
+
+                                    @if ($errors->has('retailerImage'))
+                                        <span class="help-block">
+                                        <strong>{{ $errors->first('retailerImage') }}</strong>
+                                    </span>
+                                    @endif
+
+
+                                </div>
+                            </div>
+
 
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">

@@ -22,20 +22,11 @@
                 </div>
 
                 <div class="row">
-                    <div class="panel-body">
-                        <div class="col-xs-5">
-                            <div class="form-group">
-                                <label for="condition" class="control-label">
-                                    Customer Name</label><br>
-                                <label style="color: rosybrown" for="Customer Name" class="control-label">
-                                    {{ Auth::user()->name }} </label>
+                         <div class="col-xs-4">
 
-                                {{--<input   id="price1"  name="priceFrom" type="number"
-                                         placeholder="" class="form-control" required/>--}}
-                            </div>
                         </div>
 
-                        <div class="col-xs-2">
+                        <div class="col-xs-4">
                             <div class="form-group">
                                 <label for="condition" class="control-label">
                                     Order ID</label>
@@ -43,31 +34,20 @@
                                     Heshan Perera</label>--}}
 
 
-                                    <select style="width: auto"  id="orderDropdown" name="orderId" class="form-control"
+                                    <select   id="orderDropdown" name="orderId" class="form-control"
                                             onchange="loadOrderItems(this.value)" required>
-                                        <option value="">Select an Order</option>
+                                        <option value="">Select an OrderId & Date</option>
                                         @foreach($orders as $order)
-                                        <option value="{{ $order->id}}">{{ $order->id}}</option>
+                                        <option value="{{ $order->id}}">{{ $order->id}} @ {{$order->orderDate}}</option>
 
                                         @endforeach
                                     </select>
                             </div>
                         </div>
 
-                        <div class="col-xs-5">
-                            <div class="form-group">
-                                <label for="condition" class="control-label">
-                                    Order Date</label><br>
-                                @if(!empty ($orderDate))
-                                <label id="dateLabel" style="color: rosybrown" for="Customer Name"
-                                       class="control-label">{{$orderDate}}
-                                </label>
-                                @endif
-                                {{--<input   id="orderID"  name="orderDate" type=""
-                                         placeholder="" class="form-control" required/>--}}
-                            </div>
+                        <div class="col-xs-4">
+
                         </div>
-                    </div>
 
                 </div>
 
@@ -81,11 +61,13 @@
                     <table style="margin-left: auto;
 margin-right: auto;" width="100%" class="table-responsive feedbackTable">
 
-                        <tr>
-                            <th>Item Name</th>
-                            <th>Item Image</th>
-                            <th>Item Status</th>
-                            <th>Sub Total</th>
+                        <tr >
+                            <th style="text-align: center">Item Name</th>
+                            <th style="text-align: center">Item Quantity</th>
+
+                            <th style="text-align: center">Item Image</th>
+                            <th style="text-align: center">Item Status</th>
+                            <th style="text-align: center">Sub Total</th>
 
                             <th>Add Review</th>
                             <th>Make Complain</th>
@@ -101,7 +83,9 @@ margin-right: auto;" width="100%" class="table-responsive feedbackTable">
                                     <td>
                                         {{$orderItem->spare->description}}
                                     </td>
-
+                                    <td>
+                                        {{$orderItem->quantity}}
+                                    </td>
                                     <td>
 
                                         <img

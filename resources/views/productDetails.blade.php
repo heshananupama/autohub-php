@@ -57,7 +57,7 @@
                               <h3><strong>Rs. {{$prod->price}}.00</strong><br></h3>
 
 
-                             <div class="form-group"><br>
+                             <div class="form-group" style="margin-bottom: 0px;"><br>
                                 <label  for="quantity">Quantity:</label>
                                 <input style="width: 70px; margin-left: 250px;" type="number" class="form-control" id="quantity" onblur="checkQuantity({{$prod->id}},value)">
 
@@ -87,6 +87,13 @@
 
 
                               </div>
+                        <div class="row">
+                            @if(!empty($overallRating))
+                                <div class="col-sm-8 col-sm-offset-2">
+                                    <h3>Overall Product Rating - {{$overallRating}}/5 </h3>
+                                </div>
+                            @endif
+                        </div>
 
 
 
@@ -209,13 +216,7 @@
 
                     </div>
                 <br>
-                <div class="row">
-                    @if(!empty($overallRating))
-                    <div class="col-sm-8 col-sm-offset-2">
-                            <h3>Overall Product Rating - {{$overallRating}}/5 </h3>
-                    </div>
-                        @endif
-                </div>
+
                 <br><br><br><br>
 
                 </div>

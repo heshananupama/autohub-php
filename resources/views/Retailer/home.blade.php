@@ -161,25 +161,27 @@
                 <div class="col-sm-6">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> Transactions Panel</h3>
+                            <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> Pending Orders</h3>
                         </div>
                         <div class="panel-body">
                             <div class="table-responsive">
                                 <table class="table table-bordered table-hover table-striped">
                                     <thead>
                                     <tr>
-                                        <th>Order #</th>
+                                        <th>Order Item#</th>
                                         <th>Order Date/Time</th>
                                         <th>Amount (LKR)</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach($orders as $order)
+                                    @foreach($orderItems as $orderItem)
+                                        @if($orderItem->orderStatus == "Purchased")
                                     <tr>
-                                        <td>{{$order->id}}</td>
-                                        <td>{{$order->created_at}}</td>
-                                        <td>{{$order->orderTotal}}</td>
+                                        <td>{{$orderItem->id}}</td>
+                                        <td>{{$orderItem->order->orderDate}}</td>
+                                        <td>{{$orderItem->subTotal}}</td>
                                      </tr>
+                                    @endif
                                    @endforeach
                                     </tbody>
                                 </table>

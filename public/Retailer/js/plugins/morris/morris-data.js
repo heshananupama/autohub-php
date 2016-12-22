@@ -25,6 +25,8 @@ $(function() {
                 labels: ['sales'],
                 // Disables line smoothing
                 smooth: false,
+                parseTime:false,
+
                 resize: true
             });
 
@@ -59,6 +61,7 @@ $(function() {
                 labels: ['orders'],
                 // Disables line smoothing
                 smooth: false,
+                parseTime:false,
                 resize: true
             });
 
