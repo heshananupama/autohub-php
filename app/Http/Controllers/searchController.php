@@ -783,4 +783,12 @@ class searchController extends Controller
         $cartItem->delete();
         return Redirect::to('/cart');
     }
+
+    public function advance(){
+        $brands=Brands::all();
+        $models=Models::all();
+        $categories=Categories::all();
+        return View::make('advanceSearch')->with('brands', $brands)->with('models', $models)->with('categories', $categories);
+
+     }
 }

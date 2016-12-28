@@ -42,6 +42,7 @@ Route::get('/checkout/{price}','searchController@getCheckout');
 Route::get('/productInfo/{value}/checkQuantity', 'searchController@checkQuantity');
 
 
+Route::get('/advanceSearch', 'searchController@advance');
 
 Route::get('/browse', 'searchController@index');
 
@@ -98,10 +99,7 @@ Route::group(['middleware' =>  'App\Http\Middleware\Admin'], function () {
         return view('Admin/registerRetailers');
     });
 
-    Route::get('/admin/home', function () {
-        // can only access this if type == A
-        return view('Admin/admin');
-    });
+    Route::get('/admin/home','brandsController@loadHome')    ;
 
     Route::get('/admin/category', function () {
 

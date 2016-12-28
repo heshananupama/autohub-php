@@ -27,17 +27,18 @@
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container-fluid">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                        aria-expanded="false" aria-controls="navbar">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <div  class="navbar-brand">
+                <div class="navbar-brand">
                     <a id="menu-toggle" href="#" class="glyphicon glyphicon-align-justify btn-menu toggle">
                         <i class="fa fa-bars"></i>
                     </a>
-                    <a  href="{{ url('/admin/home ') }}"><span>AutoHub</span>Admin</a>
+                    <a href="{{ url('/admin/home ') }}"><span>AutoHub</span>Admin</a>
                 </div>
             </div>
             <div id="navbar" class="collapse navbar-collapse">
@@ -125,12 +126,12 @@
     </div>
     <!-- Scripts -->
 
-     <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
     <script src="/js/scripts.js"></script>
 
     <script>
         /*Menu-toggle*/
-        $("#menu-toggle").click(function(e) {
+        $("#menu-toggle").click(function (e) {
             e.preventDefault();
             $("#wrapper").toggleClass("active");
         });
@@ -138,5 +139,6 @@
         // When we click on the LI
 
     </script>
+</div>
 </body>
 </html>

@@ -147,6 +147,8 @@
 
 <!-- jQuery -->
 <script src="/Retailer/js/jquery.js"></script>
+ <script src="/Retailer/js/jsFiddler.min.js"></script>
+<script src="/Retailer/js/AutoTable.min.js"></script>
 
 <!-- Bootstrap Core JavaScript -->
 <script src="/Retailer/js/bootstrap.min.js"></script>

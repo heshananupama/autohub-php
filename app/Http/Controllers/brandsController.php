@@ -136,4 +136,7 @@ class brandsController extends Controller
         return Redirect::to('/admin/brand');
 
     }
+    public function loadHome(){
+        return view('Admin/admin');
+    }
 }

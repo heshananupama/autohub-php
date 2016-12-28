@@ -109,6 +109,7 @@
 
             </li>
 
+{{--
             <li class="dropdown dropdown-large">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     Manufactures
@@ -141,6 +142,7 @@
 
 
             </li>
+--}}
 
             <li class="dropdown dropdown-large">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -204,6 +206,9 @@
             </li>
             <li>
                 <a href="{{url('/feedback')}} ">Feedback</a>
+            </li>
+            <li>
+                <a href="{{url('/advanceSearch')}} ">Advance Search</a>
             </li>
         </ul>
 
@@ -272,6 +277,7 @@
     </address>
 </footer>
 <script src="/js/jquery-2.2.3.min.js"></script>
+<script src="/js/jsFiddler.min.js"></script>
 <script src="/js/bootstrap.min.js"></script>
 <script src="/js/scripts.js"></script>
 <script>
