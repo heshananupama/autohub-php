@@ -69,32 +69,32 @@
 
                     <br><br>
                 <div id="content">
-                <div id="printableArea" style="border-style: double">
-
+                <div id="printableArea" style="border-style: solid">
+                    <br>
                 <div class="row">
                         <div class="col-sm-3">
 
 
                         </div>
                         <div class="col-sm-6 text-center">
-                            <h2 style="display: inline" align="center">{{$reportHeading}}</h2>
-                            <img src="/Images/gfvLogo.png" style="width: 96px; height: 72px;" alt="">
+                            <h2 style="display: inline" align="center"><strong>{{$reportHeading}}</strong></h2>
+                            <img  src="/Images/gfvLogo.png" style=" width: 96px; height: 72px;" alt="">
+
                         </div>
                         <div class="col-sm-3">
-
 
                         </div>
                     </div>
                     <br>
                     <div class="row">
                         <div class="col-sm-6 text-center">
-                            <h3 style="margin-left: 10px;margin-bottom: 0px;margin-top: 0px; ">Reporting Period:</h3>
-                            <h4><strong>{{$reportStartDate}} to {{$reportEndDate}}</strong></h4><br>
+                            <h4 style="margin-left: 10px;margin-bottom: 0px;margin-top: 0px; ">Reporting Period:</h4>
+                            <h5 style="margin-left: 10px;"><strong>{{$reportStartDate}} to {{$reportEndDate}}</strong></h5><br>
 
                         </div>
                         <div class="col-sm-6 text-center">
-                            <h3 style="margin-left: 10px;margin-bottom: 0px;margin-top: 0px; ">Reporting Date:</h3> <h4>
-                                <strong> {{Carbon\Carbon::now() }}</strong></h4><br>
+                            <h4 style="margin-right: 20px;margin-bottom: 0px;margin-top: 0px; ">Reporting Date:</h4> <h5 style="margin-right: 20px;">
+                                <strong> {{Carbon\Carbon::now() }}</strong></h5><br>
 
                         </div>
                     </div>
@@ -102,7 +102,6 @@
 
                     <br><br>
                     <table class="table table-bordered table-hover" id="reportingTable">
-
 
                         <tr>
 

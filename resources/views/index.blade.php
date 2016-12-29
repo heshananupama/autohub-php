@@ -5,6 +5,7 @@
     <link href="/css/Style.css" rel="stylesheet"/>
 
     <link href="/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="/css/tooltipster.bundle.min.css" rel="stylesheet"/>
 
 </head>
 <body>
@@ -277,12 +278,11 @@
     </address>
 </footer>
 <script src="/js/jquery-2.2.3.min.js"></script>
+<script src="/js/tooltipster.bundle.min.js"></script>
+
 <script src="/js/jsFiddler.min.js"></script>
 <script src="/js/bootstrap.min.js"></script>
 <script src="/js/scripts.js"></script>
-<script>
-
-</script>
 
 </body>
 </html>

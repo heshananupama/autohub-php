@@ -154,6 +154,7 @@ var val;
 
 $(document).ready(function () {
 
+    $('.tooltip').tooltipster();
 
     $('#new-review').autosize({append: "\n"});
 

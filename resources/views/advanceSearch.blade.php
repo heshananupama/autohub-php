@@ -81,9 +81,9 @@
     <br><br><br><br><br>
     <map name="Map" id="Map">
 
-        <area alt="" title="Brake Pads" onclick="advancedSearch('Brake')" shape="poly"
+        <area alt="" class="tooltip" title="Brake Pads" onclick="advancedSearch('Brake')" shape="poly"
               coords="87,241,77,259,99,263,105,242"/>
-        <area alt="" title="Pistons & Rings"  onclick="advancedSearch('Piston')"  shape="poly" coords="386,379,388,447,424,449,417,380" />
+        <area alt="" class="tooltip" title="Pistons & Rings"  onclick="advancedSearch('Piston')"  shape="poly" coords="386,379,388,447,424,449,417,380" />
 
     </map>
     <br>
