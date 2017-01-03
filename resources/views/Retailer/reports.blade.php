@@ -408,7 +408,7 @@
 
 
             <div class="row">
-                @if(!empty($dailyTotal) && empty($spares))
+                @if(!empty($dailyTotal) && empty($spares) && empty($dailyProfit))
 
 
                     <div id="content">
@@ -762,6 +762,191 @@
                     @endif
             </div>
 
+            <div class="row">
+                @if(!empty($dailyProfit) && empty($spares))
+
+
+                    <div id="content">
+                        <div id="splitForPrint" style="border-style: solid">
+                            <br>
+                            <div class="row">
+                                <div class="col-sm-3">
+
+
+                                </div>
+                                <div class="col-sm-6 text-center">
+                                    <h2 style="display: inline" align="center"><strong>{{$reportHeading}}</strong></h2>
+
+                                    <img src='/Images /{{$image}}' style=" width: 96px; height: 72px;" alt="">
+
+                                </div>
+                                <div class="col-sm-3">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-sm-3">
+
+                                </div>
+                                <div class="col-sm-6   text-center">
+                                    <h4 style="margin-left: 10px;margin-bottom: 0px;margin-top: 0px; ">Reporting
+                                        Period:</h4>
+                                    <h5 style="margin-left: 10px;"><strong>{{$reportDate}}</strong></h5>
+
+
+                                </div>
+                                <div class="col-sm-3">
+
+                                </div>
+                            </div>
+
+
+                            <table class="table table-bordered table-hover" id="reportingTable">
+
+                                <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Part No.</th>
+                                    <th>Description</th>
+                                    <th>Quantity</th>
+                                    <th>Total Profit</th>
+                                    <th>Total Cost</th>
+                                    <th>Net Profit</th>
+                                </tr>
+
+
+                                </thead>
+                                <tr>
+
+                                @foreach($dailyProfit as $profit)
+
+                                    <tr>
+                                        <td>{{ $profit->order->orderDate }}
+
+                                        </td>
+
+                                        <td>{{ $profit->spare->partNumber }}
+                                        </td>
+
+                                        <td>
+                                            {{ $profit->spare->description }}
+                                        </td>
+                                        <td>
+
+                                             {{ $profit->quantity }}
+                                        </td>
+                                        <td>
+
+                                            Rs. {{ $profit->subTotal }}/=
+                                        </td>
+                                        <td>
+                                            Rs. {{ $profit->totalCost }}/=
+                                        </td>
+
+                                        <td>
+
+                                            Rs. {{ $profit->subTotal - $profit->totalCost }}/=
+                                        </td>
+
+
+                                    </tr>
+
+                                @endforeach
+
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+
+                                    <td></td>
+                                    <td></td>
+                                    <td style="font-size: 15px"><strong>Rs.{{$profitTotal}}/=</strong></td>
+                                    <td style="font-size: 15px"><strong>Rs.{{$costTotal}}/=</strong></td>
+                                    <td style="font-size: 18px;border-top: groove;border-bottom: double">
+                                        Rs.{{$dailyTotal}}/=
+                                    </td>
+
+                                </tr>
+                            </table>
+                            <div class="row">
+                                <div class="col-sm-1">
+
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="submitted" class="col-md-4 control-label">Submitted By:</label>
+                                        <br>
+                                        .....................................
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="submitted" class="col-md-4 control-label">Reviewed By:</label>
+                                        <br>
+                                        ......................................
+                                    </div>
+                                </div>
+                                <div class="col-sm-1">
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <br><br>
+                    <div class="row">
+                        <div class="col-sm-4">
+
+                        </div>
+                        <div class="col-sm-2">
+                            <input style="margin-top: 8px;" class="btn btn-success" type="button" onclick="printDiv('splitForPrint')"
+                                   value="Print Report"/><br>
+
+                        </div>
+
+                        <div class="col-sm-2">
+
+                            <div class="btn-group pull-right" style=" padding: 10px;">
+                                <div class="dropdown">
+                                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        <span class="glyphicon glyphicon-th-list"></span> Import Table As
+
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="Import as">
+
+
+                                        <li><a href="#"
+                                               onclick="$('#splitForPrint').tableExport({type:'excel',escape:'false'});">
+                                                <img src="/Retailer/Libraries/rimages/xls.png" width="24px"> XLS</a></li>
+                                        <li><a href="#"
+                                               onclick="$('#splitForPrint').tableExport({type:'doc',escape:'false'});">
+                                                <img src="/Retailer/Libraries/rimages/word.png" width="24px"> Word</a></li>
+
+                                        </li>
+
+
+                                        <li><a href="#"
+                                               onclick="$('#splitForPrint').tableExport({type:'pdf',pdfFontSize:'7',escape:'false'});">
+                                                <img src="/Retailer/Libraries/rimages/pdf.png" width="24px"> PDF</a></li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+
+                        </div>
+                    </div>
+
+
+
+                @endif
+            </div>
 
 
 
