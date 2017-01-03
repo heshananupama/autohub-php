@@ -25,13 +25,13 @@
                             <div class="col-sm-3"></div>
                             <div class="col-xs-6 text-center  ">
                                 <a href="#" class="btn btn-danger btn-lg" role="button"><span
-                                            class="glyphicon glyphicon-list-alt"></span> <br/>Brands</a>
+                                            class="glyphicon glyphicon-list-alt"></span> <br/>Brands<br>{{$brandCount}}</a>
                                 <a href="#" class="btn btn-warning btn-lg" role="button"><span
-                                            class="glyphicon glyphicon-barcode"></span> <br/>Models</a>
+                                            class="glyphicon glyphicon-barcode"></span> <br/>Models <br>{{$modelCount}}</a>
                                 <a href="#" class="btn btn-primary btn-lg" role="button"><span
-                                            class="glyphicon glyphicon-copyright-mark"></span> <br/>Categories</a>
+                                            class="glyphicon glyphicon-copyright-mark"></span> <br/>Categories <br>{{$categoryCount}}</a>
                                 <a href="#" class="btn btn-primary btn-lg" role="button"><span
-                                            class="glyphicon glyphicon-envelope"></span> <br/>Complains</a>
+                                            class="glyphicon glyphicon-wrench"></span> <br/>Spares <br>{{$sparesCount}}</a>
                             </div>
                             <div class="col-sm-3"></div>
 
@@ -42,9 +42,9 @@
 
                             <div class="col-xs-6  text-center">
                                 <a href="#" class="btn btn-success btn-lg" role="button"><span
-                                            class="glyphicon glyphicon-user"></span> <br/>Users</a>
+                                            class="glyphicon glyphicon-user"></span> <br/>Customers <br> {{$customerCount}}</a>
                                 <a href="#" class="btn btn-info btn-lg" role="button"><span
-                                            class="glyphicon glyphicon-user"></span> <br/>Retailers</a>
+                                            class="glyphicon glyphicon-user"></span> <br/>Retailers <br>{{$retailerCount}}</a>
 
                             </div>
                             <div class="col-sm-3"></div>

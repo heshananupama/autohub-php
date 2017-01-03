@@ -23,6 +23,8 @@
     <!-- Custom CSS -->
     <link href="/Retailer/css/sb-admin.css" rel="stylesheet">
 
+
+
     <!-- Morris Charts CSS -->
     <link href="/Retailer/css/plugins/morris.css" rel="stylesheet">
 
@@ -34,7 +36,8 @@
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+
+     <![endif]-->
     <script>
         window.Laravel = <?php echo json_encode([
                 'csrfToken' => csrf_token(),
@@ -146,17 +149,31 @@
 
 
 <!-- jQuery -->
-<script src="/Retailer/js/jquery.js"></script>
+<script src="/Retailer/js/jquery-2.2.3.min.js"></script>
+<script src="/Retailer/js/jquery-ui.min.js"></script>
+
+{{--<script src="/Retailer/js/bootstrap-datepicker.js"></script>--}}
+
  <script src="/Retailer/js/jsFiddler.min.js"></script>
 <script src="/Retailer/js/AutoTable.min.js"></script>
 
 <!-- Bootstrap Core JavaScript -->
 <script src="/Retailer/js/bootstrap.min.js"></script>
 <script src="/Retailer/js/retailerScripts.js"></script>
+
+{{--Report scripts--}}
+<script type="text/javascript" src="/Retailer/Libraries/tableExport.js"></script>
+<script type="text/javascript" src="/Retailer/Libraries/jquery.base64.js"></script>
+<script type="text/javascript" src="/Retailer/Libraries/html2canvas.js"></script>
+<script type="text/javascript" src="/Retailer/Libraries/jspdf/libs/sprintf.js"></script>
+<script type="text/javascript" src="/Retailer/Libraries/jspdf/jspdf.js"></script>
+<script type="text/javascript" src="/Retailer/Libraries/jspdf/libs/base64.js"></script>
+
 <!-- Morris Charts JavaScript -->
 <script src="/Retailer/js/plugins/morris/raphael.min.js"></script>
 <script src="/Retailer/js/plugins/morris/morris.min.js"></script>
 <script src="/Retailer/js/plugins/morris/morris-data.js"></script>
+<link href="/Retailer/css/jquery-ui.css" rel="stylesheet">
 
 </body>
 

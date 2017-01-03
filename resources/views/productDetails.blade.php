@@ -54,6 +54,14 @@
                     <div class="col-sm-6">
 
                             <h3 ><strong>{{$prod->description}}</strong></h3>
+                        <div class="row">
+                            @if(!empty($overallRating))
+
+                                <div >
+                                   <div style="margin: 0px;" class="stars starrr"  data-rating=" {{$overallRating}}">  {{$overallRating}}/5</div>
+                                </div>
+                            @endif
+                        </div>
                               <h3><strong>Rs. {{$prod->price}}.00</strong><br></h3>
 
 
@@ -87,13 +95,7 @@
 
 
                               </div>
-                        <div class="row">
-                            @if(!empty($overallRating))
-                                <div class="col-sm-8 col-sm-offset-2">
-                                    <h3>Overall Product Rating - {{$overallRating}}/5 </h3>
-                                </div>
-                            @endif
-                        </div>
+
 
 
 

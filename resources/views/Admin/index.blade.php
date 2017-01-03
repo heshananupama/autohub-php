@@ -42,10 +42,7 @@
                 </div>
             </div>
             <div id="navbar" class="collapse navbar-collapse">
-                <ul class="nav navbar-nav">
-                    <li class="active"><a href="#">Home</a></li>
-                    <li><a href="#about">About</a></li>
-                </ul>
+
                 <!-- Right Side Of Navbar -->
                 <ul class="nav navbar-nav navbar-right">
                     <!-- Authentication Links -->
@@ -108,11 +105,7 @@
                         <span class="fa fa-anchor solo">Categories</span>
                     </a>
                 </li>
-                <li>
-                    <a href="{{ url('/admin/category') }}">
-                        <span class="fa fa-anchor solo">Complains</span>
-                    </a>
-                </li>
+
                 <li>
                     <a href="{{ url('/admin/registerRetailer') }}">
                         <span class="fa fa-anchor solo">Register Retailers</span>

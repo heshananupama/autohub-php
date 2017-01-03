@@ -132,6 +132,8 @@ class searchController extends Controller
                 $spareId = $item->spare_id;
                 $spare = Spares::find($spareId);
                 $subTotal = $item->quantity * $spare->price;
+                $totalCost = $item->quantity * $spare->cost;
+                $orderItem->totalCost=$totalCost;
                 $orderItem->subTotal = $subTotal;
                 $order = Orders::orderBy('created_at', 'desc')->first();
                 $orderItem->order_id = $order->id;

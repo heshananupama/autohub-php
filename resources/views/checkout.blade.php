@@ -42,11 +42,12 @@
                             <input type="text" id="name" class="form-control" required>
                         </div>
                     </div>
-                    <div class="col-xs-12">
-                        <div class="form-group">
+                    <div class="col-xs-12" >
+                        <div class="form-group" >
                             <label for="address">Address</label>
                             <input type="text" name="city" id="address" class="form-control" required>
                         </div>
+
                     </div>
                     <hr>
                     <div class="col-xs-12">

@@ -5,6 +5,22 @@
 $(document).ready(function () {
 
     $('.alert-autocloseable-success').hide();
+    $('#date').datepicker({
+        dateFormat: "yy-mm-dd"
+    });
+     $('#reportFrequency').attr('disabled', 'disabled');
+
+
+        $('#monthPicker').datepicker( {
+            changeMonth: true,
+            changeYear: true,
+            showButtonPanel: true,
+            dateFormat: 'yy-mm ',
+            onClose: function(dateText, inst) {
+                $(this).datepicker('setDate', new Date(inst.selectedYear, inst.selectedMonth, 1));
+            }
+        });
+
 
 });
 
@@ -63,7 +79,7 @@ function getEditModels(){
 
 }
 
-function EditSpare(id,partNumber,description,brandName,quantity,price,warranty,category) {
+function EditSpare(id,partNumber,description,brandName,quantity,cost,price,warranty,category) {
     document.getElementById("partNumberEdit").value=partNumber;
     $("#brandEdit option:contains(" + brandName + ")").attr('selected', 'selected');
 
@@ -76,6 +92,8 @@ function EditSpare(id,partNumber,description,brandName,quantity,price,warranty,c
 
     document.getElementById("quantityEdit").value=quantity;
     document.getElementById("descriptionEdit").value=description;
+    document.getElementById("costEdit").value=cost;
+
     document.getElementById("priceEdit").value=price;
 
     document.getElementById("EditSpareId").value=id;
@@ -173,6 +191,35 @@ function replyCustomer() {
 
 }
 
+function pdfToHTML(){
+    var pdf = new jsPDF('p', 'pt', 'letter');
+    source = $('#splitForPrint')[0];
+    specialElementHandlers = {
+        '#bypassme': function(element, renderer){
+            return true
+        }
+    }
+    margins = {
+        top: 50,
+        left: 60,
+        width: 545
+    };
+    pdf.fromHTML(
+        source // HTML string or DOM elem ref.
+        , margins.left // x coord
+        , margins.top // y coord
+        , {
+            'width': margins.width // max width of content on PDF
+            , 'elementHandlers': specialElementHandlers
+        },
+        function (dispose) {
+            // dispose: object with X, Y of the last line add to the PDF
+            //          this allow the insertion of new lines after html
+            pdf.save('html2pdf.pdf');
+        }
+    )
+}
+
 function printDiv(divName) {
     var printContents = document.getElementById(divName).innerHTML;
     var originalContents = document.body.innerHTML;
@@ -183,3 +230,38 @@ function printDiv(divName) {
 
     document.body.innerHTML = originalContents;
 }
+
+function activateReportingPeriod(value) {
+    document.getElementById('reportingPeriodDropDown').style.visibility = 'visible';
+
+    $('#reportFrequency option[value="daily"]').attr("disabled", false);
+
+    $('#reportFrequency').removeAttr('disabled');
+
+    if(value=="orders"){
+        $('#reportFrequency option[value="daily"]').attr("disabled", true);
+
+    }
+    if(value=="inventory"){
+        document.getElementById('reportingPeriodDropDown').style.visibility = 'hidden';
+
+    }
+}
+
+function  activateReportDateSelect(value) {
+    document.getElementById('date').style.visibility = 'hidden';
+    document.getElementById('monthPicker').style.visibility = 'hidden';
+    if(value=="daily"){
+        document.getElementById('date').style.visibility = 'visible';
+
+    }
+    else if(value=="monthly"){
+        document.getElementById('monthPicker').style.visibility = 'visible';
+
+    }
+    else{
+        document.getElementById('date').style.visibility = 'hidden';
+        document.getElementById('monthPicker').style.visibility = 'hidden';
+    }
+}
+

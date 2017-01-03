@@ -108,12 +108,14 @@
                             <th>Name</th>
                             <th>Brand</th>
                             <th>Model</th>
-                            <th>Spare Category</th>
+                            <th>Category</th>
 
                             <th>year</th>
                             <th>FuelType</th>
-                            <th>Transmission Type</th>
+                            <th>Transmission</th>
                             <th>Quantity</th>
+                            <th>Cost</th>
+
                             <th>Price</th>
                             <th>Warranty</th>
                             <th>Spare Image</th>
@@ -143,6 +145,7 @@
                                     <td>{{$spare->model->transmissionType}}</td>
 
                                     <td>{{$spare->quantity}}</td>
+                                     <td>{{'Rs.'. $spare->cost}}</td>
                                     <td>{{'Rs.'. $spare->price}}</td>
                                     <td>{{$spare->warranty}}</td>
 
@@ -155,7 +158,7 @@
                                     </td>
                                     <td>
 
-                                        <a style="margin-bottom: 5px;" onclick="EditSpare({{$spare->id}},'{{$spare->partNumber}}','{{$spare->description}}','{{$spare->brand->brandName}}','{{$spare->quantity}}','{{$spare->price}}','{{$spare->warranty}}','{{$spare->category->categoryName}}')" class=" btn btn-success btn-xs" data-toggle="modal" data-target="#modalEdit">Edit </a>
+                                        <a style="margin-bottom: 5px;" onclick="EditSpare({{$spare->id}},'{{$spare->partNumber}}','{{$spare->description}}','{{$spare->brand->brandName}}','{{$spare->quantity}}','{{$spare->cost}}','{{$spare->price}}','{{$spare->warranty}}','{{$spare->category->categoryName}}')" class=" btn btn-success btn-xs" data-toggle="modal" data-target="#modalEdit">Edit </a>
 
                                         <a onclick="DeleteSpare({{$spare->id}})" style=""
                                            class=" btn btn-danger btn-xs">Delete </a>
@@ -254,6 +257,10 @@
                                     <input style="margin-bottom: 5px;" placeholder="Quantity" type="number"
                                            class="form-control" name="quantity"
                                            value="{{old('quantity')}}"/>
+                                    <input style="margin-bottom: 5px;" placeholder="Cost" type="number"
+                                           class="form-control" name="cost"
+                                           value="{{old('cost')}}"/>
+
                                     <input style="margin-bottom: 5px;" placeholder="Price" type="number"
                                            class="form-control" name="price"
                                            value="{{old('price')}}"/>
@@ -334,11 +341,13 @@
                             <div class="col-md-6 ">
                                 <div class="form-group">
 
-                                    <input id="partNumberEdit" style="margin-bottom: 5px;" placeholder="Part Number"
+                                    <label for="partNumberEdit" class="control-label">PartNumber:</label>
+                                    <input  id="partNumberEdit" style="margin-bottom: 5px;" placeholder="Part Number"
                                            type="text"
                                            class="form-control" name="partNumber"
                                            value="{{old('partNumber')}}"/>
 
+                                    <label for="brandEdit" class="control-label">Brand:</label>
 
                                     <select id="brandEdit" name="brandId" class="form-control"
                                             onchange="getEditModels()" required>
@@ -348,6 +357,7 @@
 
                                         @endforeach
                                     </select>
+                                    <label for="categoryEdit" class="control-label">Category:</label>
 
                                     <select id="categoryEdit" name="categoryId" class="form-control"
                                              required>
@@ -358,6 +368,7 @@
                                         @endforeach
                                     </select>
 
+                                    <label for="modelEdit" class="control-label">Model:</label>
 
                                     <select id="modelEdit" name="modelId" type="text"
                                             class="form-control" required>
@@ -365,6 +376,7 @@
 
                                     </select>
 
+                                    <label for="warrantyEdit" class="control-label">Warranty:</label>
 
                                     <select style="margin-bottom: 5px;" class="form-control" name="warranty"
                                             id="warrantyEdit">
@@ -376,14 +388,26 @@
 
                                     </select>
 
+                                    <label for="quantityEdit" class="control-label">Quantity:</label>
 
                                     <input style="margin-bottom: 5px;" placeholder="Quantity" type="number"
                                            id="quantityEdit"
                                            class="form-control" name="quantity"
                                            value="{{old('quantity')}}"/>
+
+                                    <label for="costEdit" class="control-label">Cost:</label>
+
+                                    <input style="margin-bottom: 5px;" placeholder="Cost" type="number"
+                                           class="form-control" name="cost" id="costEdit"
+                                           value="{{old('cost')}}"/>
+
+                                    <label for="priceEdit" class="control-label">Price:</label>
+
                                     <input style="margin-bottom: 5px;" placeholder="Price" type="number"
                                            class="form-control" name="price" id="priceEdit"
                                            value="{{old('price')}}"/>
+
+                                    <label for="descriptionEdit" class="control-label">Name:</label>
 
                                     <input style="margin-bottom: 5px;" placeholder="Description" type="text"
                                               id="descriptionEdit"

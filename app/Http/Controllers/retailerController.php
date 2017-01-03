@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
+use DateTime;
 use App;
 use App\User;
 use App\Message;
@@ -49,7 +50,7 @@ class retailerController extends Controller
         $enquiryCount = App\Enquiries::all()->count();
 
 
-        $orderItems = Orderitem::with('spare', 'order')->get();
+        $orderItems = Orderitem::with('spare', 'order')->where('orderStatus', '=', 'purchased')->get();
 
         foreach ($orderItems as $key => $orderItem) {
             if ($orderItem->spare->retailer_id != Auth::user()->id) {
@@ -241,8 +242,11 @@ class retailerController extends Controller
 
 
             if ($orderItem->spare->retailer_id == Auth::user()->id) {
-                array_push($salesItems, $orderItem);
-            }
+                if ($orderItem->order->orderDate >= date('Y-m-d', strtotime("-1 week"))) {
+
+                    array_push($salesItems, $orderItem);
+                }
+             }
 
         }
 
@@ -428,6 +432,13 @@ class retailerController extends Controller
 
     public function loadReports(Request $request)
     {
+
+        $userId = Auth::user()->id;
+        $retailer = DB::table('retailers')
+            ->where('user_id', $userId)->first();
+        $image = $retailer->avatarImage;
+        $address=$retailer->address;
+
         $data = array();
         $dayArray = array();
         $salesItems = array();
@@ -435,12 +446,100 @@ class retailerController extends Controller
         $reportStartDate = "";
         $reportEndDate = "";
         $reportHeading = "";
+        $startdate = "";
+        $reportTotal=0;
 
-
-        if ($request->reportType == "sales" && $request->frequency == "daily") {
-            $reportHeading="Daily Sales Report";
+        if ($request->reportType == "sales" && $request->frequency == "weekly") {
+            $reportHeading = "Weekly Sales Report";
             $startdate = date('Y-m-d', strtotime("-1 week"));
             $enddate = date('Y-m-d');
+
+            while (strtotime($startdate) < strtotime($enddate)) {
+                $day = date('l', strtotime($startdate));
+                array_push($dayArray, $day);
+
+                array_push($data, $startdate);
+                $startdate = date("Y-m-d", strtotime("+1 day", strtotime($startdate)));
+            }
+
+            foreach ($data as $key => $date) {
+                if ($key == 0) {
+                    $reportStartDate = $date;
+                } elseif ($key = count($data) - 1) {
+                    $reportEndDate = $date;
+                }
+            }
+            foreach ($dayArray as $key => $day) {
+                $reportData[$day] = [];
+
+            }
+
+            $orderItems = OrderItem::with('spare', 'order')->get();
+
+            foreach ($orderItems as $key => $orderItem) {
+
+
+                if ($orderItem->spare->retailer_id == Auth::user()->id) {
+                    array_push($salesItems, $orderItem);
+                }
+
+
+            }
+            $categories = App\Categories::all();
+            foreach ($data as $date) {
+                $day = date('l', strtotime($date));
+
+                $subTotal = 0;
+
+                foreach ($categories as $category) {
+                    $categoryValue = 0;
+                    foreach ($salesItems as $salesItem) {
+                        if ($date == $salesItem->order->orderDate && ($category->id == $salesItem->spare->category_id)) {
+                            $categoryValue = $categoryValue + $salesItem->subTotal;
+
+                        }
+                    }
+                    $subTotal = $categoryValue + $subTotal;
+                    $reportData[$day][$category->categoryName] = "Rs. " . $categoryValue . "/=";
+                    $reportData[$day]['subTotal'] = "Rs. " . $subTotal . "/=";
+
+                }
+                $reportTotal=$reportTotal+$subTotal;
+
+            }
+            $reportTotal="Rs.".$reportTotal."/=";
+
+            return View::make('Retailer/reports')->with('image', $image)->with('categories', $categories)->with('day', $dayArray)->with('reportStartDate', $reportStartDate)
+                ->with('reportEndDate', $reportEndDate)->with('reportData', $reportData)->with('reportHeading', $reportHeading)->with('reportTotal', $reportTotal);
+
+
+        }
+
+        if ($request->reportType == "sales" && $request->frequency == "monthly") {
+
+            if($request->monthSelect!=null){
+                $reportHeading = "Monthly Sales Report";
+
+                $requestDate=$request->monthSelect;
+                $requestDate = explode('-', $requestDate);
+                $year=$requestDate[0];
+                $month=$requestDate[1];
+
+                $startdate=$year.'-'.$month.'-01';
+                $startdate = str_replace(' ', '', $startdate);
+
+                // $a_date = new DateTime( $startdate );
+                $enddate=date("Y-m-t", strtotime($startdate));
+
+
+            }
+            else{
+                $reportHeading = "Last 30 Days Sales Report";
+
+                $startdate = date('Y-m-d', strtotime("-1 month"));
+                $enddate = date('Y-m-d');
+            }
+
 
             while (strtotime($startdate) <= strtotime($enddate)) {
                 $day = date('l', strtotime($startdate));
@@ -455,9 +554,13 @@ class retailerController extends Controller
                     $reportStartDate = $date;
                 } elseif ($key = count($data) - 1) {
                     $reportEndDate = $date;
+
                 }
+
                 $reportData[$date] = [];
+
             }
+
             $orderItems = OrderItem::with('spare', 'order')->get();
 
             foreach ($orderItems as $key => $orderItem) {
@@ -471,7 +574,9 @@ class retailerController extends Controller
             }
             $categories = App\Categories::all();
             foreach ($data as $date) {
-                $subTotal=0;
+                $day = date('l', strtotime($date));
+
+                $subTotal = 0;
 
                 foreach ($categories as $category) {
                     $categoryValue = 0;
@@ -481,62 +586,270 @@ class retailerController extends Controller
 
                         }
                     }
-                    $subTotal=$categoryValue+$subTotal;
-                    $reportData[$date][$category->categoryName] = "Rs. ".$categoryValue."/=";
-                    $reportData[$date]['subTotal'] = "Rs. ".$subTotal."/=";
+                    $subTotal = $categoryValue + $subTotal;
+                    $reportData[$date][$category->categoryName] = "Rs. " . $categoryValue . "/=";
+                    $reportData[$date]['subTotal'] = "Rs. " . $subTotal . "/=";
 
                 }
+                $reportTotal=$reportTotal+$subTotal;
             }
-            return View::make('Retailer/reports')->with('categories', $categories)->with('day', $dayArray)->with('reportStartDate', $reportStartDate)->with('reportEndDate', $reportEndDate)->with('reportData', $reportData)->with('reportHeading', $reportHeading);
+            $reportTotal="Rs.".$reportTotal."/=";
+
+            return View::make('Retailer/reports')->with('image', $image)->with('categories', $categories)->with('day', $dayArray)->with('reportStartDate', $reportStartDate)
+                ->with('reportEndDate', $reportEndDate)->with('reportData', $reportData)->with('reportHeading', $reportHeading)->with('reportTotal', $reportTotal);
 
 
         }
+
+        if ($request->reportType == "orders" && $request->frequency == "weekly") {
+            $reportHeading = "Weekly Orders Report";
+            $startdate = date('Y-m-d', strtotime("-1 week"));
+            $enddate = date('Y-m-d');
+
+            while (strtotime($startdate) < strtotime($enddate)) {
+                $day = date('l', strtotime($startdate));
+                array_push($dayArray, $day);
+
+                array_push($data, $startdate);
+                $startdate = date("Y-m-d", strtotime("+1 day", strtotime($startdate)));
+            }
+
+            foreach ($data as $key => $date) {
+                if ($key == 0) {
+                    $reportStartDate = $date;
+                } elseif ($key = count($data) - 1) {
+                    $reportEndDate = $date;
+                }
+            }
+            foreach ($dayArray as $key => $day) {
+                $reportData[$day] = [];
+
+            }
+
+            $orderItems = OrderItem::with('spare', 'order')->get();
+
+            foreach ($orderItems as $key => $orderItem) {
+
+
+                if ($orderItem->spare->retailer_id == Auth::user()->id) {
+                    array_push($salesItems, $orderItem);
+                }
+
+
+            }
+            $categories = App\Categories::all();
+            foreach ($data as $date) {
+                $day = date('l', strtotime($date));
+
+                $subTotal = 0;
+
+                foreach ($categories as $category) {
+                    $categoryValue = 0;
+                    foreach ($salesItems as $salesItem) {
+                        if ($date == $salesItem->order->orderDate && ($category->id == $salesItem->spare->category_id)) {
+                            $categoryValue = $categoryValue + 1;
+
+                        }
+                    }
+                    $subTotal = $categoryValue + $subTotal;
+                    $reportData[$day][$category->categoryName] = $categoryValue;
+                    $reportData[$day]['subTotal'] = $subTotal;
+
+                }
+                $reportTotal=$reportTotal+$subTotal;
+
+            }
+            return View::make('Retailer/reports')->with('image', $image)->with('categories', $categories)->with('day', $dayArray)->with('reportStartDate', $reportStartDate)
+                ->with('reportEndDate', $reportEndDate)->with('reportData', $reportData)->with('reportHeading', $reportHeading)->with('reportTotal', $reportTotal);;
+
+
+        }
+
+        if ($request->reportType == "orders" && $request->frequency == "monthly") {
+
+
+            if($request->monthSelect!=null){
+                $reportHeading = "Monthly Orders Report";
+
+                $requestDate=$request->monthSelect;
+                $requestDate = explode('-', $requestDate);
+                $year=$requestDate[0];
+                $month=$requestDate[1];
+
+                $startdate=$year.'-'.$month.'-01';
+                $startdate = str_replace(' ', '', $startdate);
+                // $a_date = new DateTime( $startdate );
+                $enddate=date("Y-m-t", strtotime($startdate));
+
+
+            }
+            else{
+
+                $reportHeading = "Last 30 days Order Items Report";
+                $startdate = date('Y-m-d', strtotime("-4 week"));
+                $enddate = date('Y-m-d');
+            }
+
+
+            while (strtotime($startdate) <= strtotime($enddate)) {
+                $day = date('l', strtotime($startdate));
+                array_push($dayArray, $day);
+
+                array_push($data, $startdate);
+                $startdate = date("Y-m-d", strtotime("+1 day", strtotime($startdate)));
+            }
+
+            foreach ($data as $key => $date) {
+                if ($key == 0) {
+                    $reportStartDate = $date;
+                } elseif ($key = count($data) - 1) {
+                    $reportEndDate = $date;
+
+                }
+
+                $reportData[$date] = [];
+
+            }
+
+            $orderItems = OrderItem::with('spare', 'order')->get();
+
+            foreach ($orderItems as $key => $orderItem) {
+
+
+                if ($orderItem->spare->retailer_id == Auth::user()->id) {
+                    array_push($salesItems, $orderItem);
+                }
+
+
+            }
+            $categories = App\Categories::all();
+            foreach ($data as $date) {
+                $day = date('l', strtotime($date));
+
+                $subTotal = 0;
+
+                foreach ($categories as $category) {
+                    $categoryValue = 0;
+                    foreach ($salesItems as $salesItem) {
+                        if ($date == $salesItem->order->orderDate && ($category->id == $salesItem->spare->category_id)) {
+                            $categoryValue = $categoryValue + 1;
+
+                        }
+                    }
+
+                    $subTotal = $categoryValue + $subTotal;
+                    $reportData[$date][$category->categoryName] = $categoryValue;
+                    $reportData[$date]['subTotal'] = $subTotal;
+
+                }
+                $reportTotal=$reportTotal+$subTotal;
+
+            }
+
+            return View::make('Retailer/reports')->with('image', $image)->with('categories', $categories)->with('day', $dayArray)->with('reportStartDate', $reportStartDate)
+                ->with('reportEndDate', $reportEndDate)->with('reportData', $reportData)->with('reportHeading', $reportHeading)->with('reportTotal', $reportTotal);
+
+        }
+
+        if ($request->reportType == "sales" && $request->frequency == "daily") {
+            $dailySales = [];
+            $dailyTotal=0;
+            $reportHeading = "Daily Sales Report";
+            if ($request->oneDate) {
+                $startdate = $request->oneDate;
+            } else {
+                $startdate = date('Y-m-d');
+
+            }
+
+
+            $orderItems = OrderItem::with('spare', 'order')->get();
+
+            foreach ($orderItems as $key => $orderItem) {
+
+
+                if ($orderItem->spare->retailer_id == Auth::user()->id) {
+                    array_push($salesItems, $orderItem);
+
+                }
+
+
+            }
+
+
+            foreach ($salesItems as $salesItem) {
+                if ($startdate == $salesItem->order->orderDate) {
+
+                    $dailyTotal = $dailyTotal + $salesItem->subTotal;
+
+                    array_push($dailySales, $salesItem);
+
+                }
+            }
+
+
+            return View::make('Retailer/reports')->with('image', $image)->with('dailyTotal', $dailyTotal)->with('dailySales', $dailySales)->with('reportHeading', $reportHeading)->with('reportDate',$startdate);
+
+
+        }
+
+        if($request->reportType=="inventory"){
+            $categories = App\Categories::all();
+            $retailer_id= Auth::user()->id;
+ $reportHeading="Inventory Report";
+            $spares=Spares::with('brand', 'model','category')
+                ->where('retailer_id', $retailer_id)->get();
+              $startdate = date('Y-m-d');
+
+
+            return View::make('Retailer/reports')->with('image', $image)->with('address',$address)->with('categories', $categories)->with('spares', $spares)->with('reportHeading', $reportHeading)->with('reportDate',$startdate);
+
+        }
+
+
+        if ($request->reportType == "profit" && $request->frequency == "daily") {
+            $dailySales = [];
+            $dailyTotal=0;
+            $reportHeading = "Daily Orders Report";
+            if ($request->oneDate) {
+                $startdate = $request->oneDate;
+            }
+            else {
+                $startdate = date('Y-m-d');
+            }
+
+
+            $orderItems = OrderItem::with('spare', 'order')->get();
+
+            foreach ($orderItems as $key => $orderItem) {
+
+
+                if ($orderItem->spare->retailer_id == Auth::user()->id) {
+                    array_push($salesItems, $orderItem);
+
+                }
+
+
+            }
+
+
+            foreach ($salesItems as $salesItem) {
+                if ($startdate == $salesItem->order->orderDate) {
+
+                    $dailyTotal = $dailyTotal + $salesItem->subTotal;
+
+                    array_push($dailySales, $salesItem);
+
+                }
+            }
+
+
+            return View::make('Retailer/reports')->with('image', $image)->with('dailyTotal', $dailyTotal)->with('dailySales', $dailySales)->with('reportHeading', $reportHeading)->with('reportDate',$startdate);
+
+
+        }
+
 
     }
-    /*    public function loadReports(Request $request)
-        {
-
-            $data = ['2012-05-05','2012-05-06'];
-
-            $reportData = [];
-
-            foreach($data as $date) {
-            $reportData[$date] = [];
-        }
-
-     $salesItems = array();
-
-        $orderItems = OrderItem::with('spare', 'order')->get();
-
-        foreach ($orderItems as $key => $orderItem) {
-
-
-            if ($orderItem->spare->retailer_id == Auth::user()->id) {
-                array_push($salesItems, $orderItem);
-            }
-
-
-        }
-        $categories = App\Categories::all();
-
-        foreach ($data as $date) {
-
-            foreach ($categories as $category) {
-                $categoryValue = 0;
-                foreach ($salesItems as $salesItem) {
-                    if ($date == $salesItem->order->orderDate) {
-                        $categoryValue += $categoryValue + $salesItem->subTotal;
-                    }
-                }
-
-                array_push($reportData[$date], [$category => 22]);
-
-            }
-        }
-        dd($reportData);
-
-
-      return View::make('Retailer/reports')->with('categories', $categories)->with('reportData', $reportData);
-     }*/
 
 }

@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Brands;
+use App\Categories;
+use App\Models;
+use App\Spares;
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use DB;
@@ -137,6 +141,25 @@ class brandsController extends Controller
 
     }
     public function loadHome(){
-        return view('Admin/admin');
+        $categories=Categories::all();
+        $categoryCount=$categories->count();
+
+        $spares=Spares::all();
+        $spareCount=$spares->count();
+
+        $models=Models::all();
+        $modelCount=$models->count();
+
+        $brands=Brands::all();
+        $brandCount=$brands->count();
+
+
+        $customers=User::where('type','c');
+        $customerCount=$customers->count();
+
+        $retailers=User::where('type','r');
+        $retailerCount=$retailers->count();
+
+        return view('Admin/admin')->with('customerCount',$customerCount)->with('retailerCount',$retailerCount)->with('brandCount',$brandCount)->with('modelCount',$modelCount)->with('categoryCount',$categoryCount)->with('sparesCount',$spareCount)->with('sparesCount',$customerCount);
     }
 }
