@@ -77,13 +77,14 @@
     <h3 id="headId"  >Please Select a Part from the following Image</h3>
     <br>
 
-    <img id="carImage" style="visibility:hidden " src="/Images/carparts3.jpg" alt="" usemap="#Map">
+    <img id="carImage" src="/Images/carparts3.jpg" alt="" usemap="#Map">
     <br><br><br><br><br>
     <map name="Map" id="Map">
 
         <area alt="" class="tooltip" title="Brake Pads" onclick="advancedSearch('Brake')" shape="poly"
               coords="87,241,77,259,99,263,105,242"/>
         <area alt="" class="tooltip" title="Pistons & Rings"  onclick="advancedSearch('Piston')"  shape="poly" coords="386,379,388,447,424,449,417,380" />
+        <area alt="" class="tooltip" title="Oil Filter" onclick="advancedSearch('Oil Filter')" shape="poly" coords="644,321,659,322,655,340,643,337" />
 
     </map>
     <br>

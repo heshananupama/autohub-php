@@ -165,6 +165,9 @@ Route::group(['middleware' => 'App\Http\Middleware\Retailer'], function () {
 
     Route::get("/retailer/chartSales", 'retailerController@loadSalesChart');
 
+    Route::get("/retailer/chartProfits", 'retailerController@loadProfitsChart');
+
+
     Route::get("/retailer/chartOrders", 'retailerController@loadOrdersChart');
 
     Route::get("/retailer/chartDonuts", 'retailerController@loadDonutChart');

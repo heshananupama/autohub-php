@@ -278,6 +278,8 @@
     </address>
 </footer>
 <script src="/js/jquery-2.2.3.min.js"></script>
+<script src="/js/toolstip.js"></script>
+
 <script src="/js/tooltipster.bundle.min.js"></script>
 
 <script src="/js/jsFiddler.min.js"></script>

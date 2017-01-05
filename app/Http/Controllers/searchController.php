@@ -17,8 +17,8 @@ use App\Spares;
 
 
 use Auth;
- use Log;
- use Illuminate\Support\Facades\Redirect;
+use Log;
+use Illuminate\Support\Facades\Redirect;
 use App;
 use Illuminate\Support\Facades\DB;
 
@@ -34,17 +34,17 @@ class searchController extends Controller
     public function index(Request $request)
     {
 
-        $brands=Brands::all();
-        $models=Models::all();
-        $categories=Categories::all();
+        $brands = Brands::all();
+        $models = Models::all();
+        $categories = Categories::all();
         $spares = null;
         $search = "";
         if ($request->searchName) {
             $search = $request->searchName;
-            $spares = Spares::with('user', 'model','brand')
-                ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber','LIKE','%'.$request->searchName.'%')->get();
+            $spares = Spares::with('user', 'model', 'brand')
+                ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber', 'LIKE', '%' . $request->searchName . '%')->get();
 
-         }
+        }
 
         return View::make('browse')->with('spares', $spares)->with('brands', $brands)->with('models', $models)->with('categories', $categories)->with('search', $search);
 
@@ -52,36 +52,35 @@ class searchController extends Controller
 
     public function loadProduct($id)
     {
-        $rating=0;
-        $index=0;
+        $rating = 0;
+        $index = 0;
 
-        $product = Spares::with('brand', 'model','category')
+        $product = Spares::with('brand', 'model', 'category')
             ->where('id', $id)->get();
 
-        $orderItems = DB::table('feedback')->where('feedbackType','=','Review')
+        $orderItems = DB::table('feedback')->where('feedbackType', '=', 'Review')
             ->join('orderItem', 'feedback.orderItem_id', '=', 'orderItem.id')->join('users', 'feedback.user_id', '=', 'users.id')->get();
 
 
-        foreach ($orderItems as $key=>$orderItem) {
+        foreach ($orderItems as $key => $orderItem) {
             if (($orderItem->spare_id) != $id) {
                 unset($orderItems[$key]);
             }
         }
-        foreach ($orderItems as $key=>$orderItem) {
-            if($orderItem->rating!=null){
-                $rating=$rating+$orderItem->rating;
+        foreach ($orderItems as $key => $orderItem) {
+            if ($orderItem->rating != null) {
+                $rating = $rating + $orderItem->rating;
                 $index++;
             }
 
         }
-        if($rating!=0 && $index!=0){
-            $overallRating= $rating/$index;
-            return View::make('productDetails')->with('product', $product)->with('reviewItems', $orderItems)->with('overallRating',$overallRating);
-        }
-        else{
+        if ($rating != 0 && $index != 0) {
+            $overallRating = $rating / $index;
+            $overallRating=round($overallRating);
+            return View::make('productDetails')->with('product', $product)->with('reviewItems', $orderItems)->with('overallRating', $overallRating);
+        } else {
             return View::make('productDetails')->with('product', $product)->with('reviewItems', $orderItems);
         }
-
 
 
     }
@@ -128,18 +127,18 @@ class searchController extends Controller
             foreach ($items as $item) {
                 $orderItem = new OrderItem();
                 $orderItem->quantity = $item->quantity;
-                $orderItem->spare_id= $item->spare_id;
+                $orderItem->spare_id = $item->spare_id;
                 $spareId = $item->spare_id;
                 $spare = Spares::find($spareId);
                 $subTotal = $item->quantity * $spare->price;
                 $totalCost = $item->quantity * $spare->cost;
-                $orderItem->totalCost=$totalCost;
+                $orderItem->totalCost = $totalCost;
                 $orderItem->subTotal = $subTotal;
                 $order = Orders::orderBy('created_at', 'desc')->first();
                 $orderItem->order_id = $order->id;
                 $orderItem->save();
-                $spare=Spares::find($item->spare_id);
-                $newQuantity=$spare->quantity - $item->quantity;
+                $spare = Spares::find($item->spare_id);
+                $newQuantity = $spare->quantity - $item->quantity;
                 DB::table('spares')
                     ->where('id', $item->spare_id)
                     ->update(['quantity' => $newQuantity]);
@@ -154,7 +153,6 @@ class searchController extends Controller
         /*        DB::update("update spares
                  set  quantity=quantity-'$quantity'  where id = $spareId");*/
     }
-
 
 
     public function addToCart(Request $request)
@@ -213,10 +211,7 @@ class searchController extends Controller
             }
 
 
-
-
         }
-
 
 
     }
@@ -229,333 +224,260 @@ class searchController extends Controller
      */
     public function filterResults(Request $request)
     {
-        $search="";
-        $brand=$request->brand;
-        $sortBy=$request->sortby;
-        $model=$request->model;
-        $category=$request->category;
+        $search = "";
+        $brand = $request->brand;
+        $sortBy = $request->sortby;
+        $model = $request->model;
+        $category = $request->category;
 
-        $brands=Brands::all();
-        $models=Models::all();
-        $categories=Categories::all();
+        $brands = Brands::all();
+        $models = Models::all();
+        $categories = Categories::all();
         $spares = null;
         if ($request->searchName) {
             $search = $request->searchName;
 
 
+            if ($category == "" && $sortBy == "" && $model == "" && $brand == "") {
+                $spares = Spares::with('user', 'model', 'brand')
+                    ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber', 'LIKE', '%' . $request->searchName . '%')->get();
 
-        //
+            } else if ($brand == "" && $sortBy == "" && $model == "") {
+                $spares = Spares::with('user', 'model', 'brand')->where('category_id', '=', $category)
+                    ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber', 'LIKE', '%' . $request->searchName . '%')->get();
 
+            } else if ($category == "" && $sortBy == "" && $model == "") {
+                $spares = Spares::with('user', 'model', 'brand')->where('brand_id', '=', $brand)
+                    ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber', 'LIKE', '%' . $request->searchName . '%')->get();
 
-        if($brand=="" && $sortBy=="" && $model==""){
-            $spares = Spares::with('user', 'model','brand')->where('category_id','=',$category)
-                ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber','LIKE','%'.$request->searchName.'%')->get();
+            } else if ($category == "" && $sortBy == "" && $brand == "") {
+                $spares = Spares::with('user', 'model', 'brand')->where('model_id', '=', $model)
+                    ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber', 'LIKE', '%' . $request->searchName . '%')->get();
 
-        }
+            } else if ($category == "" && $model == "" && $brand == "") {
+                if ($sortBy == "Name") {
+                    $spares = Spares::with('user', 'model', 'brand')
+                        ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber', 'LIKE', '%' . $request->searchName . '%')->orderBy('description', 'asc')->get();
 
+                } elseif ($sortBy == "priceAscending") {
+                    $spares = Spares::with('user', 'model', 'brand')
+                        ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber', 'LIKE', '%' . $request->searchName . '%')->orderBy('price', 'asc')->get();
 
-        else if($category=="" && $sortBy=="" && $model==""){
-            $spares = Spares::with('user', 'model','brand')->where('brand_id','=',$brand)
-                ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber','LIKE','%'.$request->searchName.'%')->get();
+                } elseif ($sortBy == "priceDescending") {
+                    $spares = Spares::with('user', 'model', 'brand')
+                        ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber', 'LIKE', '%' . $request->searchName . '%')->orderBy('price', 'desc')->get();
 
-        }
+                }
 
-        else if($category=="" && $sortBy=="" && $brand==""){
-            $spares = Spares::with('user', 'model','brand')->where('model_id','=',$model)
-                ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber','LIKE','%'.$request->searchName.'%')->get();
+            } else if ($model == "" && $brand == "") {
+                if ($sortBy == "Name") {
+                    $spares = Spares::with('user', 'model', 'brand')->where('category_id', '=', $category)
+                        ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber', 'LIKE', '%' . $request->searchName . '%')->orderBy('description', 'asc')->get();
 
-        }
+                } elseif ($sortBy == "priceAscending") {
+                    $spares = Spares::with('user', 'model', 'brand')->where('category_id', '=', $category)
+                        ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber', 'LIKE', '%' . $request->searchName . '%')->orderBy('price', 'asc')->get();
 
-        else if($category=="" && $model=="" && $brand==""){
-            if($sortBy=="Name"){
-                $spares = Spares::with('user', 'model','brand')
-                    ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber','LIKE','%'.$request->searchName.'%')->orderBy('description', 'asc')->get();
+                } elseif ($sortBy == "priceDescending") {
+                    $spares = Spares::with('user', 'model', 'brand')->where('category_id', '=', $category)
+                        ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber', 'LIKE', '%' . $request->searchName . '%')->orderBy('price', 'desc')->get();
+
+                }
+            } //sortby and other fields
+
+            else if ($category == "" && $brand == "") {
+                if ($sortBy == "Name") {
+                    $spares = Spares::with('user', 'model', 'brand')->where('model_id', '=', $model)
+                        ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber', 'LIKE', '%' . $request->searchName . '%')->orderBy('description', 'asc')->get();
+
+                } elseif ($sortBy == "priceAscending") {
+                    $spares = Spares::with('user', 'model', 'brand')->where('model_id', '=', $model)
+                        ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber', 'LIKE', '%' . $request->searchName . '%')->orderBy('price', 'asc')->get();
+
+                } elseif ($sortBy == "priceDescending") {
+                    $spares = Spares::with('user', 'model', 'brand')->where('model_id', '=', $model)
+                        ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber', 'LIKE', '%' . $request->searchName . '%')->orderBy('price', 'desc')->get();
+
+                }
+            } else if ($category == "" && $model == "") {
+                if ($sortBy == "Name") {
+                    $spares = Spares::with('user', 'model', 'brand')->where('brand_id', '=', $brand)
+                        ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber', 'LIKE', '%' . $request->searchName . '%')->orderBy('description', 'asc')->get();
+
+                } elseif ($sortBy == "priceAscending") {
+                    $spares = Spares::with('user', 'model', 'brand')->where('brand_id', '=', $brand)
+                        ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber', 'LIKE', '%' . $request->searchName . '%')->orderBy('price', 'asc')->get();
+
+                } elseif ($sortBy == "priceDescending") {
+                    $spares = Spares::with('user', 'model', 'brand')->where('brand_id', '=', $brand)
+                        ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber', 'LIKE', '%' . $request->searchName . '%')->orderBy('price', 'desc')->get();
+
+                }
+            }
+            //end sortby and other fields
+
+            //start brand and other fields
+            else if ($model == "" && $sortBy == "") {
+
+                $spares = Spares::with('user', 'model', 'brand')->where('category_id', '=', $category)->where('brand_id', '=', $brand)
+                    ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber', 'LIKE', '%' . $request->searchName . '%')->get();
+            } else if ($category == "" && $sortBy == "") {
+                $spares = Spares::with('user', 'model', 'brand')->where('model_id', '=', $model)->where('brand_id', '=', $brand)
+                    ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber', 'LIKE', '%' . $request->searchName . '%')->get();
 
             }
+            //end brand and other fields
 
-            elseif ($sortBy=="priceAscending"){
-                $spares = Spares::with('user', 'model','brand')
-                    ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber','LIKE','%'.$request->searchName.'%')->orderBy('price', 'asc')->get();
+            //start model and other fields
 
-            }
-            elseif ($sortBy=="priceDescending"){
-                $spares = Spares::with('user', 'model','brand')
-                    ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber','LIKE','%'.$request->searchName.'%')->orderBy('price', 'desc')->get();
+            else if ($brand == "" && $sortBy == "") {
+                $spares = Spares::with('user', 'model', 'brand')->where('model_id', '=', $model)->where('category_id', '=', $category)
+                    ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber', 'LIKE', '%' . $request->searchName . '%')->get();
 
-            }
-
-        }
-
-        else if($model=="" && $brand=="" ){
-            if($sortBy=="Name"){
-                $spares = Spares::with('user', 'model','brand')->where('category_id','=',$category)
-                    ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber','LIKE','%'.$request->searchName.'%')->orderBy('description', 'asc')->get();
-
-            }
-
-            elseif ($sortBy=="priceAscending"){
-                $spares = Spares::with('user', 'model','brand')->where('category_id','=',$category)
-                    ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber','LIKE','%'.$request->searchName.'%')->orderBy('price', 'asc')->get();
-
-            }
-            elseif ($sortBy=="priceDescending"){
-                $spares = Spares::with('user', 'model','brand')->where('category_id','=',$category)
-                    ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber','LIKE','%'.$request->searchName.'%')->orderBy('price', 'desc')->get();
-
-            }
-        }
-        //sortby and other fields
-
-        else if($category=="" && $brand=="" ){
-            if($sortBy=="Name"){
-                $spares = Spares::with('user', 'model','brand')->where('model_id','=',$model)
-                    ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber','LIKE','%'.$request->searchName.'%')->orderBy('description', 'asc')->get();
-
-            }
-
-            elseif ($sortBy=="priceAscending"){
-                $spares = Spares::with('user', 'model','brand')->where('model_id','=',$model)
-                    ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber','LIKE','%'.$request->searchName.'%')->orderBy('price', 'asc')->get();
-
-            }
-            elseif ($sortBy=="priceDescending"){
-                $spares = Spares::with('user', 'model','brand')->where('model_id','=',$model)
-                    ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber','LIKE','%'.$request->searchName.'%')->orderBy('price', 'desc')->get();
-
-            }
-        }
-
-        else if($category=="" && $model=="" ){
-            if($sortBy=="Name"){
-                $spares = Spares::with('user', 'model','brand')->where('brand_id','=',$brand)
-                    ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber','LIKE','%'.$request->searchName.'%')->orderBy('description', 'asc')->get();
-
-            }
-
-            elseif ($sortBy=="priceAscending"){
-                $spares = Spares::with('user', 'model','brand')->where('brand_id','=',$brand)
-                    ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber','LIKE','%'.$request->searchName.'%')->orderBy('price', 'asc')->get();
-
-            }
-            elseif ($sortBy=="priceDescending"){
-                $spares = Spares::with('user', 'model','brand')->where('brand_id','=',$brand)
-                    ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber','LIKE','%'.$request->searchName.'%')->orderBy('price', 'desc')->get();
-
-            }
-        }
-        //end sortby and other fields
-
-        //start brand and other fields
-        else if($model=="" && $sortBy==""){
-
-            $spares = Spares::with('user', 'model','brand')->where('category_id','=',$category)->where('brand_id','=',$brand)
-                ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber','LIKE','%'.$request->searchName.'%')->get();
-        }
-
-        else if($category=="" && $sortBy==""){
-            $spares = Spares::with('user', 'model','brand')->where('model_id','=',$model)->where('brand_id','=',$brand)
-                ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber','LIKE','%'.$request->searchName.'%')->get();
-
-        }
-        //end brand and other fields
-
-        //start model and other fields
-
-        else if($brand=="" && $sortBy==""){
-            $spares = Spares::with('user', 'model','brand')->where('model_id','=',$model)->where('category_id','=',$category)
-                ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber','LIKE','%'.$request->searchName.'%')->get();
-
-        }
-        //end model other fields
+            } //end model other fields
 
 
+            else if ($sortBy == "") {
+                $spares = Spares::with('user', 'model', 'brand')->where('category_id', '=', $category)->where('brand_id', '=', $brand)->where('model_id', '=', $model)
+                    ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber', 'LIKE', '%' . $request->searchName . '%')->get();
 
-        else if($sortBy==""){
-            $spares = Spares::with('user', 'model','brand')->where('category_id','=',$category)->where('brand_id','=',$brand)->where('model_id','=',$model)
-                ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber','LIKE','%'.$request->searchName.'%')->get();
+            } else if ($brand == "") {
+                if ($sortBy == "Name") {
+                    $spares = Spares::with('user', 'model', 'brand')->where('category_id', '=', $category)->where('model_id', '=', $model)
+                        ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber', 'LIKE', '%' . $request->searchName . '%')->orderBy('description', 'asc')->get();
 
-        }
-        else if($brand==""){
-            if($sortBy=="Name"){
-                $spares = Spares::with('user', 'model','brand')->where('category_id','=',$category)->where('model_id','=',$model)
-                    ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber','LIKE','%'.$request->searchName.'%')->orderBy('description', 'asc')->get();
+                } elseif ($sortBy == "priceAscending") {
+                    $spares = Spares::with('user', 'model', 'brand')->where('category_id', '=', $category)->where('model_id', '=', $model)
+                        ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber', 'LIKE', '%' . $request->searchName . '%')->orderBy('price', 'asc')->get();
+
+                } elseif ($sortBy == "priceDescending") {
+                    $spares = Spares::with('user', 'model', 'brand')->where('category_id', '=', $category)->where('model_id', '=', $model)
+                        ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber', 'LIKE', '%' . $request->searchName . '%')->orderBy('price', 'desc')->get();
+
+                }
+
+            } else if ($model == "") {
+                if ($sortBy == "Name") {
+                    $spares = Spares::with('user', 'model', 'brand')->where('category_id', '=', $category)->where('brand_id', '=', $brand)
+                        ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber', 'LIKE', '%' . $request->searchName . '%')->orderBy('description', 'asc')->get();
+
+                } elseif ($sortBy == "priceAscending") {
+                    $spares = Spares::with('user', 'model', 'brand')->where('category_id', '=', $category)->where('brand_id', '=', $brand)
+                        ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber', 'LIKE', '%' . $request->searchName . '%')->orderBy('price', 'asc')->get();
+
+                } elseif ($sortBy == "priceDescending") {
+                    $spares = Spares::with('user', 'model', 'brand')->where('category_id', '=', $category)->where('brand_id', '=', $brand)
+                        ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber', 'LIKE', '%' . $request->searchName . '%')->orderBy('price', 'desc')->get();
+
+                }
+
+            } else if ($category == "") {
+                if ($sortBy == "Name") {
+                    $spares = Spares::with('user', 'model', 'brand')->where('model_id', '=', $model)->where('brand_id', '=', $brand)
+                        ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber', 'LIKE', '%' . $request->searchName . '%')->orderBy('description', 'asc')->get();
+
+                } elseif ($sortBy == "priceAscending") {
+                    dd("dd");
+                    $spares = Spares::with('user', 'model', 'brand')->where('model_id', '=', $model)->where('brand_id', '=', $brand)
+                        ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber', 'LIKE', '%' . $request->searchName . '%')->orderBy('price', 'asc')->get();
+
+                } elseif ($sortBy == "priceDescending") {
+                    $spares = Spares::with('user', 'model', 'brand')->where('model_id', '=', $model)->where('brand_id', '=', $brand)
+                        ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber', 'LIKE', '%' . $request->searchName . '%')->orderBy('price', 'desc')->get();
+
+                }
+
+            } else if ($category != "" && $brand != "" && $sortBy != "" && $model != "") {
+                if ($sortBy == "Name") {
+                    $spares = Spares::with('user', 'model', 'brand')->where('model_id', '=', $model)->where('brand_id', '=', $brand)->where('category_id', $category)
+                        ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber', 'LIKE', '%' . $request->searchName . '%')->orderBy('description', 'asc')->get();
+
+                } elseif ($sortBy == "priceAscending") {
+                    $spares = Spares::with('user', 'model', 'brand')->where('model_id', '=', $model)->where('brand_id', '=', $brand)->where('category_id', $category)
+                        ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber', 'LIKE', '%' . $request->searchName . '%')->orderBy('price', 'asc')->get();
+
+                } elseif ($sortBy == "priceDescending") {
+                    $spares = Spares::with('user', 'model', 'brand')->where('model_id', '=', $model)->where('brand_id', '=', $brand)->where('category_id', $category)
+                        ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber', 'LIKE', '%' . $request->searchName . '%')->orderBy('price', 'desc')->get();
+
+                }
 
             }
-
-            elseif ($sortBy=="priceAscending"){
-                $spares = Spares::with('user', 'model','brand')->where('category_id','=',$category)->where('model_id','=',$model)
-                    ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber','LIKE','%'.$request->searchName.'%')->orderBy('price', 'asc')->get();
-
-            }
-            elseif ($sortBy=="priceDescending"){
-                $spares = Spares::with('user', 'model','brand')->where('category_id','=',$category)->where('model_id','=',$model)
-                    ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber','LIKE','%'.$request->searchName.'%')->orderBy('price', 'desc')->get();
-
-            }
-
-        }
-        else if($model==""){
-            if($sortBy=="Name"){
-                $spares = Spares::with('user', 'model','brand')->where('category_id','=',$category)->where('brand_id','=',$brand)
-                    ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber','LIKE','%'.$request->searchName.'%')->orderBy('description', 'asc')->get();
-
-            }
-
-            elseif ($sortBy=="priceAscending"){
-                $spares = Spares::with('user', 'model','brand')->where('category_id','=',$category)->where('brand_id','=',$brand)
-                    ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber','LIKE','%'.$request->searchName.'%')->orderBy('price', 'asc')->get();
-
-            }
-            elseif ($sortBy=="priceDescending"){
-                $spares = Spares::with('user', 'model','brand')->where('category_id','=',$category)->where('brand_id','=',$brand)
-                    ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber','LIKE','%'.$request->searchName.'%')->orderBy('price', 'desc')->get();
-
-            }
-
-        }
-
-        else if($category==""){
-            if($sortBy=="Name"){
-                $spares = Spares::with('user', 'model','brand')->where('model_id','=',$model)->where('brand_id','=',$brand)
-                    ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber','LIKE','%'.$request->searchName.'%')->orderBy('description', 'asc')->get();
-
-            }
-
-            elseif ($sortBy=="priceAscending"){
-                dd("dd");
-                $spares = Spares::with('user', 'model','brand')->where('model_id','=',$model)->where('brand_id','=',$brand)
-                    ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber','LIKE','%'.$request->searchName.'%')->orderBy('price', 'asc')->get();
-
-            }
-            elseif ($sortBy=="priceDescending"){
-                $spares = Spares::with('user', 'model','brand')->where('model_id','=',$model)->where('brand_id','=',$brand)
-                    ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber','LIKE','%'.$request->searchName.'%')->orderBy('price', 'desc')->get();
-
-            }
-
-        }
-
-        else if($category!="" && $brand!="" && $sortBy!="" && $model!=""){
-            if($sortBy=="Name"){
-                $spares = Spares::with('user', 'model','brand')->where('model_id','=',$model)->where('brand_id','=',$brand)->where('category_id',$category)
-                    ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber','LIKE','%'.$request->searchName.'%')->orderBy('description', 'asc')->get();
-
-            }
-
-            elseif ($sortBy=="priceAscending"){
-                $spares = Spares::with('user', 'model','brand')->where('model_id','=',$model)->where('brand_id','=',$brand)->where('category_id',$category)
-                    ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber','LIKE','%'.$request->searchName.'%')->orderBy('price', 'asc')->get();
-
-            }
-            elseif ($sortBy=="priceDescending"){
-                $spares = Spares::with('user', 'model','brand')->where('model_id','=',$model)->where('brand_id','=',$brand)->where('category_id',$category)
-                    ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber','LIKE','%'.$request->searchName.'%')->orderBy('price', 'desc')->get();
-
-            }
-
-        }
 
             return View::make('browse')->with('spares', $spares)->with('brands', $brands)->with('models', $models)->with('categories', $categories)->with('search', $search);
 
 
-        }
+        } else {
 
 
-        else{
+            if ($brand == "" && $sortBy == "" && $model == "") {
+                $spares = Spares::with('user', 'model', 'brand')->where('category_id', '=', $category)
+                    ->get();
 
+            } else if ($category == "" && $sortBy == "" && $model == "") {
+                $spares = Spares::with('user', 'model', 'brand')->where('brand_id', '=', $brand)
+                    ->get();
 
-            if($brand=="" && $sortBy=="" && $model==""){
-                $spares = Spares::with('user', 'model','brand')->where('category_id','=',$category)
-                   ->get();
+            } else if ($category == "" && $sortBy == "" && $brand == "") {
+                $spares = Spares::with('user', 'model', 'brand')->where('model_id', '=', $model)
+                    ->get();
 
-            }
-
-
-            else if($category=="" && $sortBy=="" && $model==""){
-                $spares = Spares::with('user', 'model','brand')->where('brand_id','=',$brand)
-                  ->get();
-
-            }
-
-            else if($category=="" && $sortBy=="" && $brand==""){
-                $spares = Spares::with('user', 'model','brand')->where('model_id','=',$model)
-                  ->get();
-
-            }
-
-            else if($category=="" && $model=="" && $brand==""){
-                if($sortBy=="Name"){
-                    $spares = Spares::with('user', 'model','brand')
-                       ->orderBy('description', 'asc')->get();
-
-                }
-
-                elseif ($sortBy=="priceAscending"){
-                    $spares = Spares::with('user', 'model','brand')
-                       ->orderBy('price', 'asc')->get();
-
-                }
-                elseif ($sortBy=="priceDescending"){
-                    $spares = Spares::with('user', 'model','brand')
-                       ->orderBy('price', 'desc')->get();
-
-                }
-
-            }
-
-            else if($model=="" && $brand=="" ){
-                if($sortBy=="Name"){
-                    $spares = Spares::with('user', 'model','brand')->where('category_id','=',$category)
+            } else if ($category == "" && $model == "" && $brand == "") {
+                if ($sortBy == "Name") {
+                    $spares = Spares::with('user', 'model', 'brand')
                         ->orderBy('description', 'asc')->get();
 
-                }
+                } elseif ($sortBy == "priceAscending") {
+                    $spares = Spares::with('user', 'model', 'brand')
+                        ->orderBy('price', 'asc')->get();
 
-                elseif ($sortBy=="priceAscending"){
-                    $spares = Spares::with('user', 'model','brand')->where('category_id','=',$category)
-                      ->orderBy('price', 'asc')->get();
-
-                }
-                elseif ($sortBy=="priceDescending"){
-                    $spares = Spares::with('user', 'model','brand')->where('category_id','=',$category)
-                       ->orderBy('price', 'desc')->get();
-
-                }
-            }
-            //sortby and other fields
-
-            else if($category=="" && $brand=="" ){
-                if($sortBy=="Name"){
-                    $spares = Spares::with('user', 'model','brand')->where('model_id','=',$model)
-                        ->orderBy('description', 'asc')->get();
-
-                }
-
-                elseif ($sortBy=="priceAscending"){
-                    $spares = Spares::with('user', 'model','brand')->where('model_id','=',$model)
-                       ->orderBy('price', 'asc')->get();
-
-                }
-                elseif ($sortBy=="priceDescending"){
-                    $spares = Spares::with('user', 'model','brand')->where('model_id','=',$model)
+                } elseif ($sortBy == "priceDescending") {
+                    $spares = Spares::with('user', 'model', 'brand')
                         ->orderBy('price', 'desc')->get();
 
                 }
-            }
 
-            else if($category=="" && $model=="" ){
-                if($sortBy=="Name"){
-                    $spares = Spares::with('user', 'model','brand')->where('brand_id','=',$brand)
+            } else if ($model == "" && $brand == "") {
+                if ($sortBy == "Name") {
+                    $spares = Spares::with('user', 'model', 'brand')->where('category_id', '=', $category)
                         ->orderBy('description', 'asc')->get();
 
-                }
+                } elseif ($sortBy == "priceAscending") {
+                    $spares = Spares::with('user', 'model', 'brand')->where('category_id', '=', $category)
+                        ->orderBy('price', 'asc')->get();
 
-                elseif ($sortBy=="priceAscending"){
-                    $spares = Spares::with('user', 'model','brand')->where('brand_id','=',$brand)
-                       ->orderBy('price', 'asc')->get();
+                } elseif ($sortBy == "priceDescending") {
+                    $spares = Spares::with('user', 'model', 'brand')->where('category_id', '=', $category)
+                        ->orderBy('price', 'desc')->get();
 
                 }
-                elseif ($sortBy=="priceDescending"){
-                    $spares = Spares::with('user', 'model','brand')->where('brand_id','=',$brand)
+            } //sortby and other fields
+
+            else if ($category == "" && $brand == "") {
+                if ($sortBy == "Name") {
+                    $spares = Spares::with('user', 'model', 'brand')->where('model_id', '=', $model)
+                        ->orderBy('description', 'asc')->get();
+
+                } elseif ($sortBy == "priceAscending") {
+                    $spares = Spares::with('user', 'model', 'brand')->where('model_id', '=', $model)
+                        ->orderBy('price', 'asc')->get();
+
+                } elseif ($sortBy == "priceDescending") {
+                    $spares = Spares::with('user', 'model', 'brand')->where('model_id', '=', $model)
+                        ->orderBy('price', 'desc')->get();
+
+                }
+            } else if ($category == "" && $model == "") {
+                if ($sortBy == "Name") {
+                    $spares = Spares::with('user', 'model', 'brand')->where('brand_id', '=', $brand)
+                        ->orderBy('description', 'asc')->get();
+
+                } elseif ($sortBy == "priceAscending") {
+                    $spares = Spares::with('user', 'model', 'brand')->where('brand_id', '=', $brand)
+                        ->orderBy('price', 'asc')->get();
+
+                } elseif ($sortBy == "priceDescending") {
+                    $spares = Spares::with('user', 'model', 'brand')->where('brand_id', '=', $brand)
                         ->orderBy('price', 'desc')->get();
 
                 }
@@ -563,14 +485,12 @@ class searchController extends Controller
             //end sortby and other fields
 
             //start brand and other fields
-            else if($model=="" && $sortBy==""){
+            else if ($model == "" && $sortBy == "") {
 
-                $spares = Spares::with('user', 'model','brand')->where('category_id','=',$category)->where('brand_id','=',$brand)
+                $spares = Spares::with('user', 'model', 'brand')->where('category_id', '=', $category)->where('brand_id', '=', $brand)
                     ->get();
-            }
-
-            else if($category=="" && $sortBy==""){
-                $spares = Spares::with('user', 'model','brand')->where('model_id','=',$model)->where('brand_id','=',$brand)
+            } else if ($category == "" && $sortBy == "") {
+                $spares = Spares::with('user', 'model', 'brand')->where('model_id', '=', $model)->where('brand_id', '=', $brand)
                     ->get();
 
             }
@@ -578,94 +498,74 @@ class searchController extends Controller
 
             //start model and other fields
 
-            else if($brand=="" && $sortBy==""){
-                $spares = Spares::with('user', 'model','brand')->where('model_id','=',$model)->where('category_id','=',$category)
+            else if ($brand == "" && $sortBy == "") {
+                $spares = Spares::with('user', 'model', 'brand')->where('model_id', '=', $model)->where('category_id', '=', $category)
                     ->get();
 
-            }
-            //end model other fields
+            } //end model other fields
 
 
+            else if ($sortBy == "") {
+                $spares = Spares::with('user', 'model', 'brand')->where('category_id', '=', $category)->where('brand_id', '=', $brand)->where('model_id', '=', $model)
+                    ->get();
 
-            else if($sortBy==""){
-                $spares = Spares::with('user', 'model','brand')->where('category_id','=',$category)->where('brand_id','=',$brand)->where('model_id','=',$model)
-                   ->get();
-
-            }
-            else if($brand==""){
-                if($sortBy=="Name"){
-                    $spares = Spares::with('user', 'model','brand')->where('category_id','=',$category)->where('model_id','=',$model)
-                       ->orderBy('description', 'asc')->get();
-
-                }
-
-                elseif ($sortBy=="priceAscending"){
-                    $spares = Spares::with('user', 'model','brand')->where('category_id','=',$category)->where('model_id','=',$model)
-                       ->orderBy('price', 'asc')->get();
-
-                }
-                elseif ($sortBy=="priceDescending"){
-                    $spares = Spares::with('user', 'model','brand')->where('category_id','=',$category)->where('model_id','=',$model)
-                        ->orderBy('price', 'desc')->get();
-
-                }
-
-            }
-            else if($model==""){
-                if($sortBy=="Name"){
-                    $spares = Spares::with('user', 'model','brand')->where('category_id','=',$category)->where('brand_id','=',$brand)
-                       ->orderBy('description', 'asc')->get();
-
-                }
-
-                elseif ($sortBy=="priceAscending"){
-                    $spares = Spares::with('user', 'model','brand')->where('category_id','=',$category)->where('brand_id','=',$brand)
-                      ->orderBy('price', 'asc')->get();
-
-                }
-                elseif ($sortBy=="priceDescending"){
-                    $spares = Spares::with('user', 'model','brand')->where('category_id','=',$category)->where('brand_id','=',$brand)
-                       ->orderBy('price', 'desc')->get();
-
-                }
-
-            }
-
-            else if($category==""){
-                if($sortBy=="Name"){
-                    $spares = Spares::with('user', 'model','brand')->where('model_id','=',$model)->where('brand_id','=',$brand)
-                       ->orderBy('description', 'asc')->get();
-
-                }
-
-                elseif ($sortBy=="priceAscending"){
-                    dd("dd");
-                    $spares = Spares::with('user', 'model','brand')->where('model_id','=',$model)->where('brand_id','=',$brand)
-                        ->orderBy('price', 'asc')->get();
-
-                }
-                elseif ($sortBy=="priceDescending"){
-                    $spares = Spares::with('user', 'model','brand')->where('model_id','=',$model)->where('brand_id','=',$brand)
-                        ->orderBy('price', 'desc')->get();
-
-                }
-
-            }
-
-            else if($category!="" && $brand!="" && $sortBy!="" && $model!=""){
-                if($sortBy=="Name"){
-                    $spares = Spares::with('user', 'model','brand')->where('model_id','=',$model)->where('brand_id','=',$brand)->where('category_id',$category)
+            } else if ($brand == "") {
+                if ($sortBy == "Name") {
+                    $spares = Spares::with('user', 'model', 'brand')->where('category_id', '=', $category)->where('model_id', '=', $model)
                         ->orderBy('description', 'asc')->get();
 
+                } elseif ($sortBy == "priceAscending") {
+                    $spares = Spares::with('user', 'model', 'brand')->where('category_id', '=', $category)->where('model_id', '=', $model)
+                        ->orderBy('price', 'asc')->get();
+
+                } elseif ($sortBy == "priceDescending") {
+                    $spares = Spares::with('user', 'model', 'brand')->where('category_id', '=', $category)->where('model_id', '=', $model)
+                        ->orderBy('price', 'desc')->get();
+
                 }
 
-                elseif ($sortBy=="priceAscending"){
-                    $spares = Spares::with('user', 'model','brand')->where('model_id','=',$model)->where('brand_id','=',$brand)->where('category_id',$category)
-                       ->orderBy('price', 'asc')->get();
+            } else if ($model == "") {
+                if ($sortBy == "Name") {
+                    $spares = Spares::with('user', 'model', 'brand')->where('category_id', '=', $category)->where('brand_id', '=', $brand)
+                        ->orderBy('description', 'asc')->get();
+
+                } elseif ($sortBy == "priceAscending") {
+                    $spares = Spares::with('user', 'model', 'brand')->where('category_id', '=', $category)->where('brand_id', '=', $brand)
+                        ->orderBy('price', 'asc')->get();
+
+                } elseif ($sortBy == "priceDescending") {
+                    $spares = Spares::with('user', 'model', 'brand')->where('category_id', '=', $category)->where('brand_id', '=', $brand)
+                        ->orderBy('price', 'desc')->get();
 
                 }
-                elseif ($sortBy=="priceDescending"){
-                    $spares = Spares::with('user', 'model','brand')->where('model_id','=',$model)->where('brand_id','=',$brand)->where('category_id',$category)
+
+            } else if ($category == "") {
+                if ($sortBy == "Name") {
+                    $spares = Spares::with('user', 'model', 'brand')->where('model_id', '=', $model)->where('brand_id', '=', $brand)
+                        ->orderBy('description', 'asc')->get();
+
+                } elseif ($sortBy == "priceAscending") {
+                    dd("dd");
+                    $spares = Spares::with('user', 'model', 'brand')->where('model_id', '=', $model)->where('brand_id', '=', $brand)
+                        ->orderBy('price', 'asc')->get();
+
+                } elseif ($sortBy == "priceDescending") {
+                    $spares = Spares::with('user', 'model', 'brand')->where('model_id', '=', $model)->where('brand_id', '=', $brand)
+                        ->orderBy('price', 'desc')->get();
+
+                }
+
+            } else if ($category != "" && $brand != "" && $sortBy != "" && $model != "") {
+                if ($sortBy == "Name") {
+                    $spares = Spares::with('user', 'model', 'brand')->where('model_id', '=', $model)->where('brand_id', '=', $brand)->where('category_id', $category)
+                        ->orderBy('description', 'asc')->get();
+
+                } elseif ($sortBy == "priceAscending") {
+                    $spares = Spares::with('user', 'model', 'brand')->where('model_id', '=', $model)->where('brand_id', '=', $brand)->where('category_id', $category)
+                        ->orderBy('price', 'asc')->get();
+
+                } elseif ($sortBy == "priceDescending") {
+                    $spares = Spares::with('user', 'model', 'brand')->where('model_id', '=', $model)->where('brand_id', '=', $brand)->where('category_id', $category)
                         ->orderBy('price', 'desc')->get();
 
                 }
@@ -673,11 +573,10 @@ class searchController extends Controller
             }
 
 
-            if($request->suspension){
+            if ($request->suspension) {
                 return View::make('suspension')->with('spares', $spares)->with('brands', $brands)->with('models', $models)->with('categories', $categories);
 
-            }
-            else{
+            } else {
                 return View::make('toyota')->with('spares', $spares)->with('brands', $brands)->with('models', $models)->with('categories', $categories);
 
             }
@@ -707,15 +606,14 @@ class searchController extends Controller
      */
     public function toyota()
     {
-        $brands=Brands::all();
-        $models=Models::all();
-        $categories=Categories::all();
+        $brands = Brands::all();
+        $models = Models::all();
+        $categories = Categories::all();
         $spares = null;
         $search = "";
 
-            $spares = Spares::with('user', 'model','brand')
-                ->where('brand_id',1)->get();
-
+        $spares = Spares::with('user', 'model', 'brand')
+            ->where('brand_id', 1)->get();
 
 
         return View::make('toyota')->with('spares', $spares)->with('brands', $brands)->with('models', $models)->with('categories', $categories)->with('search', $search);
@@ -724,15 +622,14 @@ class searchController extends Controller
 
     public function suspension()
     {
-        $brands=Brands::all();
-        $models=Models::all();
-        $categories=Categories::all();
+        $brands = Brands::all();
+        $models = Models::all();
+        $categories = Categories::all();
         $spares = null;
         $search = "";
 
-        $spares = Spares::with('user', 'model','brand')
-            ->where('category_id',8)->get( );
-
+        $spares = Spares::with('user', 'model', 'brand')
+            ->where('category_id', 8)->get();
 
 
         return View::make('suspension')->with('spares', $spares)->with('brands', $brands)->with('models', $models)->with('categories', $categories)->with('search', $search);
@@ -786,11 +683,12 @@ class searchController extends Controller
         return Redirect::to('/cart');
     }
 
-    public function advance(){
-        $brands=Brands::all();
-        $models=Models::all();
-        $categories=Categories::all();
+    public function advance()
+    {
+        $brands = Brands::all();
+        $models = Models::all();
+        $categories = Categories::all();
         return View::make('advanceSearch')->with('brands', $brands)->with('models', $models)->with('categories', $categories);
 
-     }
+    }
 }

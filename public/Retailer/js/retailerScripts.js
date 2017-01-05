@@ -5,28 +5,34 @@
 $(document).ready(function () {
 
     $('.alert-autocloseable-success').hide();
+
     $('#date').datepicker({
         dateFormat: "yy-mm-dd"
     });
-     $('#reportFrequency').attr('disabled', 'disabled');
+
+    $('#yearPicker').datepicker({
+        dateFormat: "yy"
+    });
+
+    $('#reportFrequency').attr('disabled', 'disabled');
 
 
-        $('#monthPicker').datepicker( {
-            changeMonth: true,
-            changeYear: true,
-            showButtonPanel: true,
-            dateFormat: 'yy-mm ',
-            onClose: function(dateText, inst) {
-                $(this).datepicker('setDate', new Date(inst.selectedYear, inst.selectedMonth, 1));
-            }
-        });
+    $('#monthPicker').datepicker({
+        changeMonth: true,
+        changeYear: true,
+        showButtonPanel: true,
+        dateFormat: 'yy-mm ',
+        onClose: function (dateText, inst) {
+            $(this).datepicker('setDate', new Date(inst.selectedYear, inst.selectedMonth, 1));
+        }
+    });
 
 
 });
 
 $('div.alert').delay(5000).slideUp(300);
 
-function getBrands(name){
+function getBrands(name) {
     $.ajax({
         type: 'get',
         url: ('/retailer/spares/getModels'),
@@ -43,9 +49,9 @@ function getBrands(name){
 }
 
 
-function getNewModels(){
+function getNewModels() {
 
-    var name= $("#brandDropdown option:selected").text();
+    var name = $("#brandDropdown option:selected").text();
 
     $.ajax({
         type: 'get',
@@ -61,9 +67,9 @@ function getNewModels(){
 
 }
 
-function getEditModels(){
+function getEditModels() {
 
-    var name= $("#brandEdit option:selected").text();
+    var name = $("#brandEdit option:selected").text();
 
     $.ajax({
         type: 'get',
@@ -79,25 +85,24 @@ function getEditModels(){
 
 }
 
-function EditSpare(id,partNumber,description,brandName,quantity,cost,price,warranty,category) {
-    document.getElementById("partNumberEdit").value=partNumber;
+function EditSpare(id, partNumber, description, brandName, quantity, cost, price, warranty, category) {
+    document.getElementById("partNumberEdit").value = partNumber;
     $("#brandEdit option:contains(" + brandName + ")").attr('selected', 'selected');
 
     //document.getElementById("brandEdit").value=brandName;
     getEditModels();
-    document.getElementById("warrantyEdit").value=warranty;
+    document.getElementById("warrantyEdit").value = warranty;
 
     $("#categoryEdit option:contains(" + category + ")").attr('selected', 'selected');
 
 
-    document.getElementById("quantityEdit").value=quantity;
-    document.getElementById("descriptionEdit").value=description;
-    document.getElementById("costEdit").value=cost;
+    document.getElementById("quantityEdit").value = quantity;
+    document.getElementById("descriptionEdit").value = description;
+    document.getElementById("costEdit").value = cost;
 
-    document.getElementById("priceEdit").value=price;
+    document.getElementById("priceEdit").value = price;
 
-    document.getElementById("EditSpareId").value=id;
-
+    document.getElementById("EditSpareId").value = id;
 
 
     $('#modalEditSpare').modal('show');
@@ -108,42 +113,42 @@ function EditSpare(id,partNumber,description,brandName,quantity,cost,price,warra
 // delete the existing spare
 function DeleteSpare(spare) {
     $('#confirm-delete').modal('show');
-    $('#confirm-delete').on('click', '.btn-ok', function(e) {
-        window.location.href = "/retailer/spares/delete/"+spare;
+    $('#confirm-delete').on('click', '.btn-ok', function (e) {
+        window.location.href = "/retailer/spares/delete/" + spare;
         $modalDiv.addClass('loading');
-        setTimeout(function() {
+        setTimeout(function () {
             $modalDiv.modal('hide').removeClass('loading');
         }, 1000)
     });
 }
 
 function showChangeOrderStatusModal(orderItemId) {
-    document.getElementById("orderItemId").value=orderItemId;
+    document.getElementById("orderItemId").value = orderItemId;
     $('#modalOrderItem').modal('show');
 
 
 }
 
 function changeOrderStatus() {
-    var orderItemId=document.getElementById("orderItemId").value;
-    var orderItemStatus= $('#orderItemStatus').val();
+    var orderItemId = document.getElementById("orderItemId").value;
+    var orderItemStatus = $('#orderItemStatus').val();
     $.ajax({
         type: 'get',
         url: ('/retailer/orders/changeStatus'),
         data: {
-            'orderItemId':orderItemId,
-            'orderItemStatus':orderItemStatus,
+            'orderItemId': orderItemId,
+            'orderItemStatus': orderItemStatus,
 
         },
         success: function (data) {
             window.location.replace(window.location.pathname + window.location.search + window.location.hash);
 
             $('#modalOrderItem').modal('hide');
-            document.getElementById('successMessage').innerHTML=data;
+            document.getElementById('successMessage').innerHTML = data;
             $('#autoclosable-btn-success').prop("disabled", true);
             $('.alert-autocloseable-success').show();
 
-            $('.alert-autocloseable-success').delay(5000).fadeOut( "slow", function() {
+            $('.alert-autocloseable-success').delay(5000).fadeOut("slow", function () {
                 // Animation complete.
                 $('#autoclosable-btn-success').prop("disabled", false);
             });
@@ -154,33 +159,33 @@ function changeOrderStatus() {
 
 function makeReply(user_id) {
     $('#modalMessage').modal('show');
-     $('#customerId').val(user_id);
+    $('#customerId').val(user_id);
 
 
 }
 
 function replyCustomer() {
     var message = $('textarea#message').val();
-    var customerId=  $('#customerId').val();
-    var retailerId= $('#retailerId').val();
+    var customerId = $('#customerId').val();
+    var retailerId = $('#retailerId').val();
 
     $.ajax({
         type: 'get',
-            url: ('/retailer/enquiries/newReply'),
+        url: ('/retailer/enquiries/newReply'),
         data: {
-            'message':message,
-            'customerId':customerId,
-            'retailerId':retailerId,
+            'message': message,
+            'customerId': customerId,
+            'retailerId': retailerId,
 
         },
         success: function (data) {
 
             $('#modalMessage').modal('hide');
-            document.getElementById('successMessage').innerHTML=data;
+            document.getElementById('successMessage').innerHTML = data;
             $('#autoclosable-btn-success').prop("disabled", true);
             $('.alert-autocloseable-success').show();
 
-            $('.alert-autocloseable-success').delay(5000).fadeOut( "slow", function() {
+            $('.alert-autocloseable-success').delay(5000).fadeOut("slow", function () {
                 // Animation complete.
                 $('#autoclosable-btn-success').prop("disabled", false);
             });
@@ -191,11 +196,11 @@ function replyCustomer() {
 
 }
 
-function pdfToHTML(){
+function pdfToHTML() {
     var pdf = new jsPDF('p', 'pt', 'letter');
     source = $('#splitForPrint')[0];
     specialElementHandlers = {
-        '#bypassme': function(element, renderer){
+        '#bypassme': function (element, renderer) {
             return true
         }
     }
@@ -234,34 +239,42 @@ function printDiv(divName) {
 function activateReportingPeriod(value) {
     document.getElementById('reportingPeriodDropDown').style.visibility = 'visible';
 
-    $('#reportFrequency option[value="daily"]').attr("disabled", false);
+    // $('#reportFrequency option[value="daily"]').attr("disabled", false);
 
     $('#reportFrequency').removeAttr('disabled');
 
-    if(value=="orders"){
-        $('#reportFrequency option[value="daily"]').attr("disabled", true);
+    if (value == "orders") {
+        // $('#reportFrequency option[value="daily"]').attr("disabled", true);
 
     }
-    if(value=="inventory"){
+    if (value == "inventory") {
         document.getElementById('reportingPeriodDropDown').style.visibility = 'hidden';
 
     }
 }
 
-function  activateReportDateSelect(value) {
-    document.getElementById('date').style.visibility = 'hidden';
-    document.getElementById('monthPicker').style.visibility = 'hidden';
-    if(value=="daily"){
-        document.getElementById('date').style.visibility = 'visible';
+function activateReportDateSelect(value) {
+    document.getElementById('dateInput').style.visibility = 'hidden';
+    document.getElementById('monthInput').style.visibility = 'hidden';
+    document.getElementById('yearInput').style.visibility = 'hidden';
+
+    if (value == "daily") {
+        document.getElementById('dateInput').style.visibility = 'visible';
 
     }
-    else if(value=="monthly"){
-        document.getElementById('monthPicker').style.visibility = 'visible';
+    else if (value == "monthly") {
+        document.getElementById('monthInput').style.visibility = 'visible';
 
     }
-    else{
-        document.getElementById('date').style.visibility = 'hidden';
-        document.getElementById('monthPicker').style.visibility = 'hidden';
+    else if (value == "yearly") {
+        document.getElementById('yearInput').style.visibility = 'visible';
+
+    }
+    else {
+        document.getElementById('dateInput').style.visibility = 'hidden';
+        document.getElementById('monthInput').style.visibility = 'hidden';
+        document.getElementById('yearInput').style.visibility = 'hidden';
+
     }
 }
 

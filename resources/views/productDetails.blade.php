@@ -58,7 +58,7 @@
                             @if(!empty($overallRating))
 
                                 <div >
-                                   <div style="margin: 0px;" class="stars starrr"  data-rating=" {{$overallRating}}">  {{$overallRating}}/5</div>
+                                   <div style="margin: 0px;" class="stars starrr"  data-rating=" {{$overallRating}}">   </div>
                                 </div>
                             @endif
                         </div>
@@ -118,10 +118,7 @@
                                 <td>Part Number</td>
                                 <td>{{$prod->partNumber}}</td>
                             </tr>
-                            <tr>
-                                <td>Manufacturer</td>
-                                <td>Mahle</td>
-                            </tr>
+
                             <tr>
                                 <td height="50px" width="250px">Warranty</td>
                                 <td height="50px" width="250px">{{$prod->warranty}}</td>

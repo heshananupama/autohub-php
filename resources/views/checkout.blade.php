@@ -31,33 +31,48 @@
 
                 <input type="hidden" name="item_name_1" value="Autohub Cart Total">
                 <input type="hidden" id="amountTotal" name="amount_1" value="{{$total}}">
+                <br>
+                <div class="row">
 
-
-
-
-                 <div class="row">
-                    <div class="col-xs-12">
                         <div class="form-group">
-                            <label for="name">Name</label>
-                            <input type="text" id="name" class="form-control" required>
-                        </div>
-                    </div>
-                    <div class="col-xs-12" >
-                        <div class="form-group" >
-                            <label for="address">Address</label>
-                            <input type="text" name="city" id="address" class="form-control" required>
+                            <div class="input-group">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                                <input type="text" name="name" class="form-control" placeholder="Enter Name" maxlength="50" value="" />
+                            </div>
+                            <span class="text-danger"> </span>
                         </div>
 
-                    </div>
-                    <hr>
-                    <div class="col-xs-12">
-                        <div class="form-group">
-                            <label for="card-name">Email</label>
-                            <input type="text" name="email" id="card-name" class="form-control" required>
-                        </div>
-                    </div>
 
                 </div>
+                <br>
+                <div class="row">
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-certificate"></span></span>
+                            <input type="text" id="address" name="city" class="form-control" placeholder="Enter Address" maxlength="50" value="" />
+                        </div>
+                        <span class="text-danger"> </span>
+                    </div>
+
+
+                </div>
+                <br>
+                <div class="row">
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
+                            <input type="text" name="email" class="form-control" placeholder="Enter email" maxlength="50" value="" />
+                        </div>
+                        <span class="text-danger"> </span>
+                    </div>
+
+
+                </div>
+
+
+
                 {{ csrf_field() }}
                 <a type="submit" class="btn btn-success" onclick="submitform({{$total}})">Buy now</a>
             </form>

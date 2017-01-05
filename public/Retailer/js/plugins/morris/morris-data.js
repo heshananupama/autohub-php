@@ -36,6 +36,42 @@ $(function() {
 
     });
 
+
+
+    $.ajax({
+        type: 'get',
+        url: ('/retailer/chartProfits'),
+
+
+        success: function (data) {
+            var chartData=[];
+            for(var k=0;k<data.Date.length;k++){
+                chartData.push({ d:data.Date[k],profits:data.value[k]});
+            }
+            console.log(chartData);
+            Morris.Line({
+                element: 'morris-line-chart',
+                data: chartData,
+                // The name of the data record attribute that contains x-visitss.
+                xkey: 'd',
+                // A list of names of data record attributes that contain y-visitss.
+                ykeys: ['profits'],
+                // Labels for the ykeys -- will be displayed when you hover over the
+                // chart.
+                labels: ['profits'],
+                // Disables line smoothing
+                smooth: false,
+                parseTime:false,
+
+                resize: true
+            });
+
+
+
+        }
+
+    });
+
     // Area Chart
 
     $.ajax({
@@ -49,8 +85,8 @@ $(function() {
                 chartData.push({ d:data.Date[k],orders:data.value[k]});
             }
             console.log(chartData);
-            Morris.Line({
-                element: 'morris-line-chart',
+            Morris.Bar({
+                element: 'morris-bar-chart',
                 data: chartData,
                 // The name of the data record attribute that contains x-visitss.
                 xkey: 'd',

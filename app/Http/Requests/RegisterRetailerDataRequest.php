@@ -28,9 +28,10 @@ class RegisterRetailerDataRequest extends FormRequest
             'shopName' => 'required|max:255',
             'address' => 'required|max:255',
             'contactNo' => 'min:10',
-
-            'email' => 'required|email|max:255|unique:users',
+            'retailerImage' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'password' => 'required|min:6|confirmed',
-        ];
+            'password_confirmation' => 'required|min:6',
+            'email' => 'required|email|max:255|unique:users',
+         ];
     }
 }

@@ -27,6 +27,10 @@ class SpareDataRequest extends FormRequest
 
         'spareImage' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'partNumber' => 'required|max:100',
+            'quantity'=>'integer|min:0',
+            'cost'=>'integer|min:0',
+            'price'=>'integer|min:0',
+
 
         ];
     }

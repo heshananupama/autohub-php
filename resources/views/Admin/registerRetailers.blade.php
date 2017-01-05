@@ -13,6 +13,18 @@
                         </div>
                     @endif
 
+                        @if(count($errors)>0)
+                            <div class="alert alert-danger">
+                                <strong>There were some problems</strong>
+                                <ul>
+                                    @foreach($errors->all() as $error)
+                                        <li>{{$error}}</li>
+                                    @endforeach
+                                </ul>
+
+                            </div>
+                        @endif
+
 
                 </div>
                 <div class="panel panel-default">
@@ -29,7 +41,7 @@
                               action="{{ url('/admin/registerRetailer/register') }}">
                             {{ csrf_field() }}
 
-                            <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
+                            <div class="form-group">
                                 <label for="name" class="col-md-4 control-label">Name</label>
 
                                 <div class="col-md-6">
@@ -37,15 +49,11 @@
                                            value="{{ old('name') }}" required
                                            autofocus>
 
-                                    @if ($errors->has('name'))
-                                        <span class="help-block">
-                                        <strong>{{ $errors->first('name') }}</strong>
-                                    </span>
-                                    @endif
+
                                 </div>
                             </div>
 
-                            <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+                            <div class="form-group">
                                 <label for="email" class="col-md-4 control-label">E-Mail Address</label>
 
                                 <div class="col-md-6">
@@ -53,32 +61,24 @@
                                            value="{{ old('email') }}"
                                            required>
 
-                                    @if ($errors->has('email'))
-                                        <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                    @endif
+
                                 </div>
 
                             </div>
 
 
-                            <div class="form-group{{ $errors->has('shopName') ? ' has-error' : '' }}">
+                            <div class="form-group">
                                 <label for="shopName" class="col-md-4 control-label">Shop Name</label>
 
                                 <div class="col-md-6">
                                     <input id="shopName" type="text" class="form-control" name="shopName"
                                            value="{{ old('shopName') }}" required>
 
-                                    @if ($errors->has('shopName'))
-                                        <span class="help-block">
-                                        <strong>{{ $errors->first('shopName') }}</strong>
-                                    </span>
-                                    @endif
+
                                 </div>
                             </div>
 
-                            <div class="form-group{{ $errors->has('address') ? ' has-error' : '' }}">
+                            <div class="form-group">
                                 <label for="email" class="col-md-4 control-label">Address</label>
 
                                 <div class="col-md-6">
@@ -86,15 +86,11 @@
                                            value="{{ old('address') }}"
                                            required>
 
-                                    @if ($errors->has('address'))
-                                        <span class="help-block">
-                                        <strong>{{ $errors->first('address') }}</strong>
-                                    </span>
-                                    @endif
+
                                 </div>
                             </div>
 
-                            <div class="form-group{{ $errors->has('contactNo') ? ' has-error' : '' }}">
+                            <div class="form-group">
                                 <label for="email" class="col-md-4 control-label">Contact No.</label>
 
                                 <div class="col-md-6">
@@ -102,55 +98,39 @@
                                            value="{{ old('contactNo') }}"
                                            required>
 
-                                    @if ($errors->has('contactNo'))
-                                        <span class="help-block">
-                                        <strong>{{ $errors->first('contactNo') }}</strong>
-                                    </span>
-                                    @endif
+
                                 </div>
                             </div>
 
-                                <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
+                                <div class="form-group">
                                     <label for="password" class="col-md-4 control-label">Password</label>
 
                                     <div class="col-md-6">
-                                        <input id="password" type="password" class="form-control" name="password" required>
+                                        <input id="password" type="password" class="form-control" name="password" value="{{old('password')}}"  required >
 
-                                        @if ($errors->has('password'))
-                                            <span class="help-block">
-                                            <strong>{{ $errors->first('password') }}</strong>
-                                        </span>
-                                        @endif
+
                                     </div>
                                 </div>
 
-                            <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
+                            <div class="form-group">
                                 <label for="password-confirm" class="col-md-4 control-label">Confirm Password</label>
 
                                 <div class="col-md-6">
                                     <input id="password-confirm" type="password" class="form-control"
-                                           name="password_confirmation"
+                                           name="password_confirmation" value="{{old('password_confirmation')}}"
                                            required>
 
-                                    @if ($errors->has('password_confirmation'))
-                                        <span class="help-block">
-                                        <strong>{{ $errors->first('password_confirmation') }}</strong>
-                                    </span>
-                                    @endif
+
                                 </div>
                             </div>
 
-                            <div class="form-group{{ $errors->has('retailerImage') ? ' has-error' : '' }}">
+                            <div class="form-group">
                                 <label for="password-confirm" class="col-md-4 control-label">Select an Image</label>
 
                                 <div class="col-md-6">
-                                    <input value='retailerImage' class="form-control" type="file" name="retailerImage" id="image">
+                                    <input value='{{old('retailerImage')}}' class="form-control" type="file" name="retailerImage" id="image">
 
-                                    @if ($errors->has('retailerImage'))
-                                        <span class="help-block">
-                                        <strong>{{ $errors->first('retailerImage') }}</strong>
-                                    </span>
-                                    @endif
+
 
 
                                 </div>
