@@ -100,8 +100,18 @@ margin-right: auto;" width="100%" class="table-responsive feedbackTable">
                                         Rs. {{$orderItem->subTotal}}.00
                                     </td>
                                     <td>
-                                        <a class=" btn btn-success btn-sm" onclick="showReviewModal({{$orderItem->id}})"  >Add Review </a>
+                                        <?php $a=0?>
+                                        @foreach($feedbackReviews as $feedbackReview)
+                                            @if($feedbackReview->orderItem_id==$orderItem->id)
+                                                    <button class=" btn btn-success btn-sm"   disabled>Add Review </button>
 
+                                                <?php $a++?>
+                                            @endif
+
+                                        @endforeach
+                                        @if($a==0)
+                                                <a class=" btn btn-success btn-sm" onclick="showReviewModal({{$orderItem->id}})"  >Add Review </a>
+                                            @endif
                                     </td>
                                     <td>
                                         <a class=" btn btn-warning btn-sm"  onclick="showComplainModal({{$orderItem->id}})" >Add Complain </a>

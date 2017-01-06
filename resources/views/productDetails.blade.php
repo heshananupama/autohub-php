@@ -67,15 +67,20 @@
 
                              <div class="form-group" style="margin-bottom: 0px;"><br>
                                 <label  for="quantity">Quantity:</label>
-                                <input style="width: 70px; margin-left: 250px;" type="number" class="form-control" id="quantity" onblur="checkQuantity({{$prod->id}},value)">
+                                <input style="width: 70px; margin-left: 250px;" type="number" min="1" class="form-control" id="quantity" onblur="checkQuantity({{$prod->id}},value)">
 
                                  <br>
                                  <a href="{{ url()->previous() }}" type="button" class="btn btn-default btn-lg">
                                      <span class="glyphicon glyphicon-shopping-cart"></span> Continue Shopping
                                  </a>
 
+                                 @if(!Auth::user())
+                                     <button disabled  id="addToCart" class="btn btn-success btn-lg">
+                                         <span  class="glyphicon glyphicon-shopping-cart"></span>Add to Cart
+                                     </button>
 
-                                 @if($prod->quantity<=0)
+
+                                 @elseif($prod->quantity<=0 )
                                      <button disabled  id="addToCart" class="btn btn-success btn-lg">
                                          <span  class="glyphicon glyphicon-shopping-cart"></span>Add to Cart
                                      </button>

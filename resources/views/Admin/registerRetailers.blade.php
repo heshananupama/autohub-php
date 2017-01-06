@@ -46,7 +46,7 @@
 
                                 <div class="col-md-6">
                                     <input id="name" type="text" class="form-control" name="name"
-                                           value="{{ old('name') }}" required
+                                           value="{{ old('name') }}"
                                            autofocus>
 
 
@@ -59,7 +59,7 @@
                                 <div class="col-md-6">
                                     <input id="email" type="email" class="form-control" name="email"
                                            value="{{ old('email') }}"
-                                           required>
+                                           >
 
 
                                 </div>
@@ -72,7 +72,7 @@
 
                                 <div class="col-md-6">
                                     <input id="shopName" type="text" class="form-control" name="shopName"
-                                           value="{{ old('shopName') }}" required>
+                                           value="{{ old('shopName') }}" >
 
 
                                 </div>
@@ -84,7 +84,7 @@
                                 <div class="col-md-6">
                                     <input id="address" type="text" class="form-control" name="address"
                                            value="{{ old('address') }}"
-                                           required>
+                                           >
 
 
                                 </div>
@@ -96,7 +96,7 @@
                                 <div class="col-md-6">
                                     <input id="address" type="text" class="form-control" name="contactNo"
                                            value="{{ old('contactNo') }}"
-                                           required>
+                                           >
 
 
                                 </div>
@@ -106,7 +106,7 @@
                                     <label for="password" class="col-md-4 control-label">Password</label>
 
                                     <div class="col-md-6">
-                                        <input id="password" type="password" class="form-control" name="password" value="{{old('password')}}"  required >
+                                        <input id="password" type="password" class="form-control" name="password" value="{{old('password')}}"   >
 
 
                                     </div>
@@ -118,7 +118,7 @@
                                 <div class="col-md-6">
                                     <input id="password-confirm" type="password" class="form-control"
                                            name="password_confirmation" value="{{old('password_confirmation')}}"
-                                           required>
+                                           >
 
 
                                 </div>

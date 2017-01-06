@@ -25,7 +25,7 @@ class EnquiryDataRequest extends FormRequest
     {
         return [
              'message' => 'required|max:1000',
-            'contactNo' => 'min:10',
+            'contactNo' => 'min:10|numeric',
          ];
     }
 }

@@ -49,7 +49,7 @@
                             <label for="SortBy" class="control-label">
                                 Input Date</label>
                             <input placeholder="pick a date" name="oneDate" class="form-control" type="text" id="date"
-                                   value=""/>
+                                   readonly='true' value=""/>
 
 
                         </div>
@@ -58,7 +58,7 @@
                             <label for="SortBy" class="control-label">
                                 Input Month </label>
                             <input placeholder="pick a Month" class="form-control" name="monthSelect" id="monthPicker"
-                                   type="text">
+                                   readonly='true'   type="text">
 
 
                         </div>
@@ -68,7 +68,7 @@
                             <label for="SortBy" class="control-label">
                                 Input Year </label>
                             <input placeholder="pick a Year" class="form-control" name="yearSelect" id="yearPicker"
-                                   type="text">
+                                   readonly='true'   type="text">
 
 
                         </div>

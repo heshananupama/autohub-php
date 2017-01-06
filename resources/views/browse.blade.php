@@ -123,7 +123,12 @@
 
                                 <td class="col-xs-1 text-center"><strong>Rs. {{$spare->price}}/=</strong></td>
                                 <td class="col-xs-1">
-                                    @if($spare->quantity<=0)
+
+                                    @if(!Auth::user())
+                                        <button disabled type="button" class="btn btn-success">
+                                            <span class="glyphicon glyphicon-shopping-cart"></span> Add to Cart
+                                        </button>
+                                    @elseif($spare->quantity<=0)
                                     <button disabled type="button" class="btn btn-success">
                                         <span class="glyphicon glyphicon-shopping-cart"></span> Add to Cart
                                     </button>

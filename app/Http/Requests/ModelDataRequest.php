@@ -24,10 +24,15 @@ class ModelDataRequest extends FormRequest
     public function rules()
     {
         return [
-            'modelName' => 'required|max:255',
-            'country' => 'required|regex:/^[\pL\s\-]+$/u|max:255',
+            'modelName' => 'required|max:50',
+            'country' => 'required|alpha',
             'year' => 'required|date_format:"Y"',
-            'engineCapacity'=>'regex:/\d{3,4}[c]{2}/'
+            'engineCapacity'=>'regex:/\d{3,4}[c]{2}/',
+            'fuelType'=>'required',
+            'transmissionType'=>'required',
+            'brandName'=>'required'
+
+
 
         ];
     }

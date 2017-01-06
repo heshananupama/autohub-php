@@ -42,7 +42,7 @@
                     <div class="form-group">
                         <label for="ContactNo">Contact Number:</label>
                         <div class="input-group">
-                            <input type="text" class="form-control" value="{{old('contactNo')}}"  placeholder="Enter Contact No." name="contactNo"
+                            <input type="text"   maxlength="10" class="form-control" value="{{old('contactNo')}}"  placeholder="Enter Contact No." name="contactNo"
                                    id="ContactNo" required>
                             <span class="input-group-addon"><i class="glyphicon glyphicon-ok form-control-feedback"></i></span>
                         </div>

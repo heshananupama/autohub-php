@@ -71,6 +71,21 @@
 
                 </div>
 
+                <div class="row">
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-phone"></span></span>
+                            <input type="text"
+                                   name="telephone"
+                                   required class="form-control" placeholder="Enter Phone Number" maxlength="50" value="" />
+                        </div>
+                     </div>
+
+
+                </div>
+
+
 
 
                 {{ csrf_field() }}

@@ -256,7 +256,7 @@
                             <div class="col-md-6 ">
                                 <div class="form-group">
 
-                                    <select name="brandName" id="brandM" class="form-control">
+                                    <select name="brandName" id="brandM" class="form-control" required>
                                         <option value="">Select brand name</option>
                                         @foreach($brands as $brand)
                                             <option value="{{ $brand->brandName}}">{{ $brand->brandName}}</option>
@@ -267,14 +267,14 @@
                                            class="form-control" name="modelName"
                                            value="{{old('modelName')}}"/>
                                     <select style="margin-bottom: 5px;" class="form-control" name="transmissionType"
-                                            id="transmissionM">
+                                            id="transmissionM" required>
                                         <option value="">Select Transmission Type</option>
                                         <option value="Manual">Manual</option>
                                         <option value="Automatic">Automatic</option>
 
                                     </select>
 
-                                    <select id="fuelM" style="margin-bottom: 5px;" class="form-control" name="fuelType">
+                                    <select id="fuelM" style="margin-bottom: 5px;" class="form-control" name="fuelType" >
                                         <option value="">Select Fuel Type</option>
                                         <option value="Hybrid/Petrol">Hybrid/Petrol</option>
                                         <option value="Hybrid/Diesel">Hybrid/Diesel</option>

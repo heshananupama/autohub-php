@@ -484,23 +484,5 @@
             </div>
         </div>
     </div>
-        <script>
 
-            $('#search').on('keyup', function () {
-                var value = $(this).val();
-                $.ajax({
-                    type: 'get',
-                    url: '{{url('/retailer/spares/search/')}}',
-                    data: {'search': value},
-                    success: function (data) {
-                        $('#spareTable').html("");
-                        $('#spareTable').html(data);
-
-
-                    }
-
-
-                });
-            });
-        </script>
 @endsection

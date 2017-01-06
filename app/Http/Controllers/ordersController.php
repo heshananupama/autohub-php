@@ -104,6 +104,11 @@ class ordersController extends Controller
         $orders=App\Orders::where('user_id', $user_id)
             ->get();
 
+        $feedbackReview=DB::table('feedback')->where('feedbackType','=', 'Review')->get();
+        $feedbackComplain=DB::table('feedback')->where('feedbackType','=', 'Complain')->get();
+
+
+
         $orderItems = OrderItem::with('spare','order')->
             where('order_id', $OrderId)->get();
 
@@ -111,7 +116,8 @@ class ordersController extends Controller
 
 
 
-            return View::make('feedback')->with('orderItems', $orderItems)->with('orders', $orders)->with('orderDate',$orderDate);
+            return View::make('feedback')->with('orderItems', $orderItems)->with('orders', $orders)->with('orderDate',$orderDate)
+                ->with('feedbackComplains',$feedbackComplain)->with('feedbackReviews',$feedbackReview);
 
 
         /*if ($request->ajax()){

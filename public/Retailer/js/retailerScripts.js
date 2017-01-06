@@ -7,10 +7,13 @@ $(document).ready(function () {
     $('.alert-autocloseable-success').hide();
 
     $('#date').datepicker({
+        maxDate: new Date,
         dateFormat: "yy-mm-dd"
     });
+    // $("#datepicker").datepicker({ maxDate: new Date, minDate: new Date(2007, 6, 12) });
 
     $('#yearPicker').datepicker({
+        maxDate: new Date,
         dateFormat: "yy"
     });
 
@@ -18,6 +21,7 @@ $(document).ready(function () {
 
 
     $('#monthPicker').datepicker({
+        maxDate: new Date,
         changeMonth: true,
         changeYear: true,
         showButtonPanel: true,
