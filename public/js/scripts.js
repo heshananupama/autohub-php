@@ -288,6 +288,18 @@ function DeleteBrand(brand) {
     });
 }
 
+// delete the existing brand
+function DeleteRetailer(retailer) {
+    $('#confirm-delete').modal('show');
+    $('#confirm-delete').on('click', '.btn-ok', function (e) {
+        window.location.href = "/admin/retailer/delete/" + retailer;
+        $modalDiv.addClass('loading');
+        setTimeout(function () {
+            $modalDiv.modal('hide').removeClass('loading');
+        }, 1000)
+    });
+}
+
 
 function EditCategory(id, category) {
 
@@ -415,6 +427,7 @@ function deleteCartItem(id) {
         }, 1000)
     });
 }
+
 
 function checkout(totalPrice) {
     window.location.href = "/checkout/" + totalPrice;

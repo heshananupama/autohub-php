@@ -45,8 +45,9 @@ class searchController extends Controller
                 ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber', 'LIKE', '%' . $request->searchName . '%')->get();
 
         }
+        $spareCount=$spares->count();
 
-        return View::make('browse')->with('spares', $spares)->with('brands', $brands)->with('models', $models)->with('categories', $categories)->with('search', $search);
+        return View::make('browse')->with('spares', $spares)->with('sparesCount', $spareCount)->with('brands', $brands)->with('models', $models)->with('categories', $categories)->with('search', $search);
 
     }
 

@@ -28,8 +28,12 @@
             @endif
 
         </div>
+        <div class="row">
+            <h1>Enquiries</h1>
+        </div>
 
         <div class="row">
+
             <br><br>
             <form role="form" action="{{ url('/enquiry') }}" method="post">{{ csrf_field() }}
                 <div class="col-xs-2">

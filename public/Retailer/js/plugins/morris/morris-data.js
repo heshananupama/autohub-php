@@ -1,7 +1,7 @@
 // Morris.js Charts sample data for SB Admin template
 
 $(function() {
-
+/*
     $.ajax({
         type: 'get',
         url: ('/retailer/chartSales'),
@@ -10,6 +10,49 @@ $(function() {
         success: function (data) {
             var chartData=[];
             for(var k=0;k<data.Date.length;k++){
+                chartData.push({ d:data.Date[k],sales:data.value[k]});
+            }
+            console.log(chartData);
+            Morris.Area({
+                element: 'morris-area-chart',
+                data: chartData,
+                // The name of the data record attribute that contains x-visitss.
+                xkey: 'd',
+                // A list of names of data record attributes that contain y-visitss.
+                ykeys: ['sales'],
+                // Labels for the ykeys -- will be displayed when you hover over the
+                // chart.
+                labels: ['sales'],
+                // Disables line smoothing
+                smooth: false,
+                parseTime:false,
+
+                resize: true
+            });
+
+
+
+        }
+
+    });*/
+
+
+    $.ajax({
+        type: 'get',
+        url: ('/retailer/chartSales'),
+
+
+        success: function (data) {
+
+            for (var key in data) {
+                var obj = data[key];
+                for (var prop in obj) {
+                 }
+            }
+
+            console.log(data.length);
+            var chartData=[];
+            for(var k=0;k<data.length;k++){
                 chartData.push({ d:data.Date[k],sales:data.value[k]});
             }
             console.log(chartData);

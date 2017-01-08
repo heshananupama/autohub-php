@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Brands;
 use App\Categories;
 use App\Models;
+use App\Retailers;
 use App\Spares;
 use App\User;
 use Illuminate\Http\Request;
@@ -140,14 +141,21 @@ class brandsController extends Controller
         return Redirect::to('/admin/brand');
 
     }
+
+    public function destroyRetailer($id)
+    {
+        $retailer=Retailers::find($id);
+        $retailer->delete();
+        return Redirect::to('/admin/retailer');
+
+    }
     public function loadHome(){
         $categories=Categories::all();
         $categoryCount=$categories->count();
 
         $spares=Spares::all();
         $spareCount=$spares->count();
-
-        $models=Models::all();
+         $models=Models::all();
         $modelCount=$models->count();
 
         $brands=Brands::all();
@@ -160,6 +168,6 @@ class brandsController extends Controller
         $retailers=User::where('type','r');
         $retailerCount=$retailers->count();
 
-        return view('Admin/admin')->with('customerCount',$customerCount)->with('retailerCount',$retailerCount)->with('brandCount',$brandCount)->with('modelCount',$modelCount)->with('categoryCount',$categoryCount)->with('sparesCount',$spareCount)->with('sparesCount',$customerCount);
+        return view('Admin/admin')->with('customerCount',$customerCount)->with('retailerCount',$retailerCount)->with('brandCount',$brandCount)->with('modelCount',$modelCount)->with('categoryCount',$categoryCount)->with('sparesCount',$spareCount)->with('customerCount',$customerCount);
     }
 }

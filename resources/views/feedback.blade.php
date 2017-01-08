@@ -10,7 +10,7 @@
 
         </div>
         <div class="col-xs-10">
-            <h2>Order Details</h2><br>
+            <h2>Feedback</h2><br>
             <div class="panel-default">
                 <div class="row">
                     <div class="col-xs-6 col-xs-offset-3">
@@ -229,7 +229,7 @@ margin-right: auto;" width="100%" class="table-responsive feedbackTable">
 
                                     <div class="row" id="post-review-box"  >
                                         <div class="col-md-12">
-                                            <input class="form-control" id="phoneNumber" name="phone"   placeholder="Telephone Num:"><br>
+                                            <input class="form-control" id="phoneNumber" name="phone" type="number"   placeholder="Telephone Num:"><br>
                                             <textarea class="form-control animated" cols="50" id="new-complain" name="comment" placeholder="Enter your complain here..." rows="5"></textarea>
 
                                             <br>

@@ -77,7 +77,7 @@
                         <td>  </td>
                         <td>  </td>
                         <td>
-                            <a type="button" class="btn btn-default btn-lg">
+                            <a href="/advanceSearch" type="button" class="btn btn-default btn-lg">
                                 <span class="glyphicon glyphicon-shopping-cart"></span> Continue Shopping
                             </a>
                         </td>

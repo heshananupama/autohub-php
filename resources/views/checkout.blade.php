@@ -63,7 +63,7 @@
                     <div class="form-group">
                         <div class="input-group">
                             <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
-                            <input type="text" name="email" class="form-control" placeholder="Enter email" maxlength="50" value="" />
+                            <input type="email" name="email" class="form-control" placeholder="Enter email" maxlength="50" value="" />
                         </div>
                         <span class="text-danger"> </span>
                     </div>
@@ -76,7 +76,7 @@
                     <div class="form-group">
                         <div class="input-group">
                             <span class="input-group-addon"><span class="glyphicon glyphicon-phone"></span></span>
-                            <input type="text"
+                            <input type="number"
                                    name="telephone"
                                    required class="form-control" placeholder="Enter Phone Number" maxlength="50" value="" />
                         </div>
@@ -89,7 +89,7 @@
 
 
                 {{ csrf_field() }}
-                <a type="submit" class="btn btn-success" onclick="submitform({{$total}})">Buy now</a>
+                <a type="submit" class="btn btn-default" onclick="submitform({{$total}})"><img style="width: 100px;height: 55" src="/Images/Logos/paypal.png" alt=""></a>
             </form>
 
         </div>

@@ -100,7 +100,7 @@
                 <table class="table table-hover">
 
                     <tbody>
-                    @if(!empty ($spares))
+                    @if(!empty ($spares) && $sparesCount!=0)
 
                         @foreach($spares as $spare)
 
@@ -144,6 +144,8 @@
 
                             </tr>
                         @endforeach
+                            @elseif($sparesCount==0)
+                            <h3>No Results Found. Please Search Again</h3>
                     @endif
 
                     </tbody>

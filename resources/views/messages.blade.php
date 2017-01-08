@@ -43,7 +43,11 @@
 
                                 <tr style="height: 50px;">
                                     <th style="text-align: center">Retailer Name</th>
+
                                     <th style="text-align: center">Message Type</th>
+                                    <th style="text-align: center">Order Item Name</th>
+                                    <th style="text-align: center">Order Date</th>
+
                                     <th style="text-align: center">Message Date</th>
                                     <th style="text-align: center">Message</th>
 
@@ -52,7 +56,22 @@
                                 @foreach($messages as $message)
                                     <tr>
                                         <td>{{$message->retailer->name}}</td>
+
                                         <td>{{$message->messageType}}</td>
+                                        <?php $a=0?>
+                                        @foreach($orderItems as $orderItem)
+                                            @if($orderItem->id==$message->orderItem_id)
+                                                <td>{{$orderItem->spare->description}}</td>
+                                                <td>{{$orderItem->order->orderDate}}</td>
+                                                <?php $a=1?>
+                                            @endif
+                                        @endforeach
+
+                                        @if($a==0)
+                                            <td>-</td>
+                                            <td>-</td>
+                                            @endif
+
                                         <td>{{$message->created_at}}</td>
                                         <td>{{$message->message}}</td>
 

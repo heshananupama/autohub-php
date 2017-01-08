@@ -24,11 +24,11 @@
                         <div class="row">
                             <div class="col-sm-3"></div>
                             <div class="col-xs-6 text-center  ">
-                                <a href="#" class="btn btn-danger btn-lg" role="button"><span
+                                <a href="/admin/brand" class="btn btn-danger btn-lg" role="button"><span
                                             class="glyphicon glyphicon-list-alt"></span> <br/>Brands<br>{{$brandCount}}</a>
-                                <a href="#" class="btn btn-warning btn-lg" role="button"><span
+                                <a href="/admin/model" class="btn btn-warning btn-lg" role="button"><span
                                             class="glyphicon glyphicon-barcode"></span> <br/>Models <br>{{$modelCount}}</a>
-                                <a href="#" class="btn btn-primary btn-lg" role="button"><span
+                                <a href="/admin/category" class="btn btn-primary btn-lg" role="button"><span
                                             class="glyphicon glyphicon-copyright-mark"></span> <br/>Categories <br>{{$categoryCount}}</a>
                                 <a href="#" class="btn btn-primary btn-lg" role="button"><span
                                             class="glyphicon glyphicon-wrench"></span> <br/>Spares <br>{{$sparesCount}}</a>

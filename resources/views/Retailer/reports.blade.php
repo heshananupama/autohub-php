@@ -733,7 +733,7 @@
                                         Period:</h4>
                                     @if(!empty($month))
                                         <h5 style="margin-left: 10px;"><strong>{{$month}}</strong></h5>
-                                    @elseif(!empty($startDate))
+                                    @elseif(!empty($reportDate))
 
 
                                         <h5 style="margin-left: 10px;"><strong>{{$reportDate}}</strong></h5>

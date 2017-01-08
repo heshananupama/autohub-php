@@ -161,9 +161,11 @@ function changeOrderStatus() {
     });
 }
 
-function makeReply(user_id) {
-    $('#modalMessage').modal('show');
+function makeReply(user_id,orderItem_id) {
     $('#customerId').val(user_id);
+    $('#orderItemId').val(orderItem_id);
+
+    $('#modalMessage').modal('show');
 
 
 }
@@ -180,6 +182,40 @@ function replyCustomer() {
             'message': message,
             'customerId': customerId,
             'retailerId': retailerId,
+
+        },
+        success: function (data) {
+
+            $('#modalMessage').modal('hide');
+            document.getElementById('successMessage').innerHTML = data;
+            $('#autoclosable-btn-success').prop("disabled", true);
+            $('.alert-autocloseable-success').show();
+
+            $('.alert-autocloseable-success').delay(5000).fadeOut("slow", function () {
+                // Animation complete.
+                $('#autoclosable-btn-success').prop("disabled", false);
+            });
+        }
+
+    });
+
+
+}
+
+function replyCustomerComplain() {
+    var message = $('textarea#message').val();
+    var customerId = $('#customerId').val();
+    var retailerId = $('#retailerId').val();
+    var orderItemId= $('#orderItemId').val();
+
+    $.ajax({
+        type: 'get',
+        url: ('/retailer/complains/newReply'),
+        data: {
+            'message': message,
+            'customerId': customerId,
+            'retailerId': retailerId,
+            'orderItem':orderItemId,
 
         },
         success: function (data) {

@@ -35,7 +35,6 @@ Route::get('/productInfo/{id}',['uses'=>'searchController@loadProduct',
     'as'=>'product.index'] );
 
 
-Route::get('/checkout/{price}','searchController@getCheckout');
 
 
 
@@ -82,6 +81,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/cart','searchController@viewCart' );
     Route::get('/cart/changeStatus','searchController@changeCartStatus' );
 
+    Route::get('/checkout/{price}','searchController@getCheckout');
 
 
 
@@ -117,6 +117,13 @@ Route::group(['middleware' =>  'App\Http\Middleware\Admin'], function () {
 
     });
 
+    Route::get("/admin/retailer", function () {
+
+        $retailers = DB::table('retailers')->paginate(5);
+        return View::make('Admin/retailer')->with('retailers', $retailers);
+
+    });
+
     Route::get('/admin/model', function () {
         $models = DB::table('models')->paginate(5);
         $brands = DB::table('brands')->get();
@@ -124,8 +131,7 @@ Route::group(['middleware' =>  'App\Http\Middleware\Admin'], function () {
         return View::make('Admin/model')->with('models', $models)->with('brands', $brands);
 
     });
-
-    Route::get('/admin/brand/delete/{id}', 'brandsController@destroy');
+    Route::get('/admin/retailer/delete/{id}', 'brandsController@destroyRetailer');
     Route::post('/admin/brand/edit', 'brandsController@edit');
     Route::post("admin/brand", 'brandsController@store');
     Route::get("/admin/brand/search", 'brandsController@show');
@@ -179,6 +185,8 @@ Route::group(['middleware' => 'App\Http\Middleware\Retailer'], function () {
     Route::get("/retailer/orders/changeStatus", 'retailerController@changeOrderItemStatus');
 
     Route::get("/retailer/complains", 'retailerController@complains');
+    Route::get("/retailer/complains/newReply", 'retailerController@makeComplainReply');
+
 
     Route::get("/retailer/reports", 'retailerController@reports');
 

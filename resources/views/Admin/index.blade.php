@@ -105,6 +105,11 @@
                         <span class="fa fa-anchor solo">Categories</span>
                     </a>
                 </li>
+                <li>
+                    <a href="{{ url('/admin/retailer') }}">
+                        <span class="fa fa-anchor solo">Retailers</span>
+                    </a>
+                </li>
 
                 <li>
                     <a href="{{ url('/admin/registerRetailer') }}">

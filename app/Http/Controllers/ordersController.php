@@ -8,6 +8,8 @@ use App\Feedback;
 
  use Illuminate\Http\Request;
  use App\Http\Requests;
+use App\Http\Requests\ComplainDataRequest;
+
 use App\OrderItem;
 use Illuminate\Support\Facades\View;
 use App;

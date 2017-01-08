@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Message;
+use App\OrderItem;
 use Illuminate\Http\Request;
 
 use App\Http\Requests\EnquiryDataRequest;
@@ -69,12 +70,14 @@ use App\Enquiries;
     public function showMessages()
     {
         $user_id = Auth::user()->id;
+        $data=array();
 
         $messages = Message::with('customer', 'retailer')
             ->where('user_id', $user_id)->get();
+        $orderItem=OrderItem::with('spare','order')->get();
 
 
-        return View::make('messages')->with('messages', $messages);
+        return View::make('messages')->with('messages', $messages)->with('orderItems',$orderItem);
     }
 
     /**
