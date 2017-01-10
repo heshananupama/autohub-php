@@ -28,7 +28,7 @@ class ordersController extends Controller
 
         $user_id= Auth::user()->id;
 
-        $orders=App\Orders::where('user_id', $user_id)
+        $orders=App\Orders::where('user_id', $user_id) ->orderBy('created_at', 'asc')
             ->get();
 
 

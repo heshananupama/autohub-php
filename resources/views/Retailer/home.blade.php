@@ -175,7 +175,7 @@
                 <div class="col-sm-6">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> Pending Orders</h3>
+                            <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> Recent Pending Orders</h3>
                         </div>
                         <div class="panel-body">
                             <div class="table-responsive">

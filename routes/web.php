@@ -132,6 +132,8 @@ Route::group(['middleware' =>  'App\Http\Middleware\Admin'], function () {
 
     });
     Route::get('/admin/retailer/delete/{id}', 'brandsController@destroyRetailer');
+    Route::get('/admin/brand/delete/{id}', 'brandsController@destroy');
+
     Route::post('/admin/brand/edit', 'brandsController@edit');
     Route::post("admin/brand", 'brandsController@store');
     Route::get("/admin/brand/search", 'brandsController@show');
@@ -166,17 +168,20 @@ Route::group(['middleware' => 'App\Http\Middleware\Retailer'], function () {
 
     Route::get("/retailer/orders", 'retailerController@loadOrders');
 
-    Route::post("/retailer/generateReports", 'retailerController@loadReports');
+    Route::post("/retailer/generateReports", 'ReportingController@loadReports');
 
 
-    Route::get("/retailer/chartSales", 'retailerController@loadSalesChart');
+    Route::get("/retailer/chartSales", 'ChartController@loadSalesChart');
+    Route::get("/retailer/loadStrategicSalesChart", 'ChartController@loadStrategicSalesChart');
 
-    Route::get("/retailer/chartProfits", 'retailerController@loadProfitsChart');
+    Route::get("/retailer/loadStrategicBrandsChart", 'ChartController@loadStrategicBrandsChart');
+
+    Route::get("/retailer/chartProfits", 'ChartController@loadProfitsChart');
 
 
-    Route::get("/retailer/chartOrders", 'retailerController@loadOrdersChart');
+    Route::get("/retailer/chartOrders", 'ChartController@loadOrdersChart');
 
-    Route::get("/retailer/chartDonuts", 'retailerController@loadDonutChart');
+    Route::get("/retailer/chartDonuts", 'ChartController@loadDonutChart');
 
     Route::get("/retailer/enquiries", 'retailerController@loadEnquiries');
 
@@ -189,6 +194,10 @@ Route::group(['middleware' => 'App\Http\Middleware\Retailer'], function () {
 
 
     Route::get("/retailer/reports", 'retailerController@reports');
+
+    Route::get('/retailer/charts', function () {
+        return view('Retailer/charts');
+    });
 
     Route::post("/retailer/spares", 'sparesController@store');
 

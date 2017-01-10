@@ -34,22 +34,21 @@ class categoriesController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(CategoryDataRequest $request)
     {
-        try{
-            $Category=new Categories;
-            $Category->categoryName=$request->get('categoryName');
-            $Category->admin_id=$request->get('admin_id');
+        try {
+            $Category = new Categories;
+            $Category->categoryName = $request->get('categoryName');
+            $Category->admin_id = $request->get('admin_id');
 
             $Category->save();
-            \Session::flash('flash_message','Added new Category.'); //<--FLASH MESSAGE
+            \Session::flash('flash_message', 'Added new Category.'); //<--FLASH MESSAGE
 
             return redirect()->back();
-        }
-        catch (\Illuminate\Database\QueryException $ex){
+        } catch (\Illuminate\Database\QueryException $ex) {
             dd($ex->getMessage());
         }
     }
@@ -57,21 +56,21 @@ class categoriesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show(Request $request)
     {
-        if ($request->ajax()){
-            $output="";
-            $categories=DB::table('categories')->where ('categoryName','LIKE','%'.$request->search.'%')
-                ->orWhere('categoryName','LIKE','%'.$request->search.'%')->get();
-            if($categories){
-                foreach ($categories as $key=>$category){
-                    $output.='<tr>'.
-                        '<td>'.$category->id.'</td>'.
+        if ($request->ajax()) {
+            $output = "";
+            $categories = DB::table('categories')->where('categoryName', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('categoryName', 'LIKE', '%' . $request->search . '%')->get();
+            if ($categories) {
+                foreach ($categories as $key => $category) {
+                    $output .= '<tr>' .
+                        '<td>' . $category->id . '</td>' .
 
-                        '<td>'.$category->categoryName.'</td>'.
+                        '<td>' . $category->categoryName . '</td>' .
 
                         '<td>
 
@@ -79,7 +78,7 @@ class categoriesController extends Controller
 
                                     <a class=" btn btn-danger btn-sm" href="" >Delete </a>
 
-                                </td>'.
+                                </td>' .
                         '</tr>';
                 }
 
@@ -92,31 +91,28 @@ class categoriesController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit(CategoryDataRequest $request)
     {
-        $categoryName =$request->get('categoryName');
-        $id= $request->get('categoryId');
+        $categoryName = $request->get('categoryName');
+        $id = $request->get('categoryId');
         error_log($id);
 
         DB::update("update categories 
         set categoryName = '$categoryName'  where id = $id");
-        \Session::flash('flash_message','Updated Successfully.'); //<--FLASH MESSAGE
+        \Session::flash('flash_message', 'Updated Successfully.'); //<--FLASH MESSAGE
 
         return redirect()->back();
     }
 
 
-
-
-
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -127,13 +123,19 @@ class categoriesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        $category=categories::find($id);
-        $category->delete();
-        return redirect()->back();
+        try {
+            $category = categories::find($id);
+            $category->delete();
+            return redirect()->back();
+        } catch (\Illuminate\Database\QueryException $ex) {
+            dd($ex->getMessage());
+            // Note any method of class PDOException can be called on $ex.
+        }
+
     }
 }

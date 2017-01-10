@@ -136,9 +136,16 @@ class brandsController extends Controller
      */
     public function destroy($id)
     {
-         $brand=Brands::find($id);
-        $brand->delete();
-        return Redirect::to('/admin/brand');
+
+        try {
+            $brand=Brands::find($id);
+            $brand->delete();
+            return Redirect::to('/admin/brand');
+        } catch(\Illuminate\Database\QueryException $ex){
+            dd($ex->getMessage());
+            // Note any method of class PDOException can be called on $ex.
+        }
+
 
     }
 

@@ -404,8 +404,9 @@ class searchController extends Controller
                 }
 
             }
+            $spareCount=$spares->count();
 
-            return View::make('browse')->with('spares', $spares)->with('brands', $brands)->with('models', $models)->with('categories', $categories)->with('search', $search);
+            return View::make('browse')->with('spares', $spares)->with('sparesCount', $spareCount)->with('brands', $brands)->with('models', $models)->with('categories', $categories)->with('search', $search);
 
 
         } else {
@@ -573,12 +574,12 @@ class searchController extends Controller
 
             }
 
-
+            $spareCount=$spares->count();
             if ($request->suspension) {
-                return View::make('suspension')->with('spares', $spares)->with('brands', $brands)->with('models', $models)->with('categories', $categories);
+                return View::make('suspension')->with('spares', $spares)->with('sparesCount', $spareCount)->with('brands', $brands)->with('models', $models)->with('categories', $categories);
 
             } else {
-                return View::make('toyota')->with('spares', $spares)->with('brands', $brands)->with('models', $models)->with('categories', $categories);
+                return View::make('toyota')->with('sparesCount', $spareCount)->with('spares', $spares)->with('brands', $brands)->with('models', $models)->with('categories', $categories);
 
             }
 

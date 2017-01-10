@@ -116,6 +116,9 @@
                 <li>
                     <a href="{{url('/retailer/enquiries')}}"><i class="fa fa-fw fa-file"></i> Enquiries</a>
                 </li>
+                <li>
+                    <a href="{{url('http://localhost:8080/chat/884346')}}"><i class="fa fa-fw fa-envelope"></i> Chat with Admin</a>
+                </li>
 
                {{-- <li>
                     <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Dropdown <i class="fa fa-fw fa-caret-down"></i></a>
@@ -131,6 +134,9 @@
 
                 <li>
                     <a href="{{url('/retailer/reports')}}"><i class="fa fa-fw fa-bar-chart-o"></i> Reports</a>
+                </li>
+                <li>
+                    <a href="{{url('/retailer/charts')}}"><i class="fa fa-fw fa-line-chart"></i> Charts</a>
                 </li>
             </ul>
         </div>
