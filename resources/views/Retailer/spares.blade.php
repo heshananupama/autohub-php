@@ -26,7 +26,7 @@
                     @endif
 
                 </div>
-                <h2><strong>Manage Spares </strong></h2>
+                <h1><strong>Manage Spares </strong></h1>
 
                 <div style="text-align: right">
                     <button type="submit" style="margin-top: 10px;" class="btn btn-primary btn-sm" data-toggle="modal"

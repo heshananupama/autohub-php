@@ -1,5 +1,3 @@
-
-
 @extends('Admin/index')
 
 @section('content')
@@ -38,7 +36,6 @@
                             <table class="table vehicle_brand">
 
 
-
                                 <tr>
                                     <th>Retailer Id</th>
                                     <th>Shop Name</th>
@@ -47,32 +44,34 @@
                                     <th>Delete</th>
 
 
-
                                 </tr>
 
                                 <tbody id="tableRetailer">
-                                <?php
-                                foreach($retailers as $retailer){
-
-                                ?>
-                                <tr>
-                                    <td ><?php echo $retailer->id;?></td>
-                                    <td ><?php echo $retailer->shopName;?></td>
-                                    <td ><?php echo $retailer->address;?></td>
-                                    <td ><?php echo $retailer->contactNo;?></td>
-
-                                    <td>
 
 
-                                        <a onclick="DeleteRetailer(<?php echo $retailer->id;?>)" style="" class=" btn btn-danger btn-sm"  >Delete </a>
+                                @foreach($users as $user)
+                                    @foreach($retailers as $retailer)
+                                        @if($user->id==$retailer->user_id)
+                                            <tr>
+                                                <td>{{$user->id}} </td>
+                                                <td> {{$retailer->shopName}}</td>
+                                                <td>{{ $retailer->address}}</td>
+                                                <td>{{$retailer->contactNo}}</td>
 
-                                    </td>
+                                                <td>
 
-                                </tr>
 
-                                <?php }?>
+                                                    <a onclick="DeleteRetailer({{$retailer->id}})" style=""
+                                                       class=" btn btn-danger btn-sm">Delete </a>
+
+                                                </td>
+                                            </tr>
+                                        @endif
+                                    @endforeach
+                                @endforeach
+
+
                                 </tbody>
-
 
 
                             </table>
@@ -96,7 +95,8 @@
     Delete Modal
     --}}
 
-    <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -114,10 +114,7 @@
             </div>
         </div>
     </div>
-    <div style="text-align: center">
-        {{ $retailers->links() }}
 
-    </div>
 
     <script>
 

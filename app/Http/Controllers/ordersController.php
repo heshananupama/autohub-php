@@ -36,6 +36,23 @@ class ordersController extends Controller
         return View::make('feedback')->with('orders', $orders);
     }
 
+    public function search(Request $request){
+        $search=($request->search);
+        $user_id = Auth::user()->id;
+
+        $orderItems = OrderItem::with('spare', 'order') ->orderBy('created_at', 'desc')->get();
+
+        foreach ($orderItems as $key=> $orderItem){
+             if($orderItem->order->orderDate!=$search ){
+                unset($orderItems[$key]);
+            }
+        }
+
+
+        return View::make('Retailer/ordersSearch')->with('orderItems', $orderItems);
+
+    }
+
     /**
      * Show the form for creating a new resource.
      *

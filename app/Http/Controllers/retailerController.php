@@ -174,7 +174,7 @@ class retailerController extends Controller
 
 
         $orderItems = DB::table('feedback')->where('feedbackType', '=', "Complain")
-            ->join('orderItem', 'feedback.orderItem_id', '=', 'orderItem.id')->join('users', 'feedback.user_id', '=', 'users.id')->get();
+            ->join('orderItem', 'feedback.orderItem_id', '=', 'orderItem.id')->join('users', 'feedback.user_id', '=', 'users.id')->paginate(5);
 
         foreach ($orderItems as $key => $orderItem) {
             $spare = Spares::find($orderItem->spare_id);
@@ -182,6 +182,7 @@ class retailerController extends Controller
                 unset($orderItems[$key]);
 
             } else {
+
                 $orderItems[$key]->spdescription = $spare->description;
                 $orderItems[$key]->imagePath = $spare->imagePath;
 
@@ -199,9 +200,10 @@ class retailerController extends Controller
      */
     public function loadOrders()
     {
+        $user_id = Auth::user()->id;
 
 
-            $orderItems = OrderItem::with('spare', 'order') ->orderBy('created_at', 'asc')->get();
+            $orderItems = OrderItem::with('spare', 'order') ->orderBy('created_at', 'desc') ->paginate(10);
 
 
         return View::make('Retailer/Orders')->with('orderItems', $orderItems);

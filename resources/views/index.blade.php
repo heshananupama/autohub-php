@@ -152,7 +152,9 @@
                 </a>
                 <ul class="dropdown-menu dropdown-menu-large row">
                     <li class="col-sm-3">
-                         <h5>Compare and contrast between different qualities</h5>
+                        <img style="" src="/Images/category.png" alt="">
+
+                        <h5>Compare and contrast between different qualities</h5>
                     </li>
                     <li class="col-sm-3">
                         <ul>

@@ -437,22 +437,29 @@ function checkout(totalPrice) {
 
 function submitform(cartTotal) {
     var address = $("#address").val();
+    if(address==""){
+        alert("Address Can't be Empty");
 
-    $.ajax({
-        type: 'get',
-        url: ('/cart/changeStatus'),
-        data: {
-            'address': address,
-            'cartTotal': cartTotal,
-        },
-        success: function (data) {
+    }
+    else{
+         $.ajax({
+         type: 'get',
+         url: ('/cart/changeStatus'),
+         data: {
+         'address': address,
+         'cartTotal': cartTotal,
+         },
+         success: function (data) {
 
-            document.theForm.submit();
+         document.theForm.submit();
 
 
-        }
+         }
 
-    });
+         });
+    }
+
+
 }
 
 function loadOrderItems(orderId) {
@@ -482,29 +489,36 @@ function showReviewModal(orderItemId) {
 function saveReview() {
     var orderItemId = document.getElementById('orderItemId').value;
     var review = document.getElementById('new-review').value;
+    if(review=="" || val==undefined ){
+        alert("Please select requred fields")
+    }
+    else{
+         $.ajax({
+         type: 'get',
+         url: ('/feedback/' + orderItemId + '/saveReview'),
+         data: {
+         'orderItemId': orderItemId,
+         'starValue': val,
+         'review': review,
+         },
+         success: function (data) {
+         $('#modalReview').modal('hide');
+         document.getElementById('successMessage').innerHTML = data;
+         $('#autoclosable-btn-success').prop("disabled", true);
+         $('.alert-autocloseable-success').show();
 
-    $.ajax({
-        type: 'get',
-        url: ('/feedback/' + orderItemId + '/saveReview'),
-        data: {
-            'orderItemId': orderItemId,
-            'starValue': val,
-            'review': review,
-        },
-        success: function (data) {
-            $('#modalReview').modal('hide');
-            document.getElementById('successMessage').innerHTML = data;
-            $('#autoclosable-btn-success').prop("disabled", true);
-            $('.alert-autocloseable-success').show();
+         $('.alert-autocloseable-success').delay(5000).fadeOut("slow", function () {
+         // Animation complete.
+         $('#autoclosable-btn-success').prop("disabled", false);
+         });
 
-            $('.alert-autocloseable-success').delay(5000).fadeOut("slow", function () {
-                // Animation complete.
-                $('#autoclosable-btn-success').prop("disabled", false);
-            });
+         }
 
-        }
+         });
 
-    });
+    }
+
+
 }
 
 function showComplainModal(orderItemId) {

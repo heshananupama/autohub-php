@@ -27,7 +27,7 @@ class RegisterRetailerDataRequest extends FormRequest
             'name' => 'required|max:255',
             'shopName' => 'required|max:255',
             'address' => 'required|max:255',
-            'contactNo' => 'min:10',
+            'contactNo' => 'min:10|numeric',
             'retailerImage' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'password' => 'required|min:6|confirmed',
             'password_confirmation' => 'required|min:6',

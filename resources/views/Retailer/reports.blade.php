@@ -972,7 +972,7 @@
                                         <th>Spare Id</th>
                                         <th>Spare Name</th>
                                         <th>Quantity</th>
-                                        <th>Status</th>
+                                        <th>SubTotal</th>
 
                                     </tr>
                                     @foreach($dailySales as $dailySale)
@@ -982,7 +982,8 @@
                                                 <td>{{$dailySale->spare->description}}</td>
 
                                                 <td>{{$dailySale->quantity}}</td>
-                                                <td>{{$dailySale->orderStatus}}</td>
+                                                <td>{{$dailySale->subTotal}}</td>
+
                                             </tr>
 
 

@@ -118,7 +118,7 @@
                 </li>
                 <li>
                     <a href="{{ url('http://localhost:8080/chat/884346') }}">
-                        <span class="fa fa-anchor solo">Private Chat</span>
+                        <span class="fa fa-anchor solo">Chat With Retailers</span>
                     </a>
                 </li>
             </ul>

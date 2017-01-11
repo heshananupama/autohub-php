@@ -50,7 +50,7 @@
                     <div class="form-group">
                         <div class="input-group">
                             <span class="input-group-addon"><span class="glyphicon glyphicon-certificate"></span></span>
-                            <input type="text" id="address" name="city" class="form-control" placeholder="Enter Address" maxlength="50" value="" />
+                            <input type="text" id="address" name="city" class="form-control" placeholder="Enter Address" maxlength="50" value=" " />
                         </div>
                         <span class="text-danger"> </span>
                     </div>

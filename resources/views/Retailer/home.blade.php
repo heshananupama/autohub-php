@@ -146,7 +146,7 @@
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> Orders Chart</h3>
+                            <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> Order Items Chart</h3>
                         </div>
                         <div class="panel-body">
                             <div id="morris-bar-chart"></div>

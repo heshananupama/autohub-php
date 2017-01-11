@@ -125,6 +125,50 @@ $(function() {
 
     });
 
+    $.ajax({
+        type: 'get',
+        url: ('/retailer/loadOverviewRevenue'),
+
+
+        success: function (data) {
+            var chartData=[];
+
+            for (var key in data) {
+                var obj = data[key];
+
+                chartData.push({m:key,
+                    TotalSales:obj['subTotal'], TotalCost:obj['totalCost'], TotalRevenue:obj['totalProfit']
+
+                });
+
+
+            }
+
+
+            console.log(chartData);
+            Morris.Bar({
+                element: 'morris-area-chart4',
+                data: chartData,
+                // The name of the data record attribute that contains x-visitss.
+                xkey: 'm',
+                // A list of names of data record attributes that contain y-visitss.
+                ykeys: ['TotalSales','TotalCost','TotalRevenue'],
+
+                // Labels for the ykeys -- will be displayed when you hover over the
+                // chart.
+                labels: ['TotalSales','TotalCost','TotalRevenue'],
+                // Disables line smoothing
+                smooth: false,
+                parseTime:false,
+
+                resize: true
+            });
+
+
+
+        }
+
+    });
 
 
 

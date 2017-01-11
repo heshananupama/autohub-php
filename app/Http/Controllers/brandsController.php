@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Brands;
 use App\Categories;
+use App\Http\Middleware\Retailer;
 use App\Models;
 use App\Retailers;
 use App\Spares;
@@ -151,8 +152,13 @@ class brandsController extends Controller
 
     public function destroyRetailer($id)
     {
+        $userRetailer=DB::table('retailers')->where('id', '=',$id )->first();
+         $userId=$userRetailer->user_id;
+
         $retailer=Retailers::find($id);
         $retailer->delete();
+        $user=User::find($userId);
+        $user->delete();
         return Redirect::to('/admin/retailer');
 
     }

@@ -170,7 +170,7 @@ margin-right: auto;" width="100%" class="table-responsive feedbackTable">
 
                                      <div class="row" id="post-review-box"  >
                                         <div class="col-md-12">
-                                                 <input id="ratings-hidden" name="rating" type="hidden">
+                                                 <input id="ratings-hidden" name="rating" type="hidden" >
                                                 <textarea class="form-control animated" cols="50" id="new-review" name="comment" placeholder="Enter your review here..." rows="5"></textarea>
 
                                                 <div class="text-right">

@@ -378,8 +378,7 @@ class searchController extends Controller
                         ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber', 'LIKE', '%' . $request->searchName . '%')->orderBy('description', 'asc')->get();
 
                 } elseif ($sortBy == "priceAscending") {
-                    dd("dd");
-                    $spares = Spares::with('user', 'model', 'brand')->where('model_id', '=', $model)->where('brand_id', '=', $brand)
+                     $spares = Spares::with('user', 'model', 'brand')->where('model_id', '=', $model)->where('brand_id', '=', $brand)
                         ->where('description', 'LIKE', '%' . $request->searchName . '%')->orWhere('partNumber', 'LIKE', '%' . $request->searchName . '%')->orderBy('price', 'asc')->get();
 
                 } elseif ($sortBy == "priceDescending") {

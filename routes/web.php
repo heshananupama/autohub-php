@@ -119,8 +119,9 @@ Route::group(['middleware' =>  'App\Http\Middleware\Admin'], function () {
 
     Route::get("/admin/retailer", function () {
 
-        $retailers = DB::table('retailers')->paginate(5);
-        return View::make('Admin/retailer')->with('retailers', $retailers);
+        $users = DB::table('users')->where('type','=','r')->get();
+        $retailers=DB::table('retailers')->get();
+        return View::make('Admin/retailer')->with('retailers', $retailers)->with('users',$users);
 
     });
 
@@ -177,6 +178,7 @@ Route::group(['middleware' => 'App\Http\Middleware\Retailer'], function () {
     Route::get("/retailer/loadStrategicBrandsChart", 'ChartController@loadStrategicBrandsChart');
 
     Route::get("/retailer/chartProfits", 'ChartController@loadProfitsChart');
+    Route::get("/retailer/loadOverviewRevenue", 'ChartController@loadOverviewRevenue');
 
 
     Route::get("/retailer/chartOrders", 'ChartController@loadOrdersChart');
@@ -208,6 +210,8 @@ Route::group(['middleware' => 'App\Http\Middleware\Retailer'], function () {
     Route::get('/retailer/spares/getModels', 'sparesController@getModels');
 
     Route::post('/retailer/spares/search', 'sparesController@search');
+    Route::post('/retailer/orders/search', 'ordersController@search');
+
 
 
     Route::get('/retailer/spares', 'sparesController@load') ;

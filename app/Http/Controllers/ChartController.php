@@ -277,7 +277,7 @@ class ChartController extends Controller
 
 
                     if ($month == $salesItemYearMonth && ($brand->id == $salesItem->spare->brand_id)) {
-                        $brandValue = $brandValue + $salesItem->subTotal;
+                        $brandValue = $brandValue + $salesItem->subTotal-$salesItem->totalCost;
 
                     }
                 }
@@ -484,6 +484,114 @@ class ChartController extends Controller
 
         $values = [$shipped, $purchased, $delivered];
         return ($values);
+    }
+
+    public function  loadOverviewRevenue(){
+
+        $salesItems = array();
+        $reportData = [];
+
+        $reportTotal = 0;
+
+
+           $year=2016;
+
+            $mon = array(
+                'January',
+                'February',
+                'March',
+                'April',
+                'May',
+                'June',
+                'July ',
+                'August',
+                'September',
+                'October',
+                'November',
+                'December',
+            );
+
+            $months = array(
+                $year.'-01',
+                $year.'-02',
+                $year.'-03',
+                $year.'-04',
+                $year.'-05',
+                $year.'-06',
+                $year.'-07',
+                $year.'-08',
+                $year.'-09',
+                $year.'-10',
+                $year.'-11',
+                $year.'-12',
+            );
+
+
+
+
+
+            foreach ($months as $key => $month) {
+
+                $reportData[$month] = [];
+
+            }
+
+            foreach ($months as $key => $month) {
+
+                $reportData[$month]['month'] = $mon[$key];
+
+            }
+
+
+            $orderItems = OrderItem::with('spare', 'order')->get();
+
+            foreach ($orderItems as $key => $orderItem) {
+
+
+                if ($orderItem->spare->retailer_id == Auth::user()->id) {
+                    array_push($salesItems, $orderItem);
+                }
+
+
+            }
+
+
+            $categories = App\Categories::all();
+            foreach ($months as $month) {
+
+                $subTotal = 0;
+                $totalCost=0;
+                $totalProfit=0;
+                foreach ($categories as $category) {
+                    $categoryValue = 0;
+                    $categoryCost=0;
+
+                    foreach ($salesItems as $salesItem) {
+                        $requestDate = explode('-', $salesItem->order->orderDate );
+                        $salesItemYear= $requestDate[0];
+                        $salesItemMonth= $requestDate[1];
+                        $salesItemYearMonth=$salesItemYear.'-'.$salesItemMonth;
+
+
+                        if ($month == $salesItemYearMonth && ($category->id == $salesItem->spare->category_id)) {
+                            $categoryValue = $categoryValue + $salesItem->subTotal;
+                            $categoryCost=$categoryCost+$salesItem->totalCost;
+
+                        }
+                    }
+                    $subTotal = $categoryValue + $subTotal;
+                    $totalCost=$categoryCost+$totalCost;
+                    $totalProfit=$subTotal-$totalCost;
+                     $reportData[$month]['subTotal'] =  $subTotal ;
+                    $reportData[$month]['totalCost']=$totalCost ;
+                    $reportData[$month]['totalProfit']=  $totalProfit ;
+
+
+                }
+                $reportTotal = $reportTotal + $totalProfit;
+            }
+
+return $reportData;
     }
 
 }

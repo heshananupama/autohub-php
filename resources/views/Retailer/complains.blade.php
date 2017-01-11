@@ -85,7 +85,10 @@
 
 
                 </table>
+                <div style="text-align: center">
+                    {{ $complains->links() }}
 
+                </div>
             </div>
 
             <div class="modal fade bs-example-modal-lg" id="modalMessage" tabindex="-1" style="margin-top:130px;" role="dialog"

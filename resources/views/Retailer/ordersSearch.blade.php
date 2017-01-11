@@ -63,27 +63,27 @@
 
                         @if($orderItem->spare->retailer_id== Auth::user()->id)
 
-                        <tr>
+                            <tr>
 
-                            <td>{{$orderItem->order->id}}</td>
-                            <td>{{$orderItem->id}}</td>
-                            <td style="width: 100px;">{{$orderItem->order->orderDate}}</td>
-                            <td>{{$orderItem->spare->description}}</td>
-                            <td>
-                                <div class="image">
-                                    <a href="{{ asset("/images/spares/{$orderItem->spare->imagePath}") }}"><img style="width: 50px;height: 50px;"
-                                                                                                      src="{{ asset("/images/spares/{$orderItem->spare->imagePath}") }}"></a>
-                                </div>
-                            </td>
-                            <td>{{$orderItem->quantity}}</td>
-                            <td style="width: 120px;">Rs. {{$orderItem->subTotal}}.00</td>
-                            <td>{{$orderItem->order->shippingAddress}}</td>
-                            <td>{{$orderItem->orderStatus}}</td>
-                            <td>
-                                <a style="margin-bottom: 5px;" onclick="showChangeOrderStatusModal({{$orderItem->id}})" class=" btn btn-success btn-xs">Change Status </a>
-                            </td>
+                                <td>{{$orderItem->order->id}}</td>
+                                <td>{{$orderItem->id}}</td>
+                                <td style="width: 100px;">{{$orderItem->order->orderDate}}</td>
+                                <td>{{$orderItem->spare->description}}</td>
+                                <td>
+                                    <div class="image">
+                                        <a href="{{ asset("/images/spares/{$orderItem->spare->imagePath}") }}"><img style="width: 50px;height: 50px;"
+                                                                                                                    src="{{ asset("/images/spares/{$orderItem->spare->imagePath}") }}"></a>
+                                    </div>
+                                </td>
+                                <td>{{$orderItem->quantity}}</td>
+                                <td style="width: 120px;">Rs. {{$orderItem->subTotal}}.00</td>
+                                <td>{{$orderItem->order->shippingAddress}}</td>
+                                <td>{{$orderItem->orderStatus}}</td>
+                                <td>
+                                    <a style="margin-bottom: 5px;" onclick="showChangeOrderStatusModal({{$orderItem->id}})" class=" btn btn-success btn-xs">Change Status </a>
+                                </td>
 
-                        </tr>
+                            </tr>
 
                         @endif
 
@@ -92,9 +92,7 @@
 
 
                 </table>
-                <div style="text-align: center">
-                     {{ $orderItems->links() }}
-                 </div>
+
 
             </div>
 
@@ -122,30 +120,30 @@
                 <div class="modal-body">
 
 
-                        <div class="row">
-                            <div class="col-md-1"></div>
-                            <div class="col-md-10 ">
-                                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-10 ">
+                            <div class="form-group">
 
-                                    <select  class="form-control" name="orderItemStatus" id="orderItemStatus">
-                                        <option value="Purchased">Purchased</option>
-                                        <option value="Shipped">Shipped</option>
-                                        <option value="Delivered">Delivered</option>
-                                    </select>
-                                    <br>
-                                    <input style="display: none" type="text" class="form-control" id="orderItemId"
-                                           value=""/>
+                                <select  class="form-control" name="orderItemStatus" id="orderItemStatus">
+                                    <option value="Purchased">Purchased</option>
+                                    <option value="Shipped">Shipped</option>
+                                    <option value="Delivered">Delivered</option>
+                                </select>
+                                <br>
+                                <input style="display: none" type="text" class="form-control" id="orderItemId"
+                                       value=""/>
 
 
-                                    <div class="text-center">
-                                        <button type="submit" class="btn btn-info btn-md" onclick="changeOrderStatus()">Save</button>
-                                    </div>
-
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-info btn-md" onclick="changeOrderStatus()">Save</button>
                                 </div>
-                            </div>
 
-                            <div class="col-md-1"></div>
+                            </div>
                         </div>
+
+                        <div class="col-md-1"></div>
+                    </div>
 
 
 
