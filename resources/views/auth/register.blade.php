@@ -5,6 +5,7 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
+
                 <div class="panel-heading" style="text-align: center">
                     <img style="text-align: center" class="img-circle" width ="75px" height="75px"  id="img_logo" src="/Images/registerImage.png">
 

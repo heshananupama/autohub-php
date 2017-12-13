@@ -112,9 +112,9 @@
 
 {{--
             <li class="dropdown dropdown-large">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <a hre"#" class="dropdown-toggle" data-toggle="dropdown">
                     Manufactures
-                    <b class="caret"></b>
+                    <b classss="caret"></b>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-large row">
                     <li class="col-sm-3">

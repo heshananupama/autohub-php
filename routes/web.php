@@ -26,7 +26,7 @@ Route::get('/browse/getModels', 'sparesController@getModels' );
 
 
 
-Route::get('/cart/deleteCartItem/{id}', 'searchController@destroy' );
+Route::get('/cart/deleteCartItem/{id}', 'searchController@destroy' ) ;
 
 Route::get('/home', function () {
     return view('home');
